@@ -252,6 +252,9 @@
             android:process=":screenrecord"
             android:exported="false" />
 
+        <service android:name=".CPUInfoService"
+                android:exported="true" />
+
         <receiver android:name=".BootReceiver" androidprv:systemUserOnly="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
