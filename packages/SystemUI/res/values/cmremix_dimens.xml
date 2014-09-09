@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- * Copyright (c) 2016 RR
+ * Copyright (c) 2016-2017 CMRemix Rom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,5 +93,8 @@
     <dimen name="recent_app_sidebar_item_size">60dp</dimen>
     <dimen name="recent_app_sidebar_item_padding">2dp</dimen>
     <dimen name="recent_app_sidebar_item_title_text_size">11sp</dimen>
+
+    <!-- The task item height in task list. -->
+    <dimen name="task_manager_item_height">40dip</dimen>
 
 </resources>

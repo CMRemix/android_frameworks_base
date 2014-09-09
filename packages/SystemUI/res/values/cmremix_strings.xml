@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (C) 2016 RR
+<!--  Copyright (C) 2016-2017 CMRemix Rom
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -151,5 +151,13 @@
     <string name="recents_multiwin_nolastapp">You removed all recents, please choose an app from launcher or drawer.</string>
     <string name="slim_recent_keyguard">Unlock your device to view recents</string>
     <string name="slim_recent_pinned">Unpin the screen to view recents</string>
+
+
+    <!-- Task Manager -->
+    <string name="task_manager_title">Task Manager</string>
+    <string name="message_switch_fail">Can not switch to this task, because it has no interface.</string>
+    <string name="tasklist_killall">Kill All</string>
+    <string name="tasklist_memory_usage">"Free/Total Memory: [<xliff:g id="number">%s</xliff:g>] / [<xliff:g id="name">%s</xliff:g>]"</string>
+    <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
 
 </resources>
