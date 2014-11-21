@@ -2952,4 +2952,9 @@
 
     <!-- Whether notify fingerprint client of successful cancelled authentication -->
     <bool name="config_notifyClientOnFingerprintCancelSuccess">false</bool>
+
+    <!-- Distance in pixels to offset the center of the screen -->
+    <integer name="config_offsetCenterX">0</integer>
+    <integer name="config_offsetCenterY">0</integer>
+
 </resources>
