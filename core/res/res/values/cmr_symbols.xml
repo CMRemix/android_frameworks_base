@@ -99,5 +99,10 @@
   <java-symbol type="string" name="global_action_screen_record" />
   <java-symbol type="bool" name="config_enableScreenrecordChord" />
 
+  <java-symbol type="string" name="action_app" />
+  <java-symbol type="string" name="action_null" />
+  <java-symbol type="string" name="action_screenshot" />
+  <java-symbol type="string" name="action_screenrecord" />
+
 </resources>
 
