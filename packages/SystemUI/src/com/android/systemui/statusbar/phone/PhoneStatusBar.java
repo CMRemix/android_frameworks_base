@@ -4103,7 +4103,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
      * meantime, just update the things that we know change.
      */
     void updateResources(Configuration newConfig) {
-        final Context context = mContext;
+
         SettingsObserver observer = new SettingsObserver(mHandler);
 
         // detect theme change.
@@ -4111,6 +4111,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         final boolean updateStatusBar = shouldUpdateStatusbar(mCurrentTheme, newTheme);
         if (newTheme != null) mCurrentTheme = (ThemeConfig) newTheme.clone();
         if (updateStatusBar) {
+            mContext.recreateTheme();
             recreateStatusBar();
             observer.update();
 
