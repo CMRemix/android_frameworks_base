@@ -55,5 +55,4 @@
         android:src="@drawable/recents_lower_gradient" />
 
     <include layout="@layout/floating_action_button" />
-    <include layout="@layout/recents_membar" />
 </FrameLayout>
