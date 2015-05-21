@@ -2,7 +2,7 @@
 <!--
 /*
 **
-** Copyright (c) 2016 CMRemix
+** Copyright (c) 2016-2017 CMRemix Roms
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -53,8 +53,5 @@
 
     <!-- Default value how much apps show the app screenshot on recents view entry -->
     <integer name="expanded_items_default">2</integer>
-
-    <!-- Whether to enable to show task manager or not -->
-    <bool name="config_showTaskManagerSwitcher">true</bool>
 
 </resources>
