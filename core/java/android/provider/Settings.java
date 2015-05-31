@@ -3922,6 +3922,12 @@ public final class Settings {
         public static final String HEADS_UP_NOTIFCATION_DECAY = "heads_up_notification_decay";
 
         /**
+         * Wether to show a headsup enable/disable button in status bar header
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_SHOW_STATUS_BUTTON = "heads_up_show_status_button";
+
          * Change the screenshot delay
          * @hide
          */
