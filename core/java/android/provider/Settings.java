@@ -4170,6 +4170,15 @@ public final class Settings {
         public static final String PIE_TRIGGER_SENSITIVITY = "pie_trigger_sensitivity";
 
         /**
+         * Status bar power menu
+         * 0 - disabled (default)
+         * 1 - screen off / power menu
+         * 2 - power menu - screen off
+         * @hide
+         */
+        public static final String STATUS_BAR_POWER_MENU = "status_bar_power_menu";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
