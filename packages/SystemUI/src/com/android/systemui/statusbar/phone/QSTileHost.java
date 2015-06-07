@@ -72,8 +72,8 @@ import com.android.systemui.qs.tiles.ScreenOffTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
-import com.android.systemui.qs.tiles.HeadsupTile;
 import com.android.systemui.qs.tiles.NavBarTile;
+import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
@@ -384,7 +384,7 @@ public class QSTileHost implements QSTile.Host {
             case QSConstants.TILE_REBOOT:
                 return new RebootTile(this);
             case QSConstants.TILE_HEADS_UP:
-                return new HeadsupTile(this);
+                return new HeadsUpTile(this);
             case QSConstants.TILE_NAVBAR:
                 return new NavBarTile(this);
             case QSConstants.TILE_APPCIRCLEBAR:
