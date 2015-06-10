@@ -10218,12 +10218,6 @@ public final class Settings {
          *
          * @hide
          */
-        public static final String ANIMATION_CONTROLS_NO_OVERRIDE = "animation_controls_no_override";
-
-        /**
-         *
-         * @hide
-         */
         public static final String ANIMATION_CONTROLS_NO_SCROLL = "animation_controls_no_scroll";
 
         /**
