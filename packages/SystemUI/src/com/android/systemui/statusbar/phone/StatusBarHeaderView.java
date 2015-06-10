@@ -107,7 +107,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private LinearLayout mSystemIcons;
     private View mSignalCluster;
     private View mSettingsButton;
-    private View mTaskManagerButton;
     private View mQsDetailHeader;
     private TextView mQsDetailHeaderTitle;
     private Switch mQsDetailHeaderSwitch;
@@ -140,6 +139,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     protected int mDrawable;
     private View mHeadsUpButton;
     private boolean mShowHeadsUpButton;
+
+    // Task manager
+    private boolean mShowTaskManager;
+    private View mTaskManagerButton;
 
     /**
      * In collapsed QS, the clock and avatar are scaled down a bit post-layout to allow for a nice
@@ -211,10 +214,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mDateExpanded = (TextView) findViewById(R.id.date_expanded);
         mSettingsButton = findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(this);
-        if (Settings.CMREMIX.getInt(mContext.getContentResolver(),
-                Settings.CMREMIX.ENABLE_TASK_MANAGER, 0) == 1) {
-                mTaskManagerButton = findViewById(R.id.task_manager_button);
-        }
+        mTaskManagerButton = findViewById(R.id.task_manager_button);
         mHeadsUpButton = findViewById(R.id.heads_up_button);
         mHeadsUpButton.setOnClickListener(this);
         mHeadsUpButton.setOnLongClickListener(mLongClickListener);
@@ -438,7 +438,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
         mQsDetailHeader.setVisibility(mExpanded && mShowingDetail ? View.VISIBLE : View.INVISIBLE);
         if (mTaskManagerButton != null) {
-            mTaskManagerButton.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
+            mTaskManagerButton.setVisibility(mExpanded && mShowTaskManager ? View.VISIBLE : View.GONE);
         }
         mQsDetailHeader.setVisibility(mExpanded && mShowingDetail ? View.VISIBLE : View.GONE);
         if (mSignalCluster != null) {
@@ -935,7 +935,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mSettingsButton.setTranslationX(values.settingsTranslation);
         mSettingsButton.setRotation(values.settingsRotation);
         if (mTaskManagerButton != null) {
-            mTaskManagerButton.setTranslationX(values.taskManagerTranslation);
+            mTaskManagerButton.setTranslationY(mSystemIconsSuperContainer.getTranslationY());
+            mTaskManagerButton.setTranslationX(values.settingsTranslation);
+            mTaskManagerButton.setRotation(values.settingsRotation);
         }
         if (mHeadsUpButton != null) {
             mHeadsUpButton.setTranslationY(mSystemIconsSuperContainer.getTranslationY());
@@ -953,7 +955,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         applyAlpha(mDateCollapsed, values.dateCollapsedAlpha);
         applyAlpha(mDateExpanded, values.dateExpandedAlpha);
         applyAlpha(mBatteryLevel, values.batteryLevelAlpha);
-        applyAlpha(mTaskManagerButton, values.taskManagerAlpha);
+        applyAlpha(mTaskManagerButton, values.settingsAlpha);
         applyAlpha(mHeadsUpButton, values.headsUpAlpha);
         applyAlpha(mSettingsButton, values.settingsAlpha);
         applyAlpha(mWeatherLine1, values.settingsAlpha);
@@ -1175,6 +1177,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_SHOW_STATUS_BUTTON), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.CMREMIX.getUriFor(
+                    Settings.CMREMIX.ENABLE_TASK_MANAGER), false, this);
             update();
         }
 
@@ -1222,6 +1226,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
             mShowHeadsUpButton = Settings.System.getIntForUser(
                     resolver, Settings.System.HEADS_UP_SHOW_STATUS_BUTTON, 0, currentUserId) == 1;
+
+            mShowTaskManager = Settings.CMREMIX.getIntForUser(resolver,
+                    Settings.CMREMIX.ENABLE_TASK_MANAGER, 0, currentUserId) == 1;
 
             updateVisibilities();
             updateHeadsUpButton();
