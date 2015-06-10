@@ -26,7 +26,6 @@ import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.ServiceManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,7 +36,6 @@ import android.view.accessibility.AccessibilityManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import com.android.internal.util.cmremix.AwesomeAnimationHelper;
 
 /**
  * A toast is a view containing a quick little message for the user.  The toast class
@@ -406,8 +404,6 @@ public class Toast {
                 // the layout direction
                 final Configuration config = mView.getContext().getResources().getConfiguration();
                 final int gravity = Gravity.getAbsoluteGravity(mGravity, config.getLayoutDirection());
-                mParams.windowAnimations = AwesomeAnimationHelper.getToastAnimations(Settings.CMREMIX.getInt(context.getContentResolver(),
-                              Settings.CMREMIX.ANIMATION_TOAST, 1));
                 mParams.gravity = gravity;
                 if ((gravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.FILL_HORIZONTAL) {
                     mParams.horizontalWeight = 1.0f;
