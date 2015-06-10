@@ -1337,9 +1337,7 @@ public class AppTransition implements Dump {
         mReverseExit = Settings.CMREMIX.getBoolean(resolver,
                 Settings.CMREMIX.ANIMATION_CONTROLS_REVERSE_EXIT, false);
 
-        int temp = Settings.CMREMIX.getInt(resolver,
-                Settings.CMREMIX.ANIMATION_CONTROLS_DURATION, 0);
-
-        mAnimationDuration = temp * 15;
+        mAnimationDuration = Settings.CMREMIX.getInt(resolver,
+                Settings.CMREMIX.ANIMATION_CONTROLS_DURATION, 25);
     }
 }
