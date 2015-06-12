@@ -1248,6 +1248,7 @@ public final class ActivityManagerService extends ActivityManagerNative
     String mMemWatchDumpFile;
     int mMemWatchDumpPid;
     int mMemWatchDumpUid;
+    String mTrackAllocationApp = null;
 
     final long[] mTmpLong = new long[1];
 
@@ -6377,6 +6378,11 @@ public final class ActivityManagerService extends ActivityManagerNative
                 enableOpenGlTrace = true;
                 mOpenGlTraceApp = null;
             }
+            boolean enableTrackAllocation = false;
+            if (mTrackAllocationApp != null && mTrackAllocationApp.equals(processName)) {
+                enableTrackAllocation = true;
+                mTrackAllocationApp = null;
+            }
 
             // If the app is being launched for restore or full backup, set it up specially
             boolean isRestrictedBackupMode = false;
@@ -6405,7 +6411,7 @@ public final class ActivityManagerService extends ActivityManagerNative
             thread.bindApplication(processName, appInfo, providers, app.instrumentationClass,
                     profilerInfo, app.instrumentationArguments, app.instrumentationWatcher,
                     app.instrumentationUiAutomationConnection, testMode, enableOpenGlTrace,
-                    isRestrictedBackupMode || !normalMode, app.persistent,
+                    enableTrackAllocation, isRestrictedBackupMode || !normalMode, app.persistent,
                     new Configuration(mConfiguration), app.compat,
                     getCommonServicesLocked(app.isolated),
                     mCoreSettingsObserver.getCoreSettingsLocked());
@@ -10898,7 +10904,7 @@ public final class ActivityManagerService extends ActivityManagerNative
         synchronized (this) {
             boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
             if (!isDebuggable) {
-                if ((app.flags&ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                if ((app.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                     throw new SecurityException("Process not debuggable: " + app.packageName);
                 }
             }
@@ -10907,11 +10913,24 @@ public final class ActivityManagerService extends ActivityManagerNative
         }
     }
 
+    void setTrackAllocationApp(ApplicationInfo app, String processName) {
+        synchronized (this) {
+            boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
+            if (!isDebuggable) {
+                if ((app.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                    throw new SecurityException("Process not debuggable: " + app.packageName);
+                }
+            }
+
+            mTrackAllocationApp = processName;
+        }
+    }
+
     void setProfileApp(ApplicationInfo app, String processName, ProfilerInfo profilerInfo) {
         synchronized (this) {
             boolean isDebuggable = "1".equals(SystemProperties.get(SYSTEM_DEBUGGABLE, "0"));
             if (!isDebuggable) {
-                if ((app.flags&ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                if ((app.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                     throw new SecurityException("Process not debuggable: " + app.packageName);
                 }
             }
@@ -14034,6 +14053,15 @@ public final class ActivityManagerService extends ActivityManagerNative
                     needSep = false;
                 }
                 pw.println("  mOpenGlTraceApp=" + mOpenGlTraceApp);
+            }
+        }
+        if (mTrackAllocationApp != null) {
+            if (dumpPackage == null || dumpPackage.equals(mTrackAllocationApp)) {
+                if (needSep) {
+                    pw.println();
+                    needSep = false;
+                }
+                pw.println("  mTrackAllocationApp=" + mTrackAllocationApp);
             }
         }
         if (mProfileApp != null || mProfileProc != null || mProfileFile != null
