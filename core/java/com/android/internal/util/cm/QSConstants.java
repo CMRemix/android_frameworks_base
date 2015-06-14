@@ -63,6 +63,7 @@ public class QSConstants {
     public static final String TILE_HEADS_UP = "heads_up";
     public static final String TILE_TRDS = "trds";
     public static final String TILE_APPSIDEBAR = "toggleAppSideBar";
+    public static final String TILE_HWKEYS = "hwkeys";
 
     protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
@@ -109,5 +110,6 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_AMBIENT_DISPLAY);
         TILES_AVAILABLE.add(TILE_TRDS);
         TILES_AVAILABLE.add(TILE_APPSIDEBAR);
+        TILES_AVAILABLE.add(TILE_HWKEYS);
     }
 }

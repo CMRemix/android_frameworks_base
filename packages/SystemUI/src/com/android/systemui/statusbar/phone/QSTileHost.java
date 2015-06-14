@@ -73,6 +73,7 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.NavBarTile;
+import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
@@ -399,6 +400,8 @@ public class QSTileHost implements QSTile.Host {
                 return new TrdsTile(this);	
             case QSConstants.TILE_APPSIDEBAR:
                 return new AppSideBarTile(this);
+            case QSConstants.TILE_HWKEYS:
+                return new HWKeysTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }

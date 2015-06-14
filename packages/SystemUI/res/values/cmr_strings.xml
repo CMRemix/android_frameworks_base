@@ -122,4 +122,8 @@
     <!-- Navigation bar -->
     <string name="def_navbar_layout_warning">Empty layout: using default!</string>
 
+    <!-- QS settings hardware key tile -->
+    <string name="quick_settings_hwkeys_on">Hardware Keys Enabled</string>
+    <string name="quick_settings_hwkeys_off">Hardware Keys Disabled</string>
+
 </resources>
