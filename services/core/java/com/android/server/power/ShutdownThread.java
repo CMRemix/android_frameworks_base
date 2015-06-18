@@ -26,6 +26,7 @@ import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.IBluetoothManager;
+import android.content.pm.ThemeUtils;
 import android.media.AudioAttributes;
 import android.nfc.NfcAdapter;
 import android.nfc.INfcAdapter;
@@ -126,7 +127,6 @@ public final class ShutdownThread extends Thread {
     private static AlertDialog sConfirmDialog;
 
     private static AudioManager mAudioManager;
-    
     private ShutdownThread() {
     }
  
@@ -198,6 +198,7 @@ public final class ShutdownThread extends Thread {
         if (confirm) {
             final CloseDialogReceiver closer = new CloseDialogReceiver(context);
             final boolean advancedReboot = isAdvancedRebootPossible(context);
+            final Context uiContext = getUiContext(context);
             final boolean instant = Settings.Secure.getInt(context.getContentResolver(),
                     Settings.Secure.ADVANCED_REBOOT_ONECLICK, 0) == 1;
 
@@ -205,7 +206,7 @@ public final class ShutdownThread extends Thread {
                 sConfirmDialog.dismiss();
                 sConfirmDialog = null;
             }
-            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context)
+            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(uiContext)
                     .setTitle(mRebootSafeMode
                             ? com.android.internal.R.string.reboot_safemode_title
                             : showRebootOption
@@ -803,4 +804,13 @@ public final class ShutdownThread extends Thread {
             }
         }
     };
+
+    private static Context getUiContext(Context context) {
+        Context uiContext = null;
+        if (context != null) {
+            uiContext = ThemeUtils.createUiContext(context);
+            uiContext.setTheme(android.R.style.Theme_DeviceDefault_Light_DarkActionBar);
+        }
+        return uiContext != null ? uiContext : context;
+    }
 }
