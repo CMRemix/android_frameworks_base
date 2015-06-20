@@ -10051,12 +10051,6 @@ public final class Settings {
         public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
         /**
-         * Show when WiFi or data mobile is sending/receiving data
-         * @hide
-         */
-        public static final String STATUS_BAR_SHOW_NETWORK_ACTIVITY = "status_bar_show_network_activity";
-
-        /**
          * Option to hide the Bluetooth icon in the status bar when disconnected.
 	 * @hide
          */
