@@ -552,8 +552,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_TEXT_COLOR),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.CMREMIX.getUriFor(
-                    Settings.CMREMIX.ENABLE_TASK_MANAGER),
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.USE_SLIM_RECENTS), false, this,
@@ -628,11 +628,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
                     UpdateNotifDrawerClearAllIconColor();
-            } else if (uri.equals(Settings.CMREMIX.getUriFor(
-                    Settings.CMREMIX.ENABLE_TASK_MANAGER))) {
-                    mShowTaskManager = Settings.CMREMIX.getIntForUser(
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER))) {
+                    mShowTaskManager = Settings.System.getIntForUser(
                             mContext.getContentResolver(),
-                            Settings.CMREMIX.ENABLE_TASK_MANAGER,
+                            Settings.System.ENABLE_TASK_MANAGER,
                             0, UserHandle.USER_CURRENT) == 1;
                     recreateStatusBar();
                     updateRowStates();
@@ -702,8 +702,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 Settings.CMREMIX.STATUS_BAR_CARRIER, 0, mCurrentUserId) == 1;
             showStatusBarCarrierLabel(mShowStatusBarCarrier);
 
-            mShowTaskManager = Settings.CMREMIX.getIntForUser(resolver,
-                    Settings.CMREMIX.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
+            mShowTaskManager = Settings.System.getIntForUser(resolver,
+                    Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
 
             mGreeting = Settings.CMREMIX.getStringForUser(resolver,
                     Settings.CMREMIX.STATUS_BAR_GREETING,

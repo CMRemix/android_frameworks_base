@@ -2159,8 +2159,8 @@ public class NotificationPanelView extends PanelView implements
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.CMREMIX.getUriFor(
-                    Settings.CMREMIX.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2219,8 +2219,8 @@ public class NotificationPanelView extends PanelView implements
                     resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
             mQSShadeTransparency = Settings.System.getInt(
                     resolver, Settings.System.QS_TRANSPARENT_SHADE, 0) == 1;
-            mShowTaskManager = Settings.CMREMIX.getIntForUser(resolver,
-                    Settings.CMREMIX.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
+            mShowTaskManager = Settings.System.getIntForUser(resolver,
+                    Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
             if (mQSCSwitch) {
                 setQSBackgroundColor();
                 setQSColors();
