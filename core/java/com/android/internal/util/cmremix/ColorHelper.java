@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2013-2015 SlimRoms Project
+* Copyright (C) 2015 DarkKat
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.android.internal.util.cmremix;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -29,6 +30,17 @@ import android.graphics.drawable.VectorDrawable;
 import android.graphics.drawable.Drawable;
 
 public class ColorHelper {
+
+    public static int getBlendColor(int from, int to, float ratio) {
+        final float inverseRatio = 1f - ratio;
+
+        final float a = Color.alpha(to) * ratio + Color.alpha(from) * inverseRatio;
+        final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
+        final float g = Color.green(to) * ratio + Color.green(from) * inverseRatio;
+        final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
+
+        return Color.argb((int) a, (int) r, (int) g, (int) b);
+    }
 
     public static Drawable getColoredDrawable(Drawable d, int color) {
         if (d instanceof VectorDrawable) {
@@ -74,5 +86,4 @@ public class ColorHelper {
         c.drawBitmap(bmpOriginal, 0, 0, paint);
         return bmpGrayscale;
     }
-
 }
