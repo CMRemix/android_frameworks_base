@@ -72,6 +72,7 @@ import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.cmremix.CMRemixActions;
 import com.android.internal.util.cmremix.KeyButtonInfo;
 import com.android.internal.util.cmremix.NavbarUtils;
+import com.android.internal.util.cmremix.NavbarConstants;
 import com.android.systemui.R;
 
 import com.android.internal.util.cmremix.DeviceUtils;

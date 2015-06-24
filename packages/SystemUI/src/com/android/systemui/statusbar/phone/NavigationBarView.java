@@ -460,7 +460,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             final View child = mCurrentView.findViewWithTag(k);
 
             if (child instanceof KeyButtonView) {
-                ((KeyButtonView) child).setImage(mThemedResources);
+                ((KeyButtonView) child).setImage(/* mThemedResources */);
             }
         }
     }
