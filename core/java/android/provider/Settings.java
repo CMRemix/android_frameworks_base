@@ -4914,6 +4914,14 @@ public final class Settings {
          */
         public static final String ENABLE_NAVIGATION_RING = "enable_navigation_ring";
 
+
+        /**
+         * Launch apps in floating window or not
+         *
+         * @hide
+         */
+        public static final String SLIM_ACTIONS_USE_FLOATING_WINDOW = "slim_action_use_floating_window";
+        
         /**
          * @hide
          */
