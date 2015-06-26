@@ -4009,12 +4009,6 @@ public final class Settings {
          */
         public static final String QUICK_SETTINGS_COLLAPSE_PANEL = "quick_settings_collapse_panel";
 
-        /** Whether to vibrate when quick settings tile is pressed.
-         *
-         * @hide
-         */
-        public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";
-
         /**
          * Whether the user has enabled headsup (Default 1)
          * HeadsUp is enabled by default within its Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED
