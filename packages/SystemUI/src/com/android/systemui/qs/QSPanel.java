@@ -778,7 +778,7 @@ public class QSPanel extends ViewGroup {
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.QS_USE_FOUR_COLUMNS),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.QS_TILES_VIBRATE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -814,7 +814,7 @@ public class QSPanel extends ViewGroup {
             mUseFourColumns = Settings.Secure.getIntForUser(
             mContext.getContentResolver(), Settings.Secure.QS_USE_FOUR_COLUMNS,
                 0, UserHandle.USER_CURRENT) == 1;
-            mVibrationEnabled = Settings.System.getIntForUser(
+            mVibrationEnabled = Settings.Secure.getIntForUser(
             mContext.getContentResolver(), Settings.Secure.QS_TILES_VIBRATE,
                 0, UserHandle.USER_CURRENT) == 1;
             mQSShadeTransparency = Settings.System.getIntForUser(
