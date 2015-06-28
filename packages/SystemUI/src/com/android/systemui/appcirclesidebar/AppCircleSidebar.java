@@ -423,8 +423,6 @@ public class AppCircleSidebar extends TriggerOverlayView implements PackageAdapt
         if (mFloatingWindow) {
             intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
             mFloatingWindow = false;
-        } else {
-            intent.setFlags(intent.getFlags() & ~Intent.FLAG_FLOATING_WINDOW);
         }
         mContext.startActivity(intent);
     }
@@ -435,6 +433,10 @@ public class AppCircleSidebar extends TriggerOverlayView implements PackageAdapt
         Intent intent = Intent.makeMainActivity(cn);
         intent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
                            | Intent.FLAG_ACTIVITY_NEW_TASK);
+         if (mFloatingWindow) {
+                intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
+                mFloatingWindow = false;
+            }
         mContext.startActivity(intent);
         if (getAppFloatingInfo(packageName)) {
             updateAutoHideTimer(500);
@@ -444,6 +446,7 @@ public class AppCircleSidebar extends TriggerOverlayView implements PackageAdapt
             }
         } else {
             updateAutoHideTimer(AUTO_HIDE_DELAY);
+            mFloatingWindow = false;
         }
     }
 
