@@ -527,7 +527,7 @@
 
     <!-- The maximum width of the navigation bar ripples. -->
     <dimen name="key_button_ripple_max_width">95dp</dimen>
-    
+
     <!-- Inset shadow for FakeShadowDrawable. It is used to avoid gaps between the card
          and the shadow. -->
     <dimen name="fake_shadow_inset">1dp</dimen>
