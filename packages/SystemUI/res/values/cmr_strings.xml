@@ -140,4 +140,7 @@
     <string name="quick_settings_hwkeys_on">Hardware Keys Enabled</string>
     <string name="quick_settings_hwkeys_off">Hardware Keys Disabled</string>
 
+    <!-- Title shown in recents popup for showing app in floating mode -->
+    <string name="status_bar_recent_floating_item_title">Floating mode</string>
+
 </resources>
