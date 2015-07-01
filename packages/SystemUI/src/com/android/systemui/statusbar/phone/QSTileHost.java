@@ -75,6 +75,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
+import com.android.systemui.qs.tiles.SlimFloatsTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.qs.tiles.TrdsTile;
 import com.android.systemui.qs.tiles.AppSideBarTile;
@@ -417,6 +418,8 @@ public class QSTileHost implements QSTile.Host {
                 return new HWKeysTile(this);
             case QSConstants.TILE_SYSTEMUI_RESTART:
                 return new SystemUIRestartTile(this);
+            case QSConstants.TILE_SLIM_FLOATS:
+                return new SlimFloatsTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
