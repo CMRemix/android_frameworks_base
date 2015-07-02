@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2015 DarkKat
+* Copyright (C) 2013-2015 SlimRoms Project
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -59,7 +59,9 @@ public class ColorHelper {
     }
 
     public static Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
+        if (drawable == null) {
+            return null;
+        } else if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
         }
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
@@ -86,4 +88,5 @@ public class ColorHelper {
         c.drawBitmap(bmpOriginal, 0, 0, paint);
         return bmpGrayscale;
     }
+
 }
