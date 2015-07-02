@@ -67,7 +67,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.android.internal.util.temasek.ColorUtils;
+import com.android.internal.util.cmremix.ColorUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
