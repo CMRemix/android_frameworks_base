@@ -139,6 +139,11 @@ public class StatusBarKeyguardViewManager {
         }
     }
 
+    public void showBouncerHideNotifications() {
+        mPhoneStatusBar.makeExpandedInvisible();
+        mBouncer.show(false /* resetSecuritySelection */);
+    }
+
     private void showBouncer() {
         if (mShowing) {
             mBouncer.show(false /* resetSecuritySelection */);
