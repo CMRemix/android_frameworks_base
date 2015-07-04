@@ -241,6 +241,10 @@ public class NetworkControllerImpl extends BroadcastReceiver
         return mWifiSignalController.getState().level;
     }
 
+    public String getConnectedWifiSsid() {
+        return mWifiSignalController.getWifiSsid();
+    }
+
     @Override
     public AccessPointController getAccessPointController() {
         return mAccessPoints;
@@ -953,6 +957,10 @@ public class NetworkControllerImpl extends BroadcastReceiver
                 }
             }
             return null;
+        }
+
+        public String getWifiSsid() {
+            return mCurrentState.ssid;
         }
 
         @VisibleForTesting
