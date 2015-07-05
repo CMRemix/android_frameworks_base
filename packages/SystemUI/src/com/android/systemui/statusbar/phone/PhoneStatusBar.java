@@ -4358,8 +4358,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         boolean doShow = mShowWifiSsidLabel && !TextUtils.isEmpty(ssid);
         if (doShow) {
-            int mCarrierColor = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.STATUS_BAR_CARRIER_COLOR, 0xffffffff);
+            int mCarrierColor = Settings.CMREMIX.getInt(mContext.getContentResolver(),
+                    Settings.CMREMIX.STATUS_BAR_CARRIER_COLOR, 0xffffffff);
             mWifiSsidLabel.setText(ssid);
             mWifiSsidLabel.setTextColor(mCarrierColor);
             mWifiSsidLabel.setVisibility(View.VISIBLE);
