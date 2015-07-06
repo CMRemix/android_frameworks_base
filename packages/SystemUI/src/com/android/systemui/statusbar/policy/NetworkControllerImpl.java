@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2010 The Android Open Source Project
- * Copyright (C) 2015 The MoKee OpenSource Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,12 @@
  */
 
 package com.android.systemui.statusbar.policy;
+
+import static android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED;
+import static android.net.NetworkCapabilities.TRANSPORT_BLUETOOTH;
+import static android.net.NetworkCapabilities.TRANSPORT_CELLULAR;
+import static android.net.NetworkCapabilities.TRANSPORT_ETHERNET;
+import static android.net.NetworkCapabilities.TRANSPORT_WIFI;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -170,7 +175,6 @@ public class NetworkControllerImpl extends BroadcastReceiver
             AccessPointControllerImpl accessPointController,
             MobileDataControllerImpl mobileDataController) {
         mContext = context;
-
         mConfig = config;
 
         mSubscriptionManager = subManager;
@@ -413,7 +417,8 @@ public class NetworkControllerImpl extends BroadcastReceiver
             for (MobileSignalController controller : mMobileSignalControllers.values()) {
                 controller.handleBroadcast(intent);
             }
-        } else if (action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED) || action.equals(Intent.ACTION_CUSTOM_CARRIER_LABEL_CHANGED)) {
+        } else if (action.equals(TelephonyIntents.ACTION_SIM_STATE_CHANGED)
+                || action.equals(Intent.ACTION_CUSTOM_CARRIER_LABEL_CHANGED)) {
             // Might have different subscriptions now.
             updateMobileControllers();
         } else {
@@ -602,7 +607,7 @@ public class NetworkControllerImpl extends BroadcastReceiver
                 mConnectivityManager.getDefaultNetworkCapabilitiesForUser(mCurrentUserId)) {
             for (int transportType : nc.getTransportTypes()) {
                 mConnectedTransports.set(transportType);
-                if (nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+                if (nc.hasCapability(NET_CAPABILITY_VALIDATED)) {
                     mValidatedTransports.set(transportType);
                 }
             }
@@ -615,8 +620,8 @@ public class NetworkControllerImpl extends BroadcastReceiver
 
         mConnected = !mConnectedTransports.isEmpty();
         mInetCondition = !mValidatedTransports.isEmpty();
-        mBluetoothTethered = mConnectedTransports.get(NetworkCapabilities.TRANSPORT_BLUETOOTH);
-        mEthernetConnected = mConnectedTransports.get(NetworkCapabilities.TRANSPORT_ETHERNET);
+        mBluetoothTethered = mConnectedTransports.get(TRANSPORT_BLUETOOTH);
+        mEthernetConnected = mConnectedTransports.get(TRANSPORT_ETHERNET);
 
         pushConnectivityToSignals();
     }
@@ -1324,9 +1329,14 @@ public class NetworkControllerImpl extends BroadcastReceiver
         }
 
         void updateSubscriptionInfo(SubscriptionInfo info) {
-            String mCustomCarrierLabel = Settings.CMREMIX.getStringForUser(mContext.getContentResolver(),
-                        Settings.CMREMIX.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
-            CharSequence carrierName = !TextUtils.isEmpty(mCustomCarrierLabel) && !mAirplaneMode ? mCustomCarrierLabel : info.getCarrierName();
+            final boolean showCustomCarrier = Settings.CMREMIX.getIntForUser(
+                    mContext.getContentResolver(), Settings.CMREMIX.STATUS_BAR_CARRIER,
+                    0, UserHandle.USER_CURRENT) == 1;
+            final String CustomCarrierLabel = Settings.CMREMIX.getStringForUser(mContext.getContentResolver(),
+                    Settings.CMREMIX.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
+            CharSequence carrierName = showCustomCarrier && !TextUtils.isEmpty(CustomCarrierLabel) && !mAirplaneMode
+                    ? CustomCarrierLabel
+                    : info.getCarrierName();
             mCurrentState.networkName = carrierName != null ? carrierName.toString() : null;
             notifyListenersIfNecessary();
         }
