@@ -1617,7 +1617,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private void launchCameraAction() {
         sendCloseSystemWindows();
         Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-        mContext.startActivityAsUser(intent, UserHandle.CURRENT_OR_SELF);
+        startActivityAsUser(intent, UserHandle.CURRENT_OR_SELF);
     }
 
     private void performKeyAction(int behavior) {
