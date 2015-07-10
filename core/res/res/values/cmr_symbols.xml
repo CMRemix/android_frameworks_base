@@ -219,5 +219,9 @@
   <java-symbol type="string" name="setting_confirmation_yes" />
   <java-symbol type="string" name="setting_confirmation_no" />
 
+  <!-- Custom styles for dialog themes -->
+  <java-symbol type="style" name="Theme.Material.CMRemixDark.Dialog" />
+  <java-symbol type="style" name="Theme.Material.CMRemixDark.Dialog.Alert" />
+
 </resources>
 
