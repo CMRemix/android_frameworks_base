@@ -1727,26 +1727,24 @@ ResourceTable::ResourceTable(Bundle* bundle, const String16& assetsPackage, Reso
     , mNumLocal(0)
     , mBundle(bundle)
 {
-    ssize_t packageId = mBundle->getForcedPackageId();
-    if (packageId == -1) {
-        switch (mPackageType) {
-            case App:
-            case AppFeature:
-                packageId = 0x7f;
-                break;
+    ssize_t packageId = -1;
+    switch (mPackageType) {
+        case App:
+        case AppFeature:
+            packageId = 0x7f;
+            break;
 
-            case System:
-                packageId = 0x01;
-                break;
+        case System:
+            packageId = 0x01;
+            break;
 
-            case SharedLibrary:
-                packageId = 0x00;
-                break;
+        case SharedLibrary:
+            packageId = 0x00;
+            break;
 
-            default:
-                assert(0);
-                break;
-        }
+        default:
+            assert(0);
+            break;
     }
 
     if (pkgIdOverride != 0) {
@@ -2688,11 +2686,10 @@ ResourceTable::validateLocalizations(void)
          nameIter++) {
         const map<String8, SourcePos>& configSrcMap = nameIter->second;
 
-#ifdef SHOW_DEFAULT_TRANSLATION_WARNINGS
         // Look for strings with no default localization
         if (configSrcMap.count(defaultLocale) == 0) {
-            NOISY(SourcePos().warning("string '%s' has no default translation.",
-                    String8(nameIter->first).string()));
+            SourcePos().warning("string '%s' has no default translation.",
+                    String8(nameIter->first).string());
             if (mBundle->getVerbose()) {
                 for (map<String8, SourcePos>::const_iterator locales = configSrcMap.begin();
                     locales != configSrcMap.end();
@@ -2702,8 +2699,7 @@ ResourceTable::validateLocalizations(void)
             }
             // !!! TODO: throw an error here in some circumstances
         }
-#endif
-#ifdef SHOW_LOCALIZATION_WARNINGS
+
         // Check that all requested localizations are present for this string
         if (mBundle->getConfigurations().size() > 0 && mBundle->getRequireLocalization()) {
             const char* allConfigs = mBundle->getConfigurations().string();
@@ -2749,13 +2745,12 @@ ResourceTable::validateLocalizations(void)
                      iter++) {
                     configStr.appendFormat(" %s", iter->string());
                 }
-                NOISY(SourcePos().warning("string '%s' is missing %u required localizations:%s",
+                SourcePos().warning("string '%s' is missing %u required localizations:%s",
                         String8(nameIter->first).string(),
                         (unsigned int)missingConfigs.size(),
-                        configStr.string()));
+                        configStr.string());
             }
         }
-#endif
     }
 
     return err;
@@ -2781,8 +2776,9 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
     for (size_t i = 0; i < basePackageCount; i++) {
         size_t packageId = table.getBasePackageId(i);
         String16 packageName(table.getBasePackageName(i));
-        if (packageId > 0x01 && packageId != 0x7f &&
-                packageName != String16("android")) {
+        if (packageId > 0x01 && packageId != 0x7f && packageId != 0x3f &&
+                packageName != String16("android")
+                && packageName != String16("cyanogenmod.platform")) {
             libraryPackages.add(sp<Package>(new Package(packageName, packageId)));
         }
     }
@@ -3041,7 +3037,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
                 const ConfigDescription& config = uniqueConfigs[ci];
 
                 NOISY(printf("Writing config %d config: imsi:%d/%d lang:%c%c cnt:%c%c "
-                     "orien:%d uiTheme:%d ui:%d touch:%d density:%d key:%d inp:%d nav:%d sz:%dx%d "
+                     "orien:%d ui:%d touch:%d density:%d key:%d inp:%d nav:%d sz:%dx%d "
                      "sw%ddp w%ddp h%ddp dir:%d\n",
                       ti+1,
                       config.mcc, config.mnc,
@@ -3050,7 +3046,6 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
                       config.country[0] ? config.country[0] : '-',
                       config.country[1] ? config.country[1] : '-',
                       config.orientation,
-                      config.uiThemeMode,
                       config.uiMode,
                       config.touchscreen,
                       config.density,
@@ -3085,7 +3080,7 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
                 tHeader->entriesStart = htodl(typeSize);
                 tHeader->config = config;
                 NOISY(printf("Writing type %d config: imsi:%d/%d lang:%c%c cnt:%c%c "
-                     "orien:%d uiTheme:%d ui:%d touch:%d density:%d key:%d inp:%d nav:%d sz:%dx%d "
+                     "orien:%d ui:%d touch:%d density:%d key:%d inp:%d nav:%d sz:%dx%d "
                      "sw%ddp w%ddp h%ddp dir:%d\n",
                       ti+1,
                       tHeader->config.mcc, tHeader->config.mnc,
@@ -3094,7 +3089,6 @@ status_t ResourceTable::flatten(Bundle* bundle, const sp<const ResourceFilter>& 
                       tHeader->config.country[0] ? tHeader->config.country[0] : '-',
                       tHeader->config.country[1] ? tHeader->config.country[1] : '-',
                       tHeader->config.orientation,
-                      tHeader->config.uiThemeMode,
                       tHeader->config.uiMode,
                       tHeader->config.touchscreen,
                       tHeader->config.density,
