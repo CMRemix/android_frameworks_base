@@ -116,12 +116,12 @@ public class ActionHelper {
     }
 
     public static void setNavBarConfig(Context context,
-            ArrayList<ActionConfig> buttonsConfig, boolean reset) {
+            ArrayList<ActionConfig> actionConfig, boolean reset) {
         String config;
         if (reset) {
             config = ActionConstants.NAVIGATION_CONFIG_DEFAULT;
         } else {
-            config = ConfigSplitHelper.setActionConfig(buttonsConfig, false);
+            config = ConfigSplitHelper.setActionConfig(actionConfig, false);
         }
         Settings.System.putString(context.getContentResolver(),
                     Settings.System.NAVIGATION_BAR_CONFIG,
@@ -129,12 +129,12 @@ public class ActionHelper {
     }
 
     public static void setPieConfig(Context context,
-            ArrayList<ActionConfig> buttonsConfig, boolean reset) {
+            ArrayList<ActionConfig> actionConfig, boolean reset) {
         String config;
         if (reset) {
             config = ActionConstants.NAVIGATION_CONFIG_DEFAULT;
         } else {
-            config = ConfigSplitHelper.setActionConfig(buttonsConfig, false);
+            config = ConfigSplitHelper.setActionConfig(actionConfig, false);
         }
         Settings.System.putString(context.getContentResolver(),
                     Settings.System.PIE_BUTTONS_CONFIG,
@@ -164,12 +164,12 @@ public class ActionHelper {
     }
 
     public static void setPieSecondLayerConfig(Context context,
-            ArrayList<ActionConfig> buttonsConfig, boolean reset) {
+            ArrayList<ActionConfig> actionConfig, boolean reset) {
         String config;
         if (reset) {
             config = ActionConstants.PIE_SECOND_LAYER_CONFIG_DEFAULT;
         } else {
-            config = ConfigSplitHelper.setActionConfig(buttonsConfig, false);
+            config = ConfigSplitHelper.setActionConfig(actionConfig, false);
         }
         Settings.System.putString(context.getContentResolver(),
                     Settings.System.PIE_BUTTONS_CONFIG_SECOND_LAYER,
