@@ -1159,7 +1159,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
                 mNavigationBarView.updateResources(getNavbarThemedResources());
 
-        addSidebarView();
+                if (mRecreating) {
+                    removeSidebarView();
+                }
 
                 mNavigationBarView.setDisabledFlags(mDisabled);
                 mNavigationBarView.setBar(this);
@@ -1188,6 +1190,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             addAppCircleSidebar();
             addGestureAnywhereView();
         }
+        addSidebarView();
 
         try {
             boolean showNav = mWindowManagerService.hasNavigationBar();
