@@ -1205,6 +1205,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mNavigationBarView.setDisabledFlags(mDisabled);
         mNavigationBarView.setBar(this);
+        addNavigationBarCallback(mNavigationBarView);
         mNavigationBarView.setOnVerticalChangedListener(
                 new NavigationBarView.OnVerticalChangedListener() {
             @Override
