@@ -323,10 +323,6 @@ public class CommandQueue extends IStatusBar.Stub {
         }
     }
 
-    public void notifyLayoutChange(int direction) {
-        mCallbacks.notifyLayoutChange(direction);
-    }
-
     private final class H extends Handler {
         public void handleMessage(Message msg) {
             if (mPaused) {

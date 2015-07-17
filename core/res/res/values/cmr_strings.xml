@@ -32,11 +32,13 @@
     <string name="animation_grow_shrink_bottom">Grow in (Bottom)</string>
     <string name="animation_grow_shrink_left">Grow in (Left)</string>
     <string name="animation_grow_shrink_right">Grow in (Right)</string>
-    <string name="action_null">Blank</string>
     <string name="animation_random">Random</string>
 
     <!-- Default -->
     <string name="default_string">Default</string>
+
+    <!-- CMRemix Action Stuff-->
+    <string name="action_null">Blank</string>
 
     <!-- Zen mode buttons -->
     <string name="silent_mode_priority">Priority</string>

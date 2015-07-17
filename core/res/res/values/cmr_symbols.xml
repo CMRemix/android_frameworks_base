@@ -190,5 +190,7 @@
   <java-symbol type="style" name="Theme.Material.CMRemixDark.Dialog" />
   <java-symbol type="style" name="Theme.Material.CMRemixDark.Dialog.Alert" />
 
+  <java-symbol type="string" name="action_null" />
+
 </resources>
 
