@@ -4619,7 +4619,13 @@ public final class Settings {
          * The right long menu app/shortcut uri chose in settings is saved here
          * @hide
          */
-        public static final String LEGACY_MENU_RIGHT_LONG_SHORTCUT_URI = "legacy_menu_right_long_shortcut_uri";     
+        public static final String LEGACY_MENU_RIGHT_LONG_SHORTCUT_URI = "legacy_menu_right_long_shortcut_uri";
+
+       	/**
+         * Whether to show the IME arrows in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_IME_ARROWS = "status_bar_ime_arrows";
 
         // ************************** CMRemix additions end *********************************************
 
