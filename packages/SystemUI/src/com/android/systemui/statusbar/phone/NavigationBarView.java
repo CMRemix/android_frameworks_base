@@ -1369,6 +1369,11 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                 getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
         }
 
+        if (mDimNavButtons) {
+            if (getNavButtons() != null)
+                getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
+        }
+
         updateRTLOrder();
     }
 
@@ -1399,6 +1404,11 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
         if (getImeSwitchButton() != null)
             getImeSwitchButton().setOnClickListener(mImeSwitcherClickListener);
+        if (mDimNavButtons) {
+            if (getNavButtons() != null)
+                getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
+        }
+
         if (mDimNavButtons) {
             if (getNavButtons() != null)
                 getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
