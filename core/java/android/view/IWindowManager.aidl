@@ -239,17 +239,10 @@ interface IWindowManager
     oneway void statusBarVisibilityChanged(int visibility);
 
     /**
-     * Send ACTION_HOME event from AwesomeAction class
-     * @hide
-     */
-    void sendHomeAction();
-
-    /**
      * Device has a software navigation bar (separate from the status bar).
      */
     boolean hasNavigationBar();
     boolean hasPermanentMenuKey();
-    boolean needsNavigationBar();
 
     /**
      * Lock the device immediately with the specified options (can be null).
