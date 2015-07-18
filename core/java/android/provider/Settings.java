@@ -4627,6 +4627,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_IME_ARROWS = "status_bar_ime_arrows";
 
+        /**
+         * show carrier in statusbae while on lockscreen. The value is
+         * int (1: Show or 0: Hide).
+         */
+        public static final String LOCK_SCREEN_HIDE_CARRIER = "lock_screen_hide_carrier";
+
         // ************************** CMRemix additions end *********************************************
 
         /**
