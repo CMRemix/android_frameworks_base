@@ -1533,7 +1533,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mKeyguardStatusBar.setUserInfoController(mUserInfoController);
         mUserInfoController.reloadUserInfo();
 
-        mHeader.setBatteryController(mBatteryController);
         mBatteryView.setBatteryController(mBatteryController);
         BatteryMeterView batteryMeterView =
                 ((BatteryMeterView) mStatusBarView.findViewById(R.id.battery));
@@ -1542,11 +1541,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mBatteryLevel.setBatteryStateRegistar(mBatteryController);
         mKeyguardStatusBar.setBatteryController(mBatteryController);
 
-        mHeader.setDockBatteryController(mDockBatteryController);
+        mHeader.setBatteryController(mBatteryController);
         mKeyguardStatusBar.setDockBatteryController(mDockBatteryController);
         DockBatteryMeterView dockBatteryMeterView =
                 (DockBatteryMeterView) mStatusBarView.findViewById(R.id.dock_battery);
         if (mDockBatteryController != null) {
+            mHeader.setDockBatteryController(mDockBatteryController);
             dockBatteryMeterView.setBatteryStateRegistar(mDockBatteryController);
             mBatteryLevel.setBatteryStateRegistar(mDockBatteryController);
         } else {
