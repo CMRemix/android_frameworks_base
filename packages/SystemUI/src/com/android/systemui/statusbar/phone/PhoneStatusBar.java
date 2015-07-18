@@ -601,7 +601,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.MENU_VISIBILITY),
                     false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LEGACY_MENU_LAYOUT),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -690,10 +690,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.MENU_LOCATION))
                 || uri.equals(Settings.System.getUriFor(
                     Settings.System.MENU_VISIBILITY))
-				|| uri.equals(Settings.System.getUriFor(
+                || uri.equals(Settings.System.getUriFor(
                     Settings.System.LEGACY_MENU_LAYOUT))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LEGACY_MENU_LEFT_ACTION))                                       
+                    Settings.System.LEGACY_MENU_LEFT_ACTION))
                 || uri.equals(Settings.System.getUriFor(
                     Settings.System.LEGACY_MENU_RIGHT_ACTION))
                 || uri.equals(Settings.System.getUriFor(
@@ -703,18 +703,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 || uri.equals(Settings.System.getUriFor(
                     Settings.System.LEGACY_MENU_LEFT_SHORTCUT_URI))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LEGACY_MENU_RIGHT_SHORTCUT_URI))                    
+                    Settings.System.LEGACY_MENU_RIGHT_SHORTCUT_URI))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LEGACY_MENU_LEFT_LONG_SHORTCUT_URI))   
+                    Settings.System.LEGACY_MENU_LEFT_LONG_SHORTCUT_URI))
                 || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LEGACY_MENU_RIGHT_LONG_SHORTCUT_URI))) {                       
-                if (mNavigationBarView != null) {
-                    mNavigationBarView.recreateNavigationBar();
-                    prepareNavigationBarView();
-                }
+                    Settings.System.LEGACY_MENU_RIGHT_LONG_SHORTCUT_URI))) {
+                    if (mNavigationBarView != null) {
+                        mNavigationBarView.recreateNavigationBar();
+                        prepareNavigationBarView();
+                    }
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_CAN_MOVE))) {
-                prepareNavigationBarView();
+                    prepareNavigationBarView();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_BG_COLOR))
                     || uri.equals(Settings.System.getUriFor(
@@ -832,9 +832,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean isPieEnabled() {
         return Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.PIE_CONTROLS, 0,
-                UserHandle.USER_CURRENT) == 1;
-    }
-
                 mCurrentUserId) == 1;
     }
 
@@ -875,7 +872,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mHeadsUpUserEnabled = 0 != Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.HEADS_UP_USER_ENABLED,
                     Settings.System.HEADS_UP_USER_ON,
-                    UserHandle.USER_CURRENT);
+                    mCurrentUserId);
             Log.d(TAG, "final heads up is " + (mUseHeadsUp && mHeadsUpUserEnabled ? "enabled" : "disabled"));
             if (wasUsing != mUseHeadsUp) {
                 if (!mUseHeadsUp && !mHeadsUpUserEnabled) {
@@ -1200,7 +1197,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mNavigationBarView == null) {
             mNavigationBarView =
                 (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
-            mNavigationBarView.updateResources(getNavbarThemedResources());
+            mNavigationBarView.updateResources(ActionHelper.getNavbarThemedResources(mContext));
         }
 
         mNavigationBarView.setDisabledFlags(mDisabled);
@@ -1924,6 +1921,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     private void prepareNavigationBarView() {
+        if (mNavigationBarView == null) return;
         mNavigationBarView.reorient();
 
         View home = mNavigationBarView.getHomeButton();
@@ -1999,26 +1997,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         lp.setTitle("NavigationBar");
         lp.windowAnimations = 0;
         return lp;
-    }
-
-    public Resources getNavbarThemedResources() {
-        ThemeConfig themeConfig = mContext.getResources().getConfiguration().themeConfig;
-        Resources res = null;
-        if (themeConfig != null) {
-            try {
-                final String navbarThemePkgName = themeConfig.getOverlayForNavBar();
-                final String sysuiThemePkgName = themeConfig.getOverlayForStatusBar();
-                // Check if the same theme is applied for systemui, if so we can skip this
-                if (navbarThemePkgName != null && !navbarThemePkgName.equals(sysuiThemePkgName)) {
-                    res = mContext.getPackageManager().getThemedResourcesForApplication(
-                            mContext.getPackageName(), navbarThemePkgName);
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                // don't care since we'll handle res being null below
-            }
-        }
-
-        return res != null ? res : mContext.getResources();
     }
 
     private void addHeadsUpView() {
@@ -4582,7 +4560,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         addHeadsUpView();
         attachPieContainer(isPieEnabled());
         if (mNavigationBarView != null) {
-            mNavigationBarView.updateResources(getNavbarThemedResources());
+            mNavigationBarView.updateResources(ActionHelper.getNavbarThemedResources(mContext));
         }
 
         // recreate StatusBarIconViews.
@@ -4700,7 +4678,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         if (mNavigationBarView != null)  {
-            mNavigationBarView.updateResources(getNavbarThemedResources());
+            mNavigationBarView.updateResources(ActionHelper.getNavbarThemedResources(mContext));
             updateSearchPanel();
             checkBarModes();
         }
