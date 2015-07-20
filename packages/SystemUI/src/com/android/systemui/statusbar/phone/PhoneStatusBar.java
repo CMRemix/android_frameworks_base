@@ -627,57 +627,95 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL);              
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LEGACY_MENU_RIGHT_LONG_SHORTCUT_URI),
-                    false, this, UserHandle.USER_ALL);                       
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_POWER_MENU),
+                    false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_SHOW_STATUS_BUTTON),
+                    false, this, UserHandle.USER_ALL);
+            update();
+        }
+
+        @Override
+        protected void unobserve() {
+            super.unobserve();
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.unregisterContentObserver(this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
             update();
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-
+            ContentResolver resolver = mContext.getContentResolver();
+            boolean doRecreate = false;
             if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCK_SCREEN_TEXT_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCK_SCREEN_ICON_COLOR))) {
+                    setKeyguardTextAndIconColors();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_SHOW_TICKER))) {
+                    mTickerEnabled = Settings.System.getIntForUser(
+                        resolver,
+                        Settings.System.STATUS_BAR_SHOW_TICKER,
+                        mContext.getResources().getBoolean(R.bool.enable_ticker)
+                        ? 1 : 0, mCurrentUserId) == 1;
+                    initTickerView();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
+                    UpdateNotifDrawerClearAllIconColor();
+            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_NOTIFCATION_DECAY))) {
                     mHeadsUpNotificationDecay = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
+                            resolver,
                             Settings.System.HEADS_UP_NOTIFCATION_DECAY,
                             mContext.getResources().getInteger(
                             R.integer.heads_up_notification_decay),
-                            UserHandle.USER_CURRENT);
+                            mCurrentUserId);
                     resetHeadsUpDecayTimer();
-             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_BG_COLOR))) {
-                    mHeadsUpCustomBg = Settings.System.getIntForUser(
-                        mContext.getContentResolver(),
-                        Settings.System.HEADS_UP_BG_COLOR, HEADSUP_DEFAULT_BACKGROUNDCOLOR,
-                        UserHandle.USER_CURRENT);
             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_TEXT_COLOR))) {
-                    mHeadsUpCustomText = Settings.System.getIntForUser(
-                        mContext.getContentResolver(),
-                        Settings.System.HEADS_UP_TEXT_COLOR,
-                        HEADSUP_DEFAULT_TEXTCOLOR, mCurrentUserId);
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_TEXT_COLOR))
-                || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_ICON_COLOR))) {
-                setKeyguardTextAndIconColors();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_COLOR_SWITCH))) {
-                    mQSCSwitch = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.QS_COLOR_SWITCH,
-                            0, UserHandle.USER_CURRENT) == 1;
-                    recreateStatusBar();
-                    updateRowStates();
-                    updateSpeedbump();
-                    updateClearAll();
-                    updateEmptyShadeView();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.PIE_CONTROLS))) {
-                    attachPieContainer(isPieEnabled());
+                    Settings.System.STATUS_BAR_BATTERY_STATUS_TEXT_COLOR))) {
+                updateBatteryLevelTextColor();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.USE_SLIM_RECENTS))) {
                 updateRecents();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.RECENT_CARD_BG_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                    Settings.System.RECENT_CARD_TEXT_COLOR))) {
+                rebuildRecentsScreen();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.PIE_CONTROLS))) {
+                    attachPieContainer(isPieEnabled());
+            } else if (uri.equals(Settings.CMREMIX.getUriFor(
+                    Settings.CMREMIX.STATUS_BAR_CARRIER))) {
+                    mShowStatusBarCarrier = Settings.CMREMIX.getIntForUser(
+                        resolver,
+                        Settings.CMREMIX.STATUS_BAR_CARRIER,
+                        0, mCurrentUserId) == 1;
+                    showStatusBarCarrierLabel(mShowStatusBarCarrier);
+            } else if (uri.equals(Settings.System.getUriFor(
+                        Settings.System.ENABLE_TASK_MANAGER)) ||
+                    uri.equals(Settings.System.getUriFor(
+                        Settings.System.HEADS_UP_SHOW_STATUS_BUTTON)) ||
+                    uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_COLOR_SWITCH)) ||
+                    uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_TEXT_COLOR)) ||
+                    uri.equals(Settings.System.getUriFor(
+                        Settings.System.STATUS_BAR_POWER_MENU)) ) {
+                    mQSCSwitch = Settings.System.getIntForUser(resolver,
+                        Settings.System.QS_COLOR_SWITCH,
+                        0, mCurrentUserId) == 1;
+                    mShowTaskManager = Settings.System.getIntForUser(resolver,
+                        Settings.System.ENABLE_TASK_MANAGER,
+                        0, mCurrentUserId) == 1;
+                    doRecreate = true;
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_BUTTON_TINT))
                 || uri.equals(Settings.System.getUriFor(
@@ -715,75 +753,49 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_CAN_MOVE))) {
                     prepareNavigationBarView();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.RECENT_CARD_BG_COLOR))
-                    || uri.equals(Settings.System.getUriFor(
-                    Settings.System.RECENT_CARD_TEXT_COLOR))) {
-                rebuildRecentsScreen();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
-                    UpdateNotifDrawerClearAllIconColor();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.ENABLE_TASK_MANAGER))) {
-                    mShowTaskManager = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.ENABLE_TASK_MANAGER,
-                            0, UserHandle.USER_CURRENT) == 1;
-                    recreateStatusBar();
-                    updateRowStates();
-                    updateSpeedbump();
-                    updateClearAll();
-                    updateEmptyShadeView();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_BATTERY_STATUS_TEXT_COLOR))) {
-                updateBatteryLevelTextColor();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_SHOW_TICKER))) {
-                mTickerEnabled = Settings.System.getIntForUser(
-                        mContext.getContentResolver(),
-                        Settings.System.STATUS_BAR_SHOW_TICKER,
-                        mContext.getResources().getBoolean(R.bool.enable_ticker)
-                        ? 1 : 0, UserHandle.USER_CURRENT) == 1;
-                initTickerView();
             }
-            update();
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            update();
-        }
-
-        @Override
-        protected void unobserve() {
-            super.unobserve();
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.unregisterContentObserver(this);
+            updateEx(doRecreate);
         }
 
         @Override
         public void update() {
+            updateEx(false);
+        }
+
+        private void updateEx(boolean doRecreate) {
+            if (doRecreate) {
+                recreateStatusBar();
+                updateRowStates();
+                updateSpeedbump();
+                updateClearAll();
+                updateEmptyShadeView();
+            }
+
             ContentResolver resolver = mContext.getContentResolver();
-            int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
-                            Settings.System.SCREEN_BRIGHTNESS_MODE,
-                            Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
-                            UserHandle.USER_CURRENT);
+            int mode = Settings.System.getIntForUser(resolver,
+                    Settings.System.SCREEN_BRIGHTNESS_MODE,
+                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
+                    mCurrentUserId);
             mAutomaticBrightness = mode != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
-            mBrightnessControl = Settings.System.getIntForUser(
-                    resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
-                    UserHandle.USER_CURRENT) == 1;
+            mBrightnessControl = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
+                    0, mCurrentUserId) == 1;
             mVisualizerEnabled = Settings.Secure.getIntForUser(resolver,
                     Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1,
                     UserHandle.USER_CURRENT) != 0;
 
-            mHeadsUpSwype = Settings.System.getInt(
-                    resolver, Settings.System.HEADS_UP_DISMISS_ON_REMOVE, 0) == 1;
+            mHeadsUpSwype = Settings.System.getInt(resolver,
+                    Settings.System.HEADS_UP_DISMISS_ON_REMOVE, 0) == 1;
+            mHeadsUpTouchOutside = Settings.System.getInt(resolver,
+                    Settings.System.HEADS_UP_TOUCH_OUTSIDE, 0) == 1;
 
-            mHeadsUpTouchOutside = Settings.System.getInt(
-                    resolver, Settings.System.HEADS_UP_TOUCH_OUTSIDE, 0) == 1;
+            mQSCSwitch = Settings.System.getIntForUser(resolver,
+                    Settings.System.QS_COLOR_SWITCH,
+                    0, mCurrentUserId) == 1;
 
-            int sidebarPosition = Settings.CMREMIX.getInt(
-                    resolver, Settings.CMREMIX.APP_SIDEBAR_POSITION, AppSidebar.SIDEBAR_POSITION_LEFT);
+            int sidebarPosition = Settings.CMREMIX.getInt(resolver,
+                    Settings.CMREMIX.APP_SIDEBAR_POSITION,
+                    AppSidebar.SIDEBAR_POSITION_LEFT);
             if (sidebarPosition != mSidebarPosition) {
                 mSidebarPosition = sidebarPosition;
                 removeSidebarView();
@@ -791,36 +803,38 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
 
             if (mNavigationBarView != null) {
-                boolean navLeftInLandscape = Settings.System.getIntForUser(resolver,
-                        Settings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0, UserHandle.USER_CURRENT) == 1;
+                boolean navLeftInLandscape = Settings.System.getIntForUser(
+                    resolver, Settings.System.NAVBAR_LEFT_IN_LANDSCAPE,
+                    0, mCurrentUserId) == 1;
                 mNavigationBarView.setLeftInLandscape(navLeftInLandscape);
             }
-
-            mShowStatusBarCarrier = Settings.CMREMIX.getIntForUser(resolver,
-                Settings.CMREMIX.STATUS_BAR_CARRIER, 0, mCurrentUserId) == 1;
-            showStatusBarCarrierLabel(mShowStatusBarCarrier);
 
             mShowWifiSsidLabel = Settings.Global.getInt(resolver,
                 Settings.Global.WIFI_STATUS_BAR_SSID, 0) == 1;
 
             mShowTaskManager = Settings.System.getIntForUser(resolver,
-                    Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
+                    Settings.System.ENABLE_TASK_MANAGER,
+                    0, UserHandle.USER_CURRENT) == 1;
 
             mGreeting = Settings.CMREMIX.getStringForUser(resolver,
                     Settings.CMREMIX.STATUS_BAR_GREETING,
-                    UserHandle.USER_CURRENT);
-            if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
-                mCmremixLabel.setText(mGreeting);
+                    mCurrentUserId);
+            if (mCmremixLabel != null) {
+                if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
+                    mCmremixLabel.setText(mGreeting);
+                } else {
+                    mCmremixLabel.setText("");
+                }
             }
-
             mBatterySaverBarColor = Settings.System.getInt(
                     resolver, Settings.System.BATTERY_SAVER_MODE_COLOR, 1) == 1;
+
             mShowLabelTimeout = Settings.CMREMIX.getIntForUser(resolver,
-                    Settings.CMREMIX.STATUS_BAR_GREETING_TIMEOUT, 400, mCurrentUserId);
-
-            mQSCSwitch = Settings.System.getIntForUser(resolver,
-                    Settings.System.QS_COLOR_SWITCH, 0, mCurrentUserId) == 1;
-
+                    Settings.CMREMIX.STATUS_BAR_GREETING_TIMEOUT,
+                    1000, mCurrentUserId);
+            if (mShowLabelTimeout < 100) {
+                mShowLabelTimeout = 100;
+            }
         }
     }
 
