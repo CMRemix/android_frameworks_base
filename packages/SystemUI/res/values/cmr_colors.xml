@@ -77,4 +77,7 @@
     <!-- Used by selector -->
     <color name="card_pressed">#7e3c3c3c</color>
 
+    <!-- The color size for the temperature text -->
+    <color name="status_bar_temp_text_color">#FFFFFFFF</color>
+
 </resources>
