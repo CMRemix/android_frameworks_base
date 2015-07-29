@@ -26,8 +26,7 @@
     android:background="@drawable/system_bar_background"
     android:orientation="vertical"
     android:focusable="true"
-    android:descendantFocusability="afterDescendants"
-    >
+    android:descendantFocusability="afterDescendants">
 
     <ImageView
         android:id="@+id/notification_lights_out"
@@ -37,8 +36,7 @@
         android:paddingBottom="2dip"
         android:src="@drawable/ic_sysbar_lights_out_dot_small"
         android:scaleType="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <LinearLayout android:id="@+id/status_bar_contents"
         android:layout_width="match_parent"
@@ -116,29 +114,40 @@
                     android:ellipsize="end"
                     android:textAppearance="@style/TextAppearance.StatusBar.WifiLabel" />
 
+                <TextView
+                   android:id="@+id/left_weather_temp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:singleLine="true"
+                   android:gravity="right|center_vertical"
+                   android:textAppearance="@style/TextAppearance.StatusBar.WeatherTemp"
+                   android:paddingStart="2dp"
+                   android:paddingEnd="4dp" />
+
                 <com.android.systemui.statusbar.StatusBarIconView android:id="@+id/moreIcon"
                     android:layout_width="@dimen/status_bar_icon_size"
                     android:layout_height="match_parent"
                     android:src="@drawable/stat_notify_more"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
+
                 <com.android.systemui.statusbar.phone.IconMerger android:id="@+id/notificationIcons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal" />
+
             </com.android.keyguard.AlphaOptimizedLinearLayout>
+
         </com.android.systemui.statusbar.AlphaOptimizedFrameLayout>
 
         <com.android.keyguard.AlphaOptimizedLinearLayout android:id="@+id/system_icon_area"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
-            <com.android.systemui.statusbar.policy.NetworkTextView
-                android:id="@+id/network_traffic"
+            <com.android.systemui.statusbar.policy.NetworkTraffic
+                android:id="@+id/networkTraffic"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:singleLine="false"
@@ -183,9 +192,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
+        android:layout_height="match_parent">
 
         <com.android.systemui.statusbar.policy.ClockCenter
             android:id="@+id/center_clock"
@@ -202,12 +209,12 @@
         android:inflatedId="@+id/ticker"
         android:layout="@layout/status_bar_ticker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <com.android.systemui.statusbar.policy.BatteryBarController
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:visibility="gone"
         systemui:viewLocation="1" />
+
 </com.android.systemui.statusbar.phone.PhoneStatusBarView>
