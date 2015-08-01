@@ -369,8 +369,8 @@ public class AppCircleSidebar extends TriggerOverlayView implements PackageAdapt
         ComponentName cn = new ComponentName(packageName, className);
         Intent intent = Intent.makeMainActivity(cn);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.APPCIRCLEBAR_FLOATING, 0) == 1) {
+        if (Settings.CMREMIX.getInt(mContext.getContentResolver(),
+                    Settings.CMREMIX.APPCIRCLEBAR_FLOATING, 0) == 1) {
             intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
         }
         mContext.startActivity(intent);
@@ -382,8 +382,8 @@ public class AppCircleSidebar extends TriggerOverlayView implements PackageAdapt
         Intent intent = Intent.makeMainActivity(cn);
         intent.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
                         | Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.APPCIRCLEBAR_FLOATING, 0) == 1) {
+        if (Settings.CMREMIX.getInt(mContext.getContentResolver(),
+                    Settings.CMREMIX.APPCIRCLEBAR_FLOATING, 0) == 1) {
             intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
         }
         mContext.startActivity(intent);

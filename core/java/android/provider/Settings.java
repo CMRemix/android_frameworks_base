@@ -4518,26 +4518,6 @@ public final class Settings {
         public static final String HEADS_UP_FLOATING = "heads_up_floating";
 
         /**
-         * Launch Appsidebar apps in floating window or not
-         *
-         * @hide
-         */
-        public static final String APPSIDEBAR_FLOATING = "appsidebar_floating";
-
-        /**
-         * Launch gesture anywhere in floating window or not
-         * @hide
-         */
-        public static final String GESTURE_ANYWHERE_FLOATING = "gesture_anywhere_floating";
-
-        /**
-         * Launch Appcirclebar apps in floating window or not
-         *
-         * @hide
-         */
-        public static final String APPCIRCLEBAR_FLOATING = "appcirclebar_floating";
-
-        /**
          * Navigation bar button color
          * @hide
          */
@@ -10739,6 +10719,26 @@ public final class Settings {
          * @hide
          */
         public static final String ANIMATION_TOAST = "animation_toast";
+
+        /**
+         * Launch Appsidebar apps in floating window or not
+         *
+         * @hide
+         */
+        public static final String APPSIDEBAR_FLOATING = "appsidebar_floating";
+
+        /**
+         * Launch gesture anywhere in floating window or not
+         * @hide
+         */
+        public static final String GESTURE_ANYWHERE_FLOATING = "gesture_anywhere_floating";
+
+        /**
+         * Launch Appcirclebar apps in floating window or not
+         *
+         * @hide
+         */
+        public static final String APPCIRCLEBAR_FLOATING = "appcirclebar_floating";
 
     }
 

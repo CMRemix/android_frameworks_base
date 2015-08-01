@@ -440,8 +440,8 @@ public class AppSidebar extends TriggerOverlayView {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (mFloatingWindow &&
-            Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.APPSIDEBAR_FLOATING, 0) == 1) {
+            Settings.CMREMIX.getInt(mContext.getContentResolver(),
+                    Settings.CMREMIX.APPSIDEBAR_FLOATING, 0) == 1) {
             intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
             mFloatingWindow = false;
         }
