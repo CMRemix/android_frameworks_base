@@ -4776,6 +4776,12 @@ public final class Settings {
         // ************************** CMRemix additions end *********************************************
 
         /**
+         * TRDS: Override custom notification and qs colors on theme change
+         * @hide
+         */
+        public static final String OVERRIDE_CUSTOM_COLORS = "override_custom_colors";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
