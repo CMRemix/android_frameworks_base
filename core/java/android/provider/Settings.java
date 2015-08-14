@@ -4773,6 +4773,13 @@ public final class Settings {
          */
         public static final String RECENT_APPS_CLEAR_ALL_ICON_COLOR = "recent_apps_clear_all_icon_color";
 
+        /**
+         * Three Finger Gesture from Oppo
+         *
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
         // ************************** CMRemix additions end *********************************************
 
         /**
