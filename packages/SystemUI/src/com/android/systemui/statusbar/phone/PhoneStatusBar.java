@@ -343,7 +343,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private ShakeSensorManager mShakeSensorManager;
     private boolean enableShakeCleanByUser;
     private boolean enableShakeClean;
-
     int mPixelFormat;
     Object mQueueLock = new Object();
 
@@ -823,6 +822,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
                     0, mCurrentUserId) == 1;
+            enableShakeCleanByUser = Settings.System.getIntForUser(
+                    resolver, Settings.System.SHAKE_TO_CLEAN_NOTIFICATIONS, 1,
+                    UserHandle.USER_CURRENT) == 1;
             mVisualizerEnabled = Settings.Secure.getIntForUser(resolver,
                     Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1,
                     UserHandle.USER_CURRENT) != 0;
@@ -1222,14 +1224,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     @Override
     public synchronized void onShake() {
-        ContentResolver resolver = mContext.getContentResolver();
-        enableShakeCleanByUser = Settings.System.getIntForUser(
-                resolver, Settings.System.SHAKE_TO_CLEAN_NOTIFICATIONS, 1, UserHandle.USER_CURRENT) == 1;
         clearAllNotifications();
     }
 
     public void enableShake(boolean enableShakeClean) {
-        if (enableShakeClean) {
+        if (enableShakeClean && enableShakeCleanByUser && mScreenOnFromKeyguard) {
             mShakeSensorManager.enable(20);
         } else {
             mShakeSensorManager.disable();
