@@ -88,4 +88,7 @@
         <item name="windowExitAnimation">@anim/recent_screen_exit_left</item>
     </style>
 
+    <style name="Widget.GifView" parent="@android:style/Widget">
+    </style>
+
 </resources>
