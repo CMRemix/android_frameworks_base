@@ -125,7 +125,7 @@ public class NotificationColorHelper {
 
     public static int getCustomNotificationBgColor(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
-                Settings.System.NOTIFICATION_BG_COLOR, 0xffffffff);
+                Settings.System.NOTIFICATION_BG_COLOR, 0xff1b1f23);
     }
 
     private static int getCustomLegacyBgColor(Context context) {
@@ -135,11 +135,11 @@ public class NotificationColorHelper {
 
     public static int getCustomTextColor(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
-                Settings.System.NOTIFICATION_TEXT_COLOR, 0xff000000);
+                Settings.System.NOTIFICATION_TEXT_COLOR, 0xffffffff);
     }
 
     public static int getCustomIconColor(Context context) {
         return Settings.System.getInt(context.getContentResolver(),
-                Settings.System.NOTIFICATION_ICON_COLOR, 0xff000000);
+                Settings.System.NOTIFICATION_ICON_COLOR, 0xffffffff);
     }
 }
