@@ -3957,7 +3957,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mStatusBarService = null;
             }
         }
-	}
+    }
 
     Runnable mKillTask = new Runnable() {
         public void run() {
