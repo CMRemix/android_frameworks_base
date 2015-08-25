@@ -122,6 +122,7 @@ import com.android.systemui.SwipeHelper;
 import com.android.systemui.SystemUI;
 import com.android.systemui.chaos.lab.gestureanywhere.GestureAnywhereView;
 import com.android.systemui.cm.SpamMessageProvider;
+import com.android.systemui.cmremix.FlashNotificationsController;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.appcirclesidebar.AppCircleSidebar;
@@ -200,6 +201,9 @@ public abstract class BaseStatusBar extends SystemUI implements
     // all notifications
     protected NotificationData mNotificationData;
     protected NotificationStackScrollLayout mStackScroller;
+
+    // Flash notifications
+    protected FlashNotificationsController mFlash;
 
     // for heads up notifications
     protected HeadsUpNotificationView mHeadsUpNotificationView;
@@ -880,6 +884,13 @@ public abstract class BaseStatusBar extends SystemUI implements
     @Override
     public String getCurrentMediaNotificationKey() {
         return null;
+    }
+
+    public FlashNotificationsController getFlashNotificationListener() {
+        if (mFlash == null) {
+            mFlash = new FlashNotificationsController(mContext);
+        }
+        return mFlash;
     }
 
     /**
