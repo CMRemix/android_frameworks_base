@@ -33,7 +33,6 @@ import com.android.internal.policy.IKeyguardShowCallback;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.ViewMediatorCallback;
-import com.android.systemui.statusbar.StatusBarState;
 import cyanogenmod.app.Profile;
 import cyanogenmod.app.ProfileManager;
 
@@ -110,32 +109,16 @@ public class StatusBarKeyguardViewManager {
      * Shows the notification keyguard or the bouncer depending on
      * {@link KeyguardBouncer#needsFullscreenBouncer()}.
      */
-    private void showBouncerOrKeyguard(boolean backpressed) {
-        switch(mBouncer.needsFullscreenBouncer()) {
-            case 1:  // SIM PIN/PUK
-                // The keyguard might be showing (already). So we need to hide it.
-                mPhoneStatusBar.hideKeyguard();
-                mBouncer.show(true /* resetSecuritySelection */);
-                break;
-            case 2: // Pattern/PIN/Password with "Directly pass to security view" enabled
-                if(backpressed)
-                {
-                    mPhoneStatusBar.showKeyguard();
-                    mBouncer.hide(false /* destroyView */);
-                    mBouncer.prepare();
-                }
-                else 
-                {
-                    // The keyguard might be showing (already). So we need to hide it.
-                    mPhoneStatusBar.hideKeyguard();
-                    mBouncer.show(true /* resetSecuritySelection */);
-                }
-                break;
-            default: // other methods
-                mPhoneStatusBar.showKeyguard();
-                mBouncer.hide(false /* destroyView */);
-                mBouncer.prepare();
-                break;
+    private void showBouncerOrKeyguard() {
+        if (mBouncer.needsFullscreenBouncer()) {
+
+            // The keyguard might be showing (already). So we need to hide it.
+            mPhoneStatusBar.hideKeyguard();
+            mBouncer.show(true /* resetSecuritySelection */);
+        } else {
+            mPhoneStatusBar.showKeyguard();
+            mBouncer.hide(false /* destroyView */);
+            mBouncer.prepare();
         }
     }
 
@@ -172,19 +155,7 @@ public class StatusBarKeyguardViewManager {
                 mPhoneStatusBar.hideKeyguard();
                 mBouncer.hide(false /* destroyView */);
             } else {
-                showBouncerOrKeyguard(false);
-            }
-            updateStates();
-        }
-    }
-
-    public void reset(boolean backpressed) {
-        if (mShowing) {
-            if (mOccluded) {
-                mPhoneStatusBar.hideKeyguard();
-                mBouncer.hide(false /* destroyView */);
-            } else {
-                showBouncerOrKeyguard(true);
+                showBouncerOrKeyguard();
             }
             updateStates();
         }
@@ -363,7 +334,7 @@ public class StatusBarKeyguardViewManager {
      */
     public boolean onBackPressed() {
         if (mBouncer.isShowing()) {
-            reset(true);
+            reset();
             return true;
         }
         return false;
@@ -396,7 +367,7 @@ public class StatusBarKeyguardViewManager {
         boolean showing = mShowing;
         boolean occluded = mOccluded;
         boolean bouncerShowing = mBouncer.isShowing();
-        boolean bouncerDismissible = (mBouncer.isFullscreenBouncer() != 1);
+        boolean bouncerDismissible = !mBouncer.isFullscreenBouncer();
 
         if ((bouncerDismissible || !showing) != (mLastBouncerDismissible || !mLastShowing)
                 || mFirstUpdate) {

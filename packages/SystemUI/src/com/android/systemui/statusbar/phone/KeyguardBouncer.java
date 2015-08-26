@@ -192,28 +192,26 @@ public class KeyguardBouncer {
 
     /**
      * @return True if and only if the security method should be shown before showing the
-     * notifications on Keyguard, like SIM PIN/PUK - and if user selected "show unlock screen directly" from CM lock screen settings.
+     * notifications on Keyguard, like SIM PIN/PUK.
      */
-    public int needsFullscreenBouncer() {
+    public boolean needsFullscreenBouncer() {
         if (mKeyguardView != null) {
             SecurityMode mode = mKeyguardView.getSecurityMode();
-            if(mode == SecurityMode.SimPin || mode == SecurityMode.SimPuk) return 1;
-            else if((mode == SecurityMode.Pattern || mode == SecurityMode.Password || mode == SecurityMode.PIN) && (mLockPatternUtils != null && mLockPatternUtils.shouldPassToSecurityView())) return 2;
+            return mode == SecurityMode.SimPin || mode == SecurityMode.SimPuk;
         }
-        return 0;
+        return false;
     }
 
     /**
      * Like {@link #needsFullscreenBouncer}, but uses the currently visible security method, which
      * makes this method much faster.
      */
-    public int isFullscreenBouncer() {
+    public boolean isFullscreenBouncer() {
         if (mKeyguardView != null) {
             SecurityMode mode = mKeyguardView.getCurrentSecurityMode();
-            if(mode == SecurityMode.SimPin || mode == SecurityMode.SimPuk) return 1;
-            else if((mode == SecurityMode.Pattern || mode == SecurityMode.Password || mode == SecurityMode.PIN) && (mLockPatternUtils != null && mLockPatternUtils.shouldPassToSecurityView())) return 2;
+            return mode == SecurityMode.SimPin || mode == SecurityMode.SimPuk;
         }
-        return 0;
+        return false;
     }
 
     /**
