@@ -679,9 +679,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHAKE_TO_CLEAN_NOTIFICATIONS), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.FLASH_NOTIFICATIONS), false, this,
-                    UserHandle.USER_ALL);
             update();
         }
 
@@ -849,15 +846,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mQSCSwitch = Settings.System.getIntForUser(resolver,
                     Settings.System.QS_COLOR_SWITCH,
                     0, mCurrentUserId) == 1;
-
-            boolean flashNotifications = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.FLASH_NOTIFICATIONS, 0) == 1;
-
-            if (flashNotifications) {
-                mFlash.registerListenerService();
-            } else {
-                mFlash.unregisterListenerService();
-            }
 
             int sidebarPosition = Settings.CMREMIX.getInt(resolver,
                     Settings.CMREMIX.APP_SIDEBAR_POSITION,
@@ -1745,7 +1733,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mHeader.setNextAlarmController(mNextAlarmController);
         mHeader.setWeatherController(mWeatherController);
-        mFlash = getFlashNotificationListener();
 
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
