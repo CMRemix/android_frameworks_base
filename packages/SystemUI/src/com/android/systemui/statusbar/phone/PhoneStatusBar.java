@@ -688,6 +688,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.Secure.UI_THEME_AUTO_MODE), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_HIDE_TILES_WITH_SENSITIVE_DATA),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -851,6 +854,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             enableShakeCleanByUser = Settings.System.getIntForUser(resolver,
                     Settings.System.SHAKE_TO_CLEAN_NOTIFICATIONS, 0,
                     UserHandle.USER_CURRENT) == 1;
+            mQSPanel.setHideQsTilesWithSensitiveData(
+                    Settings.Secure.getIntForUser(resolver,
+                        Settings.Secure.LOCKSCREEN_HIDE_TILES_WITH_SENSITIVE_DATA, 0,
+                            UserHandle.USER_CURRENT) != 0);
 
             mHeadsUpSwype = Settings.System.getInt(resolver,
                     Settings.System.HEADS_UP_DISMISS_ON_REMOVE, 0) == 1;
@@ -1706,6 +1713,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         mQSPanel.getHost().setCustomTileListenerService(mCustomTileListenerService);
+        mQSPanel.setHideQsTilesWithSensitiveData(
+                Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.LOCKSCREEN_HIDE_TILES_WITH_SENSITIVE_DATA, 0,
+                        UserHandle.USER_CURRENT) != 0);
 
         // Task manager
         mTaskManagerPanel =

@@ -53,10 +53,16 @@ public class CustomQSTile extends QSTile<QSTile.State> {
     private StatusBarPanelCustomTile mTile;
     private CustomQSDetailAdapter mDetailAdapter;
     private boolean mCollapsePanel;
+    private boolean mHasSensitiveData;
 
     public CustomQSTile(Host host, StatusBarPanelCustomTile tile) {
         super(host);
         mTile = tile;
+    }
+
+    @Override
+    public boolean hasSensitiveData() {
+        return mHasSensitiveData;
     }
 
     @Override
@@ -137,6 +143,7 @@ public class CustomQSTile extends QSTile<QSTile.State> {
         mOnClickUri = customTile.onClickUri;
         mExpandedStyle = customTile.expandedStyle;
         mCollapsePanel = customTile.collapsePanel;
+        mHasSensitiveData = customTile.sensitiveData;
         mDetailAdapter = new CustomQSDetailAdapter();
     }
 
