@@ -2304,6 +2304,28 @@ public final class Settings {
         public static final String QS_USE_MAIN_TILES = Secure.QS_USE_MAIN_TILES;
 
         /**
+         * Type of QS
+         * 0: Panel
+         * 1: Bar
+         * 2: Hidden
+         * default: 0
+         * @hide
+         */
+        public static final String QS_TYPE = "qs_type";
+
+        /**
+         * List of QS bar button names
+         * @hide
+         */
+        public static final String QS_BUTTONS = "qs_buttons";
+
+        /**
+         * Color of the quick settings icon background ripple effect
+         * @hide
+         */
+        public static final String QS_RIPPLE_COLOR = "qs_ripple_color";
+
+        /**
          * Color of the quick settings panel background
          * @hide
          */
@@ -7504,7 +7526,7 @@ public final class Settings {
         public static final String QS_SHOW_BRIGHTNESS_SLIDER = "qs_show_brightness_slider";
 
         /**
-         * List of QS tile names
+         * List of QS panel tile names
          * @hide
          */
         public static final String QS_TILES = "sysui_qs_tiles";

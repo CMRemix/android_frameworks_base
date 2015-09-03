@@ -43,6 +43,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.internal.util.cmremix.QSColorHelper;
+
 import com.android.systemui.FontSizeUtils;
 import com.android.systemui.R;
 import com.android.systemui.cm.UserContentObserver;
@@ -98,6 +100,8 @@ public class QSPanel extends ViewGroup {
 
     private boolean mQSShadeTransparency = false;
     private boolean mQSCSwitch = false;
+    private int mQStextColor;
+    private int mQSdefaultTextColor = 0xffffffff;
 
     private Record mDetailRecord;
     private Callback mCallback;
@@ -146,6 +150,7 @@ public class QSPanel extends ViewGroup {
         addView(mFooter.getView());
         mClipper = new QSDetailClipper(mDetail);
         mSettingsObserver = new SettingsObserver(mHandler);
+
         updateResources();
 
         mBrightnessController = new BrightnessController(getContext(),
@@ -201,23 +206,21 @@ public class QSPanel extends ViewGroup {
     }
 
     private void updateDetailText() {
-        mQSCSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.QS_COLOR_SWITCH, 0) == 1;
-        int textColor = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.QS_TEXT_COLOR, 0xffffffff);
         mDetailDoneButton.setText(R.string.quick_settings_done);
         mDetailSettingsButton.setText(R.string.quick_settings_more_settings);
         mDetailRemoveButton.setText(R.string.quick_settings_remove);
-        if (mQSCSwitch) {
-            mDetailDoneButton.setTextColor(textColor);
-            mDetailSettingsButton.setTextColor(textColor);
-        }
+        final int color = mQSCSwitch ? mQStextColor : mQSdefaultTextColor;
+        mDetailDoneButton.setTextColor(QSColorHelper.getTextColor(mContext));
+        mDetailSettingsButton.setTextColor(QSColorHelper.getTextColor(mContext));
+        mDetailRemoveButton.setTextColor(color);
     }
 
     public void setBrightnessMirror(BrightnessMirrorController c) {
         super.onFinishInflate();
-        ToggleSlider brightnessSlider = (ToggleSlider) findViewById(R.id.brightness_slider);
-        ToggleSlider mirror = (ToggleSlider) c.getMirror().findViewById(R.id.brightness_slider);
+        ToggleSlider brightnessSlider =
+            (ToggleSlider) findViewById(R.id.brightness_slider);
+        ToggleSlider mirror =
+            (ToggleSlider) c.getMirror().findViewById(R.id.brightness_slider);
         brightnessSlider.setMirror(mirror);
         brightnessSlider.setMirrorController(c);
     }
@@ -256,9 +259,9 @@ public class QSPanel extends ViewGroup {
         mBrightnessPaddingTop = res.getDimensionPixelSize(R.dimen.qs_brightness_padding_top);
         updateNumColumns();
 
+        mQSdefaultTextColor = res.getColor(R.color.qs_tile_text);
         if (mListening) {
-            refreshAllTiles();
-            mSettingsObserver.observe();
+            setColors();
         }
         updateDetailText();
     }
@@ -342,8 +345,7 @@ public class QSPanel extends ViewGroup {
         }
         mFooter.setListening(mListening);
         if (mListening) {
-            refreshAllTiles();
-            mSettingsObserver.observe();
+            setColors();
         } else {
             mSettingsObserver.unobserve();
         }
@@ -355,14 +357,19 @@ public class QSPanel extends ViewGroup {
     }
 
     public void refreshAllTiles() {
-        mUseMainTiles = Settings.Secure.getIntForUser(getContext().getContentResolver(),
-                Settings.Secure.QS_USE_MAIN_TILES, 1, UserHandle.USER_CURRENT) == 1;
+        mUseMainTiles = Settings.Secure.getIntForUser(
+            getContext().getContentResolver(),
+                Settings.Secure.QS_USE_MAIN_TILES,
+                1, UserHandle.USER_CURRENT) == 1;
+        boolean isMain;
         for (int i = 0; i < mRecords.size(); i++) {
             TileRecord r = mRecords.get(i);
-            r.tileView.setDual(mUseMainTiles && i < 2);
+            isMain = mUseMainTiles && i < 2;
+            r.tileView.setDual(isMain);
             if (mQSCSwitch) {
                 r.tileView.setLabelColor();
                 r.tileView.setIconColor();
+                r.tileView.setRippleColor();
             }
             r.tile.refreshState();
 
@@ -747,30 +754,23 @@ public class QSPanel extends ViewGroup {
         }
     }
 
-    public void setHideQsTilesWithSensitiveData(boolean value) {
-        mHideQsTilesWithSensitiveData = value;
-    }
-
     public void setDetailBackgroundColor(int color) {
-        mQSCSwitch = Settings.System.getInt(getContext().getContentResolver(),
-                Settings.System.QS_COLOR_SWITCH, 0) == 1;
-        mQSShadeTransparency = Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.QS_TRANSPARENT_SHADE, 0) == 1;
-        if (mQSCSwitch) {
-            if (mDetail != null) {
-                if (mQSShadeTransparency) {
-                    mDetail.getBackground().setColorFilter(
-                            color, Mode.MULTIPLY);
-                } else {
-                    mDetail.getBackground().setColorFilter(
-                            color, Mode.SRC_OVER);
-                }
-            }
-        }
+        if (!mQSCSwitch || mDetail == null) return;
+        mDetail.getBackground()
+            .setColorFilter(color,
+                mQSShadeTransparency ? Mode.MULTIPLY : Mode.SRC_OVER);
     }
 
     public void setColors() {
         refreshAllTiles();
+        if (mListening) {
+            mSettingsObserver.observe();
+        }
+        mBrightnessController.setToggleSliderColors();
+    }
+
+    public void setHideQsTilesWithSensitiveData(boolean value) {
+        mHideQsTilesWithSensitiveData = value;
     }
 
     private class H extends Handler {
@@ -862,6 +862,9 @@ public class QSPanel extends ViewGroup {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_COLOR_SWITCH),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TEXT_COLOR),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -884,20 +887,28 @@ public class QSPanel extends ViewGroup {
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
             mBrightnessSliderEnabled = Settings.Secure.getIntForUser(
-            mContext.getContentResolver(), Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER,
+                resolver, Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER,
                 1, UserHandle.USER_CURRENT) == 1;
             mUseFourColumns = Settings.Secure.getIntForUser(
-            mContext.getContentResolver(), Settings.Secure.QS_USE_FOUR_COLUMNS,
+                resolver, Settings.Secure.QS_USE_FOUR_COLUMNS,
                 0, UserHandle.USER_CURRENT) == 1;
             mVibrationEnabled = Settings.Secure.getIntForUser(
-            mContext.getContentResolver(), Settings.Secure.QS_TILES_VIBRATE,
+                resolver, Settings.Secure.QS_TILES_VIBRATE,
                 0, UserHandle.USER_CURRENT) == 1;
             mQSShadeTransparency = Settings.System.getIntForUser(
-            mContext.getContentResolver(), Settings.System.QS_TRANSPARENT_SHADE,
+                resolver, Settings.System.QS_TRANSPARENT_SHADE,
                 0, UserHandle.USER_CURRENT) == 1;
-            mQSCSwitch = Settings.System.getIntForUser(
-            mContext.getContentResolver(), Settings.System.QS_COLOR_SWITCH,
-                0, UserHandle.USER_CURRENT) == 1;
+            mQStextColor = Settings.System.getIntForUser(resolver,
+                Settings.System.QS_TEXT_COLOR,
+                mQSdefaultTextColor, UserHandle.USER_CURRENT);
+            //mQSCSwitch = Settings.System.getInt(resolver,
+            //    Settings.System.QS_COLOR_SWITCH, 0) == 1;
+            boolean newQSCSwitch = Settings.System.getInt(resolver,
+                    Settings.System.QS_COLOR_SWITCH, 0) == 1;
+            if (mQSCSwitch != newQSCSwitch) {
+                mQSCSwitch = newQSCSwitch;
+                refreshAllTiles();
+            }
         }
     }
 }

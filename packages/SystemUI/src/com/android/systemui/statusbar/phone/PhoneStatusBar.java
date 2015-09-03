@@ -173,6 +173,7 @@ import com.android.systemui.doze.DozeLog;
 import com.android.systemui.doze.ShakeSensorManager;
 import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.omni.StatusBarHeaderMachine;
+import com.android.systemui.qs.QSBar;
 import com.android.systemui.qs.QSPanel;
 import com.android.systemui.recent.ScreenPinningRequest;
 import com.android.systemui.settings.BrightnessController;
@@ -403,6 +404,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // settings
     View mFlipSettingsView;
     private QSPanel mQSPanel;
+    private QSBar mQSBar;
+
     boolean mSearchPanelAllowed = true;
 
     String mGreeting = "";
@@ -1705,6 +1708,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mQSPanel.setTiles(qsh.getTiles());
                 }
             });
+        }
+
+        // Set up the quick settings button bar
+        mQSBar = (QSBar) mStatusBarWindowContent.findViewById(R.id.quick_settings_bar);
+        if (mQSBar != null) {
+            mQSBar.setUp(this, mBluetoothController, mNetworkController, mRotationLockController,
+            mLocationController, mHotspotController);
         }
 
         // Set up the initial custom tile listener state.

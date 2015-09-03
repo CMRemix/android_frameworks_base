@@ -92,4 +92,7 @@
     <dimen name="recent_app_sidebar_item_padding">2dp</dimen>
     <dimen name="recent_app_sidebar_item_title_text_size">11sp</dimen>
 
+    <!-- Quick settings bar -->
+    <dimen name="qs_button_size">64dp</dimen>
+
 </resources>
