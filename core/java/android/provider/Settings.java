@@ -4257,6 +4257,12 @@ public final class Settings {
          */
         public static final String HEADS_UP_NOTIFCATION_DECAY = "heads_up_notification_decay";
 
+         /**
+         * Settings for carrier label font size
+         * @hide
+         */
+        public static final String STATUS_BAR_CARRIER_FONT_SIZE = "status_bar_carrier_font_size";        
+
         /**
          * Wether to show a headsup enable/disable button in status bar header
          *

@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.os.Handler;
-import org.cmremix.util.CMRemixUtils;
+import com.android.internal.util.cmremix.CMRemixUtils;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -47,6 +47,7 @@ public class CarrierLabel extends TextView {
     private Context mContext;
     private boolean mAttached;
     private static boolean isCN;
+    private int mCarrierFontSize = 14;
 
     Handler mHandler;
 
@@ -59,11 +60,14 @@ public class CarrierLabel extends TextView {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.CMREMIX
                     .getUriFor(Settings.CMREMIX.STATUS_BAR_CARRIER_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_CARRIER_FONT_SIZE), false, this, UserHandle.USER_CURRENT);
         }
 
         @Override
         public void onChange(boolean selfChange) {
             updateColor();
+            updateSize();
         }
     }
 
@@ -83,6 +87,7 @@ public class CarrierLabel extends TextView {
         SettingsObserver settingsObserver = new SettingsObserver(mHandler);
         settingsObserver.observe();
         updateColor();
+        updateSize();
     }
 
     @Override
@@ -174,5 +179,13 @@ public class CarrierLabel extends TextView {
              mCarrierColor = defaultColor;
         }
         setTextColor(mCarrierColor);
+    }
+
+    private void updateSize() {
+        mCarrierFontSize = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CARRIER_FONT_SIZE, 14,
+                UserHandle.USER_CURRENT);
+
+        setTextSize(mCarrierFontSize);
     }
 }
