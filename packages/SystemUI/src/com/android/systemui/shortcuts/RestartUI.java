@@ -21,7 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.android.internal.util.temasek.Helpers;
+import com.cmremix.util.Helpers;
 
 public class RestartUI extends Activity  {
 
