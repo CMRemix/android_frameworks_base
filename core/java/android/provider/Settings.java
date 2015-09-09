@@ -7637,7 +7637,9 @@ public final class Settings {
         public static final String[] NAVIGATION_RING_TARGETS = new String[] {
                 "navigation_ring_targets_0",
                 "navigation_ring_targets_1",
-                "navigation_ring_targets_2"
+                "navigation_ring_targets_2",
+                "navigation_ring_targets_3",
+                "navigation_ring_targets_4",
         };
 
         /**
