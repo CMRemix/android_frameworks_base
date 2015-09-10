@@ -189,7 +189,7 @@
 
         <!-- started from PhoneWindowManager
              TODO: Should have an android:permission attribute -->
-        <service android:name=".fusion.onthego.OnTheGoService"
+        <service android:name=".cmremix.onthego.OnTheGoService"
             android:process=":onthego"
             android:exported="false" />
 
