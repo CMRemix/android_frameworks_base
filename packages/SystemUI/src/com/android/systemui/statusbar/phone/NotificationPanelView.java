@@ -395,6 +395,11 @@ public class NotificationPanelView extends PanelView implements
                 if (!showing) {
                     mHandler.removeCallbacks(mCloseQsRunnable);
                 }
+                // if TaskManager is showing reset back to QSPanel
+                // otherwise multiuser switch will not work.
+                if (mTaskManagerShowing) {
+                    mStatusBar.resetQsPanelVisibility();
+                }
             }
         });
     }
@@ -1839,7 +1844,9 @@ public class NotificationPanelView extends PanelView implements
         if (mQsExpanded) {
             if (isQsDetailShowing()) {
                 mHandler.removeCallbacks(mCloseQsRunnable);
-                mHandler.postDelayed(mCloseQsRunnable, 200);
+                // temp fix for QSPanel closing when switching
+                // to TaskManager while in detail view
+                //mHandler.postDelayed(mCloseQsRunnable, 200);
             }
             requestScrollerTopPaddingUpdate(false /* animate */);
             requestPanelHeightUpdate();
