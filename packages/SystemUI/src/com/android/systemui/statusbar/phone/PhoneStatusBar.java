@@ -1862,7 +1862,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         startGlyphRasterizeHack();
         setBottomIconsColors();
         updateBatteryLevelTextColor();
-        setKeyguardTextAndIconColors();
         UpdateNotifDrawerClearAllIconColor();
         mStatusBarHeaderMachine = new StatusBarHeaderMachine(mContext);
         mStatusBarHeaderMachine.addObserver(mHeader);

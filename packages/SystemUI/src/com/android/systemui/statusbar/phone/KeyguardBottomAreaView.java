@@ -505,8 +505,9 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         if (changedView == this && visibility == VISIBLE) {
             updateLockIcon();
             updateCameraVisibility();
-        if (isPhoneVisible()) {
-            updatePhoneVisibility();
+            if (isPhoneVisible()) {
+                updatePhoneVisibility();
+            }
         }
     }
 
