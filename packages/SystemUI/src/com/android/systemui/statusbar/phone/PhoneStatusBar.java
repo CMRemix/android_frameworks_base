@@ -580,12 +580,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.CMREMIX.APP_SIDEBAR_POSITION),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_TEXT_COLOR),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_ICON_COLOR),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_COLOR_SWITCH),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -731,11 +725,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             ContentResolver resolver = mContext.getContentResolver();
             boolean doRecreate = false;
             if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_TEXT_COLOR))
-                    || uri.equals(Settings.System.getUriFor(
-                    Settings.System.LOCK_SCREEN_ICON_COLOR))) {
-                    setKeyguardTextAndIconColors();
-            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                     mTickerEnabled = Settings.System.getIntForUser(
                         resolver,
@@ -3107,34 +3096,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    public void setKeyguardTextAndIconColors() {
-        ContentResolver resolver = mContext.getContentResolver();
-        int defaultTextColor = mContext.getResources()
-                .getColor(R.color.keyguard_default_primary_text_color);
-        int textColor =
-                Settings.System.getInt(resolver,
-                Settings.System.LOCK_SCREEN_TEXT_COLOR, defaultTextColor);
-        if (mKeyguardBottomArea != null) {
-            int iconColor =
-                Settings.System.getInt(resolver,
-                Settings.System.LOCK_SCREEN_ICON_COLOR, defaultTextColor);
-            mKeyguardBottomArea.updateTextColor(textColor);
-            mKeyguardBottomArea.updateIconColor(iconColor);
-        }
-        if (mKeyguardStatusBar != null) {
-            mKeyguardStatusBar.updateTextColor(textColor);
-        }
-    }
-
-    private void UpdateNotifDrawerClearAllIconColor() {
-        int color = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR,
-                0xffffffff, mCurrentUserId);
-        if (mDismissView != null) {
-            mDismissView.updateIconColor(color);
-        }
-    }
-
     public void showClock(boolean show) {
         if (mStatusBarView == null) return;
         ContentResolver resolver = mContext.getContentResolver();
@@ -3158,11 +3119,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         mClockLocation = mode;
         mShowClock = enabled;
-	}
+    }
+
     private void updateBatteryLevelTextColor() {
         if (mBatteryLevel != null) {
             mBatteryLevel.setTextColor(false);
-        }		
+        }
+    }
+
+    private void UpdateNotifDrawerClearAllIconColor() {
+        if (mDismissView != null) {
+            int color = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR,
+                0xffffffff, mCurrentUserId);
+            mDismissView.updateIconColor(color);
+        }
     }
 
     private int adjustDisableFlags(int state) {
