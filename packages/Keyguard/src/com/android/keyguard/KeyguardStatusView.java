@@ -34,6 +34,7 @@ import android.graphics.PorterDuff.Mode;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Slog;
@@ -96,6 +97,8 @@ public class KeyguardStatusView extends GridLayout implements
                 refresh();
                 updateClockColor();
                 updateClockDateColor();
+                updateOwnerInfoColor();
+                updateAlarmStatusColor();
             }
         }
 
@@ -107,6 +110,8 @@ public class KeyguardStatusView extends GridLayout implements
                 updateOwnerInfo();
                 updateClockColor();
                 updateClockDateColor();
+                updateOwnerInfoColor();
+                updateAlarmStatusColor();
             }
         }
 
@@ -117,6 +122,8 @@ public class KeyguardStatusView extends GridLayout implements
             refresh();
             updateClockColor();
             updateClockDateColor();
+            updateOwnerInfoColor();
+            updateAlarmStatusColor();
         }
 
         @Override
@@ -131,6 +138,8 @@ public class KeyguardStatusView extends GridLayout implements
             updateOwnerInfo();
             updateClockColor();
             updateClockDateColor();
+            updateOwnerInfoColor();
+            updateAlarmStatusColor();
         }
     };
 
@@ -147,6 +156,8 @@ public class KeyguardStatusView extends GridLayout implements
         mWeatherController = new WeatherControllerImpl(mContext);
         updateClockColor();
         updateClockDateColor();
+        updateOwnerInfoColor();
+        updateAlarmStatusColor();
     }
 
     private void setEnableMarquee(boolean enabled) {
@@ -179,6 +190,8 @@ public class KeyguardStatusView extends GridLayout implements
         updateOwnerInfo();
         updateClockColor();
         updateClockDateColor();
+        updateOwnerInfoColor();
+        updateAlarmStatusColor();
 
         // Disable elegant text height because our fancy colon makes the ymin value huge for no
         // reason.
@@ -337,6 +350,7 @@ public class KeyguardStatusView extends GridLayout implements
                 Settings.System.LOCK_SCREEN_SHOW_WEATHER_TIMESTAMP, 1) == 1;
         int iconNameValue = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_CONDITION_ICON, 0);
+        int secondaryTextColor = (179 << 24) | (mPrimaryTextColor & 0x00ffffff); // mPrimaryTextColor with a transparency of 70%
         int hideMode = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_WEATHER_HIDE_PANEL, 0);
         int numberOfNotificationsToHide = Settings.System.getInt(resolver,
@@ -409,6 +423,26 @@ public class KeyguardStatusView extends GridLayout implements
 
         if (mDateView != null) {
             mDateView.setTextColor(color);
+        }
+    }
+
+    private void updateOwnerInfoColor() {
+        ContentResolver resolver = getContext().getContentResolver();
+        int color = Settings.System.getInt(resolver,
+                Settings.System.LOCKSCREEN_OWNER_INFO_COLOR, 0xFFFFFFFF);
+
+        if (mOwnerInfo != null) {
+            mOwnerInfo.setTextColor(color);
+        }
+    }
+
+    private void updateAlarmStatusColor() {
+        ContentResolver resolver = getContext().getContentResolver();
+        int color = Settings.System.getInt(resolver,
+                Settings.System.LOCKSCREEN_ALARM_COLOR, 0xFFFFFFFF);
+
+        if (mAlarmStatusView != null) {
+            mAlarmStatusView.setTextColor(color);
         }
     }
 
