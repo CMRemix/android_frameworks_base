@@ -16,6 +16,7 @@
 
 package com.android.systemui.statusbar.policy;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.ContentResolver;
 import android.content.res.Configuration;
@@ -31,6 +32,7 @@ import android.os.UserHandle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -245,7 +247,8 @@ public class HeadsUpNotificationView extends FrameLayout implements SwipeHelper.
             }
 
             // 2. Animate mHeadsUpNotificationView in
-            mBar.scheduleHeadsUpOpen();
+            mBar.scheduleHeadsUpOpen(TextUtils.equals(
+                    mHeadsUp.notification.getNotification().category, Notification.CATEGORY_CALL));
 
             // 3. Set alarm to age the notification off
             mBar.resetHeadsUpDecayTimer();
