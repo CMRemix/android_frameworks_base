@@ -176,6 +176,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private boolean mShowWeatherLocation;
     private boolean mShowBatteryTextExpanded;
 
+    private UserInfoController mUserInfoController;
+
     protected Vibrator mVibrator;
 
     private boolean mQSCSwitch = false;
@@ -328,6 +330,18 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mClockCollapsedScaleFactor = (float) mClockCollapsedSize / (float) mClockExpandedSize;
         updateClockScale();
         updateClockCollapsedMargin();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setListening(false);
+        setQSPanel(null);
+        if (mUserInfoController != null) {
+            mUserInfoController.removeListener(mUserInfoChangedListener);
+            mUserInfoController = null;
+        }
+        getOverlay().clear();
     }
 
     private void updateClockCollapsedMargin() {
@@ -718,13 +732,17 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         invalidateOutline();
     }
 
+    private UserInfoController.OnUserInfoChangedListener mUserInfoChangedListener =
+            new UserInfoController.OnUserInfoChangedListener() {
+                @Override
+                public void onUserInfoChanged(String name, Drawable picture) {
+                    mMultiUserAvatar.setImageDrawable(picture);
+                }
+            };
+
     public void setUserInfoController(UserInfoController userInfoController) {
-        userInfoController.addListener(new UserInfoController.OnUserInfoChangedListener() {
-            @Override
-            public void onUserInfoChanged(String name, Drawable picture) {
-                mMultiUserAvatar.setImageDrawable(picture);
-            }
-        });
+        mUserInfoController = userInfoController;
+        userInfoController.addListener(mUserInfoChangedListener);
     }
 
     public void vibrate (int duration) {
@@ -906,6 +924,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     }
 
     public void setQSPanel(QSPanel qsp) {
+        if (qsp == null && mQSPanel != null) {
+            mQSPanel.setCallback(null);
+        }
         mQSPanel = qsp;
         if (mQSPanel != null) {
             mQSPanel.setCallback(mQsPanelCallback);
