@@ -3947,6 +3947,14 @@ public final class Settings {
         public static final String STATUS_BAR_CUSTOM_HEADER_PROVIDER = "status_bar_custom_header_provider";
 
         /**
+         * Whether to use default custom header or poly hd
+         * 0 = default
+         * 1 = poly hd
+         * @hide
+         */
+        public static final String STATUS_BAR_CUSTOM_HEADER_DEFAULT = "status_bar_custom_header_default";
+
+        /**
          * Color of the clock on the header of the expanded status bar
          * @hide
          */
@@ -5025,14 +5033,14 @@ public final class Settings {
          */
         public static final String UI_OVERFLOW_BUTTON = "ui_overflow_button";
 
-        // ************************** CMRemix additions end *********************************************
-
         /**
          * Config for advanced power menu
          *
          * @hide
          */
         public static final String QUICK_TILE_CONFIG = "quick_tile_config";
+
+//********************************************* CMRemix additions end *********************************************//
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
