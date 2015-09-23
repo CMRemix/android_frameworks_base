@@ -85,4 +85,9 @@
     <color name="notification_header_bg">@color/system_secondary_color</color>
 
 
+    <!-- Navigation ring target -->
+    <color name="navring_check_tint">@android:color/white</color>
+    <color name="navring_edit_fill">#FF558B2F</color>
+    <color name="navring_edit_tint">#FF689F38</color>
+
 </resources>

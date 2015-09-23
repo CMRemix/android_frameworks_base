@@ -1279,13 +1279,14 @@ public final class Settings {
             MOVED_TO_SECURE.add(Secure.QS_TILES);
             MOVED_TO_SECURE.add(Secure.QS_USE_MAIN_TILES);
             MOVED_TO_SECURE.add(Secure.QS_SHOW_BRIGHTNESS_SLIDER);
-            for (String s : Secure.NAVIGATION_RING_TARGETS) {
-                MOVED_TO_SECURE.add(s);
-            }
             MOVED_TO_SECURE.add(Secure.DEV_FORCE_SHOW_NAVBAR);
             MOVED_TO_SECURE.add(Secure.KEYBOARD_BRIGHTNESS);
             MOVED_TO_SECURE.add(Secure.BUTTON_BRIGHTNESS);
             MOVED_TO_SECURE.add(Secure.BUTTON_BACKLIGHT_TIMEOUT);
+            MOVED_TO_SECURE.add(Secure.SEARCH_PANEL_ENABLED);
+            for (String s : Secure.NAVIGATION_RING_TARGETS) {
+                MOVED_TO_SECURE.add(s);
+            }
         }
 
         private static final HashSet<String> MOVED_TO_GLOBAL;
@@ -7714,8 +7715,6 @@ public final class Settings {
                 "navigation_ring_targets_0",
                 "navigation_ring_targets_1",
                 "navigation_ring_targets_2",
-                "navigation_ring_targets_3",
-                "navigation_ring_targets_4",
         };
 
         /**
