@@ -1332,11 +1332,11 @@ public class NetworkControllerImpl extends BroadcastReceiver
         }
 
         void updateSubscriptionInfo(SubscriptionInfo info) {
-            final boolean showCustomCarrier = Settings.CMREMIX.getIntForUser(
-                    mContext.getContentResolver(), Settings.CMREMIX.STATUS_BAR_CARRIER,
+            final boolean showCustomCarrier = Settings.System.getIntForUser(
+                    mContext.getContentResolver(), Settings.System.STATUS_BAR_CARRIER,
                     0, UserHandle.USER_CURRENT) == 1;
-            final String CustomCarrierLabel = Settings.CMREMIX.getStringForUser(mContext.getContentResolver(),
-                    Settings.CMREMIX.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
+            final String CustomCarrierLabel = Settings.System.getStringForUser(mContext.getContentResolver(),
+                    Settings.System.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
             CharSequence carrierName = showCustomCarrier && !TextUtils.isEmpty(CustomCarrierLabel) && !mAirplaneMode
                     ? CustomCarrierLabel
                     : info.getCarrierName();

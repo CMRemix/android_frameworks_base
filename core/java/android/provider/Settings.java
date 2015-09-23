@@ -5041,6 +5041,34 @@ public final class Settings {
          */
         public static final String QUICK_TILE_CONFIG = "quick_tile_config";
 
+        /**
+         * show carrier in statusbar. The value is
+         * int (1: Show or 0: Hide).
+         */
+        public static final String STATUS_BAR_CARRIER = "status_bar_carrier";
+
+        /**
+         * custom carrier label. The value is
+         * String.
+         */
+        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
+
+        /**
+         * Carrier Label Custom Color
+         * @hide
+         */
+        public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
+
+        /**
+         * show carrier in statusbar while on lockscreen. The value is
+         * 0 = Hide
+         * 1 = Show only on keyguard
+         * 2 = Show only on statusbar
+         * 3 = Show on keyguard and statusbar
+  
+         */
+        public static final String STATUS_BAR_CUSTOM_CARRIER = "status_bar_custom_carrier";
+
 //********************************************* CMRemix additions end *********************************************//
 
         /**
@@ -10807,24 +10835,6 @@ public final class Settings {
          * @hide
          */
         public static final String KEY_VOICEMAIL_BREATH = "voicemail_breath";
-
-        /**
-         * show carrier in statusbar. The value is
-         * int (1: Show or 0: Hide).
-         */
-        public static final String STATUS_BAR_CARRIER = "status_bar_carrier";
-
-        /**
-         * custom carrier label. The value is
-         * String.
-         */
-        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
-
-        /**
-         * Carrier Label Custom Color
-         * @hide
-         */
-        public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
         /**
          * Option to hide the Bluetooth icon in the status bar when disconnected.

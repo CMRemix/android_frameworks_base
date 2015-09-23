@@ -458,9 +458,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mShowLabel;
     private int mShowLabelTimeout;
 
-    // Status bar carrier
-    private boolean mShowStatusBarCarrier;
-
     private TextView mWifiSsidLabel;
     private boolean mShowWifiSsidLabel;
 
@@ -551,9 +548,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.CMREMIX.getUriFor(
-                    Settings.CMREMIX.STATUS_BAR_CARRIER),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this, UserHandle.USER_ALL);
@@ -758,6 +752,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.STATUS_BAR_BATTERY_STATUS_TEXT_COLOR))) {
                 updateBatteryLevelTextColor();
             } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.PIE_CONTROLS))) {
+                    attachPieContainer(isPieEnabled());
+            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.USE_SLIM_RECENTS))) {
                 updateRecents();
             } else if (uri.equals(Settings.System.getUriFor(
@@ -765,16 +762,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_TEXT_COLOR))) {
                 rebuildRecentsScreen();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.PIE_CONTROLS))) {
-                    attachPieContainer(isPieEnabled());
-            } else if (uri.equals(Settings.CMREMIX.getUriFor(
-                    Settings.CMREMIX.STATUS_BAR_CARRIER))) {
-                    mShowStatusBarCarrier = Settings.CMREMIX.getIntForUser(
-                        resolver,
-                        Settings.CMREMIX.STATUS_BAR_CARRIER,
-                        0, mCurrentUserId) == 1;
-                    showStatusBarCarrierLabel(mShowStatusBarCarrier);
             } else if (uri.equals(Settings.System.getUriFor(
                         Settings.System.ENABLE_TASK_MANAGER)) ||
                     uri.equals(Settings.System.getUriFor(
@@ -4701,15 +4688,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
-    public void showStatusBarCarrierLabel(boolean show) {
-        if (mStatusBarView == null) return;
-        ContentResolver resolver = mContext.getContentResolver();
-        View statusBarCarrierLabel = mStatusBarView.findViewById(R.id.status_bar_carrier_label);
-        if (statusBarCarrierLabel != null) {
-            statusBarCarrierLabel.setVisibility(show ? (mShowStatusBarCarrier ? View.VISIBLE : View.GONE) : View.GONE);
-        }
-    }
-
     public void showWifiSsidLabel(String ssid) {
         if (mStatusBarView == null || mContext == null
             || mWifiSsidLabel == null || mNetworkController == null) {
@@ -4722,8 +4700,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         boolean doShow = mShowWifiSsidLabel && !TextUtils.isEmpty(ssid);
         if (doShow) {
-            int mCarrierColor = Settings.CMREMIX.getInt(mContext.getContentResolver(),
-                    Settings.CMREMIX.STATUS_BAR_CARRIER_COLOR, 0xffffffff);
+            int mCarrierColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_CARRIER_COLOR, 0xffffffff);
             mWifiSsidLabel.setText(ssid);
             mWifiSsidLabel.setTextColor(mCarrierColor);
             mWifiSsidLabel.setVisibility(View.VISIBLE);

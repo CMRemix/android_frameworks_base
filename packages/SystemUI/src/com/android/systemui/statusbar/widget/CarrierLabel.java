@@ -49,6 +49,7 @@ public class CarrierLabel extends TextView {
     private static boolean isCN;
     private int mCarrierFontSize = 14;
 
+    protected int mCarrierColor = getResources().getColor(R.color.kg_carrier_text);
     Handler mHandler;
 
     class SettingsObserver extends ContentObserver {
@@ -58,8 +59,8 @@ public class CarrierLabel extends TextView {
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.CMREMIX
-                    .getUriFor(Settings.CMREMIX.STATUS_BAR_CARRIER_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_CARRIER_COLOR), false, this);
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.STATUS_BAR_CARRIER_FONT_SIZE), false, this, UserHandle.USER_CURRENT);
         }
@@ -138,8 +139,8 @@ public class CarrierLabel extends TextView {
         } else {
             str = "";
         }
-        String customCarrierLabel = Settings.CMREMIX.getStringForUser(mContext.getContentResolver(),
-                Settings.CMREMIX.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
+        String customCarrierLabel = Settings.System.getStringForUser(mContext.getContentResolver(),
+                Settings.System.CUSTOM_CARRIER_LABEL, UserHandle.USER_CURRENT);
         if (!TextUtils.isEmpty(customCarrierLabel)) {
             setText(customCarrierLabel);
         } else {
@@ -168,15 +169,13 @@ public class CarrierLabel extends TextView {
     }
 
     private void updateColor() {
-        ContentResolver resolver = mContext.getContentResolver();
-
-        int defaultColor = getResources().getColor(R.color.status_bar_clock_color);
-        int mCarrierColor = Settings.CMREMIX.getInt(resolver,
-                Settings.CMREMIX.STATUS_BAR_CARRIER_COLOR, defaultColor);
+        int newColor = 0;
+        mCarrierColor = Settings.System.getInt(mContext.getContentResolver(),
+                            Settings.System.STATUS_BAR_CARRIER_COLOR, newColor);
 
         if  (mCarrierColor == Integer.MIN_VALUE) {
              // flag to reset the color
-             mCarrierColor = defaultColor;
+             mCarrierColor = newColor;
         }
         setTextColor(mCarrierColor);
     }
