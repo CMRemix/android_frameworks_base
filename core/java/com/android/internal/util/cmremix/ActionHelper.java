@@ -69,6 +69,31 @@ public class ActionHelper {
                     Settings.CMREMIX.LOCKSCREEN_SHORTCUTS, config);
     }
 
+    public static ArrayList<ActionConfig> getQuickTileConfigWithDescription(
+            Context context, String values, String entries) {
+        String config = Settings.System.getStringForUser(
+                    context.getContentResolver(),
+                    Settings.System.QUICK_TILE_CONFIG,
+                    UserHandle.USER_CURRENT);
+        if (config == null) {
+            config = ActionConstants.QUICK_TILE_CONFIG_DEFAULT;
+        }
+        return ConfigSplitHelper.getActionConfigValues(context, config, values, entries, true);
+    }
+
+    public static void setQuickTileConfig(Context context,
+            ArrayList<ActionConfig> actionConfig, boolean reset) {
+        String config;
+        if (reset) {
+            config = ActionConstants.QUICK_TILE_CONFIG_DEFAULT;
+        } else {
+            config = ConfigSplitHelper.setActionConfig(actionConfig, true);
+        }
+        Settings.System.putString(context.getContentResolver(),
+                    Settings.System.QUICK_TILE_CONFIG,
+                    config);
+    }
+
     // Get and set the pie configs from provider and return proper arraylist objects
     // @ActionConfig
     public static ArrayList<ActionConfig> getPieConfig(Context context) {

@@ -74,6 +74,7 @@ public class QSConstants {
     public static final String DYNAMIC_TILE_IME_SELECTOR = "ime_selector";
     public static final String DYNAMIC_TILE_SU = "su";
     public static final String DYNAMIC_TILE_ADB = "adb";
+    public static final String TILE_SLIMACTION = "slimaction";
 
     protected static final ArrayList<String> STATIC_TILES_AVAILABLE = new ArrayList<String>();
     protected static final ArrayList<String> DYNAMIC_TILES_AVAILABLE = new ArrayList<String>();
@@ -129,6 +130,7 @@ public class QSConstants {
         STATIC_TILES_AVAILABLE.add(TILE_THEMES);
         STATIC_TILES_AVAILABLE.add(TILE_KERNEL_ADIUTOR);
         STATIC_TILES_AVAILABLE.add(TILE_SLIM_PIE);
+        STATIC_TILES_AVAILABLE.add(TILE_SLIMACTION);
 
         DYNAMIC_TILES_AVAILABLE.add(DYNAMIC_TILE_NEXT_ALARM);
         DYNAMIC_TILES_AVAILABLE.add(DYNAMIC_TILE_IME_SELECTOR);

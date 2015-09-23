@@ -5020,6 +5020,13 @@ public final class Settings {
         // ************************** CMRemix additions end *********************************************
 
         /**
+         * Config for advanced power menu
+         *
+         * @hide
+         */
+        public static final String QUICK_TILE_CONFIG = "quick_tile_config";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
