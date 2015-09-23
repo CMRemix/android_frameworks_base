@@ -5017,6 +5017,14 @@ public final class Settings {
          */
         public static final String ON_THE_GO_CAMERA = "on_the_go_camera";
 
+        /**
+         * Control the display of the action overflow button within app UI.
+         * 0 = use system default
+         * 1 = force on
+         * @hide
+         */
+        public static final String UI_OVERFLOW_BUTTON = "ui_overflow_button";
+
         // ************************** CMRemix additions end *********************************************
 
         /**
