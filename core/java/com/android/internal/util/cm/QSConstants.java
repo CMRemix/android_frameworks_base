@@ -75,6 +75,7 @@ public class QSConstants {
     public static final String DYNAMIC_TILE_SU = "su";
     public static final String DYNAMIC_TILE_ADB = "adb";
     public static final String TILE_SLIMACTION = "slimaction";
+    //public static final String TILE_ONTHEGO = "toggleOnTheGo";
 
     protected static final ArrayList<String> STATIC_TILES_AVAILABLE = new ArrayList<String>();
     protected static final ArrayList<String> DYNAMIC_TILES_AVAILABLE = new ArrayList<String>();
