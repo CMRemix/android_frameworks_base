@@ -28,7 +28,7 @@ public class IconMerger extends LinearLayout {
     private static final String TAG = "IconMerger";
     private static final boolean DEBUG = false;
 
-    private int mIconWidth;
+    private int mIconSize;
     private int mClockAndDateWidth;
     private boolean mCenterClock;
     private boolean mLeftClock;
@@ -37,26 +37,12 @@ public class IconMerger extends LinearLayout {
     public IconMerger(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mIconWidth = calculateIconWidth(context);
+        mIconSize = context.getResources().getDimensionPixelSize(
+                R.dimen.status_bar_icon_size);
 
         if (DEBUG) {
             setBackgroundColor(0x800099FF);
         }
-    }
-
-    /**
-     * Considering the padding, this method calculates the effective icon width
-     * of the notification icons.
-     *
-     * @param context
-     * @return The effective icon width which is expected by the {@link IconMerger}.
-     */
-    public static int calculateIconWidth(final Context context) {
-        int iconSize = context.getResources().getDimensionPixelSize(
-                R.dimen.status_bar_icon_size);
-        int iconHPadding = context.getResources().getDimensionPixelSize(
-                R.dimen.status_bar_icon_padding);
-        return iconSize + 2 * iconHPadding;
     }
 
     public void setOverflowIndicator(View v) {
@@ -70,12 +56,12 @@ public class IconMerger extends LinearLayout {
         int width = getMeasuredWidth();
         if (mCenterClock) {
             final int totalWidth = mContext.getResources().getDisplayMetrics().widthPixels;
-            final int usableWidth = (totalWidth - mClockAndDateWidth - 2 * mIconWidth) / 2;
+            final int usableWidth = (totalWidth - mClockAndDateWidth - 2 * mIconSize) / 2;
             if (width > usableWidth) {
                 width = usableWidth;
             }
         }
-        setMeasuredDimension(width - (width % mIconWidth), getMeasuredHeight());
+        setMeasuredDimension(width - (width % mIconSize), getMeasuredHeight());
     }
 
     @Override
@@ -95,7 +81,7 @@ public class IconMerger extends LinearLayout {
         final boolean overflowShown = (mMoreView.getVisibility() == View.VISIBLE);
         // let's assume we have one more slot if the more icon is already showing
         if ((!mCenterClock || !mLeftClock) && overflowShown) visibleChildren --;
-        final boolean moreRequired = visibleChildren * mIconWidth > width;
+        final boolean moreRequired = visibleChildren * mIconSize > width;
         if (moreRequired != overflowShown) {
             post(new Runnable() {
                 @Override
