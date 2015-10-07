@@ -7198,7 +7198,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mBootMsgDialog.show();
                 }
                 mBootMsgDialog.setMessage("Powered By SaberMod Optimizations\n\n" + msg
-                + "\n\nCMRemix Lollipop 5.1.1_R13 By ZION959");
+                + "\n\nCMRemix Lollipop 5.1.1_R24");
             }
         });
     }
