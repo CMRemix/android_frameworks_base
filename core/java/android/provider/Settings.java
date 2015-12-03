@@ -4473,6 +4473,13 @@ public final class Settings {
         public static final String HOLD_BACK_TO_KILL_TIMEOUT = "hold_back_to_kill_timeout";
 
         /**
+         * Whether to display powermenu on secure lockscreen
+         *
+         * @hide
+         */
+        public static final String POWER_MENU_LOCKSCREEN = "power_menu_lockscreen";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
