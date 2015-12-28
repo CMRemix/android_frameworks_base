@@ -4218,6 +4218,13 @@ public final class Settings {
         public static final String ANIMATION_CONTROLS_REVERSE_EXIT = "animation_controls_reverse_exit";
 
         /**
+         * Three Finger Gesture from Oppo
+         *
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
