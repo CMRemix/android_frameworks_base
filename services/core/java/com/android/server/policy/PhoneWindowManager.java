@@ -968,6 +968,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HOLD_BACK_TO_KILL_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
