@@ -3725,6 +3725,18 @@ public final class Settings {
         public static final String CLOCK_USE_SECOND = "clock_use_second";
 
         /**
+         * Whether to display clock while recents are in full screen
+         * @hide
+         */
+        public static final String RECENTS_FULL_SCREEN_CLOCK = "recents_full_screen_clock";
+
+        /**
+         * Whether to display clock while recents are in full screen
+         * @hide
+         */
+        public static final String RECENTS_FULL_SCREEN_DATE = "recents_full_screen_date";
+
+        /**
          * Navigation bar height when it is on protrait
          * @hide
          */
