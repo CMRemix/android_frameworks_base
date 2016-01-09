@@ -142,4 +142,7 @@
   <java-symbol type="style" name="PowerMenuTopAnimation" />
   <java-symbol type="style" name="PowerMenuRotateAnimation" />
 
+  <!-- Power menu -->
+  <java-symbol type="string" name="system_error_vendorprint" />
+
 </resources>
