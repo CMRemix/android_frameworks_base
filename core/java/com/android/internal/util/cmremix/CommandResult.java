@@ -1,4 +1,4 @@
-package com.android.internal.util.aicp;
+package com.android.internal.util.cmremix;
 
 import android.os.Environment;
 import android.os.Parcel;
