@@ -137,5 +137,11 @@
 
 <!-- Restart UI -->
    <string name="quick_settings_systemui_restart_label">Restart SystemUI</string>
-	
+
+    <!-- LTE Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE ON </string>
+    <string name="lte_off">LTE OFF</string>
+
 </resources>
+

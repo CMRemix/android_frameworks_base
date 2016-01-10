@@ -65,6 +65,7 @@ import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
+import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.PerfProfileTile;
 import com.android.systemui.qs.tiles.ProfilesTile;
@@ -91,10 +92,12 @@ import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
+import android.telephony.TelephonyManager;
 
 import cyanogenmod.app.CustomTileListenerService;
 import cyanogenmod.app.StatusBarPanelCustomTile;
 import cyanogenmod.providers.CMSettings;
+import com.android.internal.telephony.PhoneConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -207,6 +210,20 @@ public class QSTileHost implements QSTile.Host, Tunable {
     @Override
     public void startActivityDismissingKeyguard(final Intent intent) {
         mStatusBar.postStartActivityDismissingKeyguard(intent, 0);
+    }
+
+    public static boolean deviceSupportsLte(Context ctx) {
+        final TelephonyManager tm = (TelephonyManager)
+                ctx.getSystemService(Context.TELEPHONY_SERVICE);
+        return (tm.getLteOnCdmaMode() == PhoneConstants.LTE_ON_CDMA_TRUE)
+                || tm.getLteOnGsmMode() != 0;
+    }
+
+    public static boolean deviceSupportsDdsSupported(Context context) {
+        TelephonyManager tm = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.isMultiSimEnabled()
+                && tm.getMultiSimConfiguration() == TelephonyManager.MultiSimVariants.DSDA;
     }
 
     @Override
@@ -387,6 +404,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (tileSpec.equals("pie")) return new PieTile(this);
 	    else if (tileSpec.equals("appsidebar")) return new AppsidebarTile(this);
 	    else if (tileSpec.equals("restartui")) return new SystemUIRestartTile(this);
+        else if (tileSpec.equals("lte")) return new LteTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -487,6 +505,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (spec.equals("pie")) return R.string.quick_settings_pie;
 	    else if (spec.equals("appsidebar")) return R.string.quick_settings_app_sidebar;
 	    else if (spec.equals("restartui")) return R.string.quick_settings_systemui_restart_label;
+        else if (spec.equals("lte")) return R.string.qs_lte_label;
         return 0;
     }
 
@@ -528,6 +547,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;	
 	    else if (spec.equals("appsidebar")) return R.drawable.ic_qs_appsidebar_on;
 	    else if (spec.equals("restartui")) return R.drawable.ic_qs_systemui_restart;
+        else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
         return 0;
     }
 
