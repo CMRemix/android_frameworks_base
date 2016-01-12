@@ -7442,6 +7442,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         mBootMsgDialog.setTitle(R.string.android_start_title);
                     }
                     mBootMsgDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    mBootMsgDialog.setIcon(com.android.internal.R.drawable.cmremix);
                     mBootMsgDialog.setIndeterminate(true);
                     mBootMsgDialog.getWindow().setType(
                             WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
@@ -7462,7 +7463,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mBootMsgDialog.setMessage(Html.fromHtml(msg + "<br><b>" + currentPackageName + "</b>"));
                 }
                 else {
-                    mBootMsgDialog.setMessage(msg);
+                    mBootMsgDialog.setMessage("Powered By SaberMod Optimizations\n\n" + msg
+                    + "\n\nCMRemix Lollipop 6.0.1_R10 Official");
                 }
             }
         });
