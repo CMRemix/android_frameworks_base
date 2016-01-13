@@ -22,9 +22,10 @@ import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.QSTileHost;
 import com.android.systemui.statusbar.phone.SystemUIDialog;
+
+import com.android.systemui.R;
 
 public class QSSettings extends LinearLayout {
     private QSTileHost mHost;

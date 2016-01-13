@@ -61,11 +61,4 @@ public class TunerActivity extends Activity {
             return new DemoModeFragment();
         }
     }
-
-    public static final class StatusBarIconActivity extends FragmentTunerActivityBase {
-        @Override
-        protected Fragment getFragment() {
-            return new StatusBarIconBlacklistFragment();
-        }
-    }
 }
