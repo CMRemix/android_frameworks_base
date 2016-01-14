@@ -143,6 +143,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private boolean mShowTaskManager;
     private View mTaskManagerButton;
 
+    // Network traffic
+    private View mNetworkTraffic;
+    private TextView mNetworkTrafficText;
+
     /**
      * In collapsed QS, the clock and avatar are scaled down a bit post-layout to allow for a nice
      * transition. These values determine that factor.
@@ -226,6 +230,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mWeatherContainer.setOnLongClickListener(this);
         mWeatherLine1 = (TextView) findViewById(R.id.weather_line_1);
         mWeatherLine2 = (TextView) findViewById(R.id.weather_line_2);
+        mNetworkTraffic = findViewById(R.id.networkTraffic_container);
+        mNetworkTraffic.setOnClickListener(this);
+        mNetworkTraffic.setOnLongClickListener(this);
+        mNetworkTrafficText = (TextView) findViewById(R.id.networkTraffic);
         mEditTileDoneText = (TextView) findViewById(R.id.done);
         mSettingsObserver = new SettingsObserver(new Handler());
         mBackgroundImage = (ImageView) findViewById(R.id.background_image);
@@ -244,6 +252,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 boolean rtl = getLayoutDirection() == LAYOUT_DIRECTION_RTL;
                 mTime.setPivotX(rtl ? mTime.getWidth() : 0);
                 mTime.setPivotY(mTime.getBaseline());
+                mNetworkTrafficText.setPivotX(rtl ? mNetworkTrafficText.getWidth() : 0);
+                mNetworkTrafficText.setPivotY(mNetworkTrafficText.getBaseline());
                 updateAmPmTranslation();
             }
         });
@@ -640,6 +650,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             startDateActivity();
         } else if (v == mWeatherContainer) {
             startForecastActivity();
+        } else if (v == mNetworkTraffic) {
+            startNetworkTrafficActivity();
         }
         vibrateheader(20);
     }
@@ -660,6 +672,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             startUserLongClickActivity();
         } else if (v == mTaskManagerButton) {
             startTaskManagerLongClickActivity();
+        } else if (v == mNetworkTraffic) {
+            startNetworkTrafficLongClickActivity();
         }
         vibrateheader(20);
         return false;
@@ -741,6 +755,24 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mActivityStarter.startActivity(intent, true /* dismissShade */);
     }
 
+    private void startNetworkTrafficActivity() {
+        int state = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.NETWORK_TRAFFIC_STATE, 0);
+        state++;
+        if (state >= 4) {
+            state = 1;
+        }
+        Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.NETWORK_TRAFFIC_STATE, state);
+    }
+
+    private void startNetworkTrafficLongClickActivity() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setClassName("com.android.settings",
+            "com.android.settings.Settings$NetworkTrafficSettingsActivity");
+        mActivityStarter.startActivity(intent, true /* dismissShade */);
+    }
+
     public void setQSPanel(QSDragPanel qsp) {
         mQSPanel = qsp;
         if (mQSPanel != null) {
@@ -784,6 +816,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         target.avatarX = mMultiUserSwitch.getLeft() + mMultiUserAvatar.getLeft();
         target.avatarY = mMultiUserSwitch.getTop() + mMultiUserAvatar.getTop();
         target.weatherY = mClock.getBottom() - mWeatherLine1.getHeight();
+        target.networkTrafficScale = mExpanded ? 1f : 0f;
         if (getLayoutDirection() == LAYOUT_DIRECTION_LTR) {
             target.batteryX = mSystemIconsSuperContainer.getLeft()
                     + mSystemIconsContainer.getRight();
@@ -832,6 +865,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mMultiUserAvatar.setScaleY(values.avatarScale);
         mMultiUserAvatar.setX(values.avatarX - mMultiUserSwitch.getLeft());
         mMultiUserAvatar.setY(values.avatarY - mMultiUserSwitch.getTop());
+        mNetworkTrafficText.setScaleX(values.networkTrafficScale);
+        mNetworkTrafficText.setScaleY(values.networkTrafficScale);
         if (getLayoutDirection() == LAYOUT_DIRECTION_LTR) {
             mSystemIconsSuperContainer.setX(values.batteryX - mSystemIconsContainer.getRight());
         } else {
@@ -877,6 +912,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         if (!mExpanded) {
             mTime.setScaleX(1f);
             mTime.setScaleY(1f);
+            mNetworkTrafficText.setScaleX(1f);
+            mNetworkTrafficText.setScaleY(1f);
         }
         updateAmPmTranslation();
     }
@@ -952,6 +989,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         float signalClusterAlpha;
         float settingsRotation;
         float weatherY;
+        float networkTrafficScale = 1f;
 
         public void interpoloate(LayoutValues v1, LayoutValues v2, float t) {
             timeScale = v1.timeScale * (1 - t) + v2.timeScale * t;
@@ -962,6 +1000,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             avatarY = v1.avatarY * (1 - t) + v2.avatarY * t;
             batteryX = v1.batteryX * (1 - t) + v2.batteryX * t;
             batteryY = v1.batteryY * (1 - t) + v2.batteryY * t;
+            networkTrafficScale = v1.networkTrafficScale * (1 - t) + v2.networkTrafficScale * t;
             taskManagerTranslation =
                     v1.taskManagerTranslation * (1 - t) + v2.taskManagerTranslation * t;
             settingsTranslation = v1.settingsTranslation * (1 - t) + v2.settingsTranslation * t;

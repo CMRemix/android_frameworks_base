@@ -3895,6 +3895,15 @@ public final class Settings {
         public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
 
         /**
+         * Network traffic indicator placement (default is 0)
+         * 0 - Show in status bar
+         * 1 - Show in expanded header
+         * 2 - Show in status bar and expanded header
+         * @hide
+         */
+        public static final String SHOW_STATUS_BAR_NETWORK_TRAFFIC = "show_statusbar_network_traffic";
+
+        /**
          * Allows to show the background activity back the lockscreen
          * 0 = off
          * 1 = on
