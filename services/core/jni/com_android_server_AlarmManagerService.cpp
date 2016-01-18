@@ -48,6 +48,8 @@ extern "C" {
 }
 #endif
 
+#include <memory>
+
 namespace android {
 
 static const size_t N_ANDROID_TIMERFDS = ANDROID_ALARM_TYPE_COUNT + 1;
