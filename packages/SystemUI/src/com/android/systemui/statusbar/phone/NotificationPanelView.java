@@ -291,7 +291,6 @@ public class NotificationPanelView extends PanelView implements
         mTaskManagerPanel = (LinearLayout) findViewById(R.id.task_manager_panel);
         mClockView = (TextView) findViewById(R.id.clock_view);
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
-        mScrollView.setListener(this);
         mScrollView.setFocusable(false);
         mReserveNotificationSpace = findViewById(R.id.reserve_notification_space);
         mNotificationContainerParent = (NotificationsQuickSettingsContainer)
@@ -338,6 +337,8 @@ public class NotificationPanelView extends PanelView implements
         mSettingsObserver.observe();
         mContext.registerReceiver(mExternalKeyguardViewChangedReceiver,
                 new IntentFilter(CmLockPatternUtils.ACTION_THIRD_PARTY_KEYGUARD_COMPONENT_CHANGED));
+
+        mScrollView.setListener(this);
     }
 
     @Override
