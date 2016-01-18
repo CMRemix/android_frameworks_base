@@ -40,7 +40,6 @@ import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
 import com.android.systemui.qs.tiles.AmbientDisplayTile;
-import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
 import com.android.systemui.qs.tiles.CastTile;
@@ -397,7 +396,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("music")) return new MusicTile(this);
         else if (tileSpec.equals("reboot")) return new RebootTile(this);
-        else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
 	    else if (tileSpec.equals("navbar")) return new NavBarTile(this);
 	    else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
 	    else if (tileSpec.equals("kernel_adiutor")) return new KernelAdiutorTile(this);
@@ -499,7 +497,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("music")) return R.string.quick_settings_music_label;
         else if (spec.equals("reboot")) return R.string.quick_settings_reboot_label;
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop_label;
-        else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
 	    else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
 	    else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
 	    else if (spec.equals("kernel_adiutor")) return R.string.quick_settings_kernel_title;
