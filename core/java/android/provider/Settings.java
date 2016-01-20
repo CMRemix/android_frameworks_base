@@ -4856,6 +4856,12 @@ public final class Settings {
         public static final String QS_TRANSPARENT_HEADER = "qs_transparent_header";
 
         /**
+         * Transparent qs header
+         * @hide
+         */
+        public static final String QS_TRANSPARENT_HEADER = "qs_transparent_header";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
