@@ -83,7 +83,7 @@ public class QSPanel extends ViewGroup {
     protected QSTileHost mHost;
 
     protected QSFooter mFooter;
-    private boolean mGridContentVisible = true;
+    protected boolean mGridContentVisible = true;
 
     public QSPanel(Context context) {
         this(context, null);
@@ -484,7 +484,7 @@ public class QSPanel extends ViewGroup {
         }
     }
 
-    private void setGridContentVisibility(boolean visible) {
+    protected void setGridContentVisibility(boolean visible) {
         int newVis = visible ? VISIBLE : INVISIBLE;
         for (int i = 0; i < mRecords.size(); i++) {
             TileRecord tileRecord = mRecords.get(i);
