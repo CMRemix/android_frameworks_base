@@ -1422,9 +1422,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         mHandler);
             }
         }
-        if (mWeatherController == null) {
-            mWeatherController = new WeatherControllerImpl(mContext);
-        }
 
         mWeatherController = new WeatherControllerImpl(mContext);
 
