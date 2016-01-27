@@ -4832,12 +4832,6 @@ public final class Settings {
         public static final String NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR = "nd_clear_all_icon_color";
 
         /**
-         * Transparent qs shade
-         * @hide
-         */
-        public static final String QS_TRANSPARENT_SHADE = "qs_transparent_shade";
-
-        /**
          * Whether to prevent loud volume levels when headset is first plugged in.
          * @hide
          */
@@ -4850,10 +4844,10 @@ public final class Settings {
         public static final String KEYGUARD_TOGGLE_TORCH = "keyguard_toggle_torch";
 
         /**
-         * Transparent qs header
+         * Transparent qs shade
          * @hide
          */
-        public static final String QS_TRANSPARENT_HEADER = "qs_transparent_header";
+        public static final String QS_TRANSPARENT_SHADE = "qs_transparent_shade";
 
         /**
          * Transparent qs header
