@@ -3900,6 +3900,12 @@ public final class Settings {
         public static final String SHOW_STATUS_BAR_NETWORK_TRAFFIC = "show_statusbar_network_traffic";
 
         /**
+         * Whether to disable showing arrows in network traffic indicators
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_HIDEARROW = "network_traffic_hidearrow";
+
+        /**
          * Allows to show the background activity back the lockscreen
          * 0 = off
          * 1 = on
