@@ -127,5 +127,8 @@
     <string name="lte_on">LTE ON </string>
     <string name="lte_off">LTE OFF</string>
 
+    <!-- Power Menu -->
+    <string name="quick_settings_power_menu_label">Power Menu</string>
+
 </resources>
 
