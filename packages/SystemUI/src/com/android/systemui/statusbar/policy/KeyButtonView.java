@@ -75,6 +75,7 @@ public class KeyButtonView extends ImageView {
     private boolean mGestureAborted;
     private boolean mPerformedLongClick;
     private boolean mShouldTintIcons = true;
+    private static int color;
 
     private PerformanceManager mPerf;
 
@@ -388,13 +389,18 @@ public class KeyButtonView extends ImageView {
     public void setTint(boolean tint) {
         setColorFilter(null);
         if (tint) {
-            int color = Settings.System.getInt(mContext.getContentResolver(),
+            color = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.NAVIGATION_BAR_TINT, -1);
             if (color != -1) {
+                reportColor();
                 setColorFilter(color);
             }
         }
         mShouldTintIcons = tint;
+    }
+
+    public static int reportColor() {
+        return color;
     }
 
     class SettingsObserver extends ContentObserver {
