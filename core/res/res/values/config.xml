@@ -2533,7 +2533,6 @@
         <item>-44</item>
     </integer-array>
 
-
     <!-- The BT name of the keyboard packaged with the device. If this is defined, SystemUI will
          automatically try to pair with it when the device exits tablet mode. -->
     <string translatable="false" name="config_packagedKeyboardName"></string>
@@ -2541,5 +2540,7 @@
 
     <!-- Sets whether IME switcher on statusbar should be shown or not. -->
 	<bool name="config_show_IMESwitcher">true</bool>
-
+ 
+    <!-- Show battery fully charged notification -->
+    <bool name="config_showBatteryFullyChargedNotification">false</bool>
 </resources>
