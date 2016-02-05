@@ -63,6 +63,7 @@ import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.PieTile;
+import com.android.systemui.qs.tiles.GestureAnyWhereTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
@@ -413,6 +414,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("power_menu")) return new PowerMenuTile(this);
 	    else if (tileSpec.equals("selinux")) return new SElinuxTile(this);
 	    else if (tileSpec.equals("themes")) return new ThemesTile(this);
+	    else if (tileSpec.equals("gesture_anywhere")) return new GestureAnyWhereTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -522,6 +524,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
         else if (spec.equals("power_menu")) return R.string.quick_settings_power_menu_label;
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
+        else if (spec.equals("gesture_anywhere")) return R.string.quick_settings_gesture_anywhere_label;
         return 0;
     }
 
@@ -569,6 +572,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("power_menu")) return R.drawable.ic_qs_power_menu;
 	    else if (spec.equals("selinux")) return R.drawable.ic_qs_selinux_enforcing;
 	    else if (spec.equals("themes")) return R.drawable.ic_qs_themes;
+	    else if (spec.equals("gesture_anywhere")) return R.drawable.ic_qs_gestures_on;
         return 0;
     }
 

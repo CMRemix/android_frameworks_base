@@ -160,5 +160,10 @@
 
     <string name="quick_settings_themes">Themes</string>
 
+   <!-- Gesture Anywehre -->
+   <string name="quick_settings_gesture_anywhere_label">Gesture Anywhere</string>
+   <string name="quick_settings_gesture_anywhere_on">Gestures On</string>
+   <string name="quick_settings_gesture_anywhere_off">Gestures Off</string>
+
 </resources>
 
