@@ -66,6 +66,7 @@ import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
+import com.android.systemui.qs.tiles.SElinuxTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.PerfProfileTile;
@@ -409,6 +410,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
         else if (tileSpec.equals("power_menu")) return new PowerMenuTile(this);
+	    else if (tileSpec.equals("selinux")) return new SElinuxTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -517,6 +519,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("heads_up")) return R.string.quick_settings_heads_up_label;
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
         else if (spec.equals("power_menu")) return R.string.quick_settings_power_menu_label;
+        else if (spec.equals("selinux")) return R.string.quick_settings_selinux_label;
         return 0;
     }
 
@@ -562,6 +565,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("heads_up")) return R.drawable.ic_qs_heads_up_on;
         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
         else if (spec.equals("power_menu")) return R.drawable.ic_qs_power_menu;
+	    else if (spec.equals("selinux")) return R.drawable.ic_qs_selinux_enforcing;
         return 0;
     }
 
