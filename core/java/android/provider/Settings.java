@@ -4079,6 +4079,12 @@ public final class Settings {
         public static final String STATUS_BAR_CARRIER_FONT_SIZE = "status_bar_carrier_font_size";
 
         /**
+         * Custom carrier label placement
+         * @hide
+         */
+        public static final String STATUS_BAR_CARRIER_SPOT = "status_bar_carrier_spot";
+
+        /**
          * Boolean value on whether to show weather in the statusbar
          */
         public static final String STATUS_BAR_SHOW_WEATHER = "status_bar_show_weather";
