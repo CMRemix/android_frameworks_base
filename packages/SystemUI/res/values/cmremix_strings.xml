@@ -158,5 +158,7 @@
     <string name="quick_settings_selinux_permissive_title">Permissive</string>
     <string name="quick_settings_selinux_enforcing_title">Enforcing</string>
 
+    <string name="quick_settings_themes">Themes</string>
+
 </resources>
 
