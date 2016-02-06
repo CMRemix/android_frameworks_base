@@ -158,7 +158,14 @@
     <string name="quick_settings_selinux_permissive_title">Permissive</string>
     <string name="quick_settings_selinux_enforcing_title">Enforcing</string>
 
+    <!-- Themes QS Tile -->
     <string name="quick_settings_themes">Themes</string>
+    <string name="quick_settings_themes_icon_packs">Icon packs</string>
+    <string name="quick_settings_themes_app_theme">App theme</string>
+    <string name="quick_settings_themes_system_theme">System theme</string>
+    <string name="quick_settings_themes_changing_complete">Changing theme completed</string>
+    <string name="quick_settings_themes_default_theme">Default</string>
+    <string name="quick_settings_themes_match_system">Match system theme</string>
 
    <!-- Gesture Anywehre -->
    <string name="quick_settings_gesture_anywhere_label">Gesture Anywhere</string>
