@@ -40,7 +40,7 @@ import com.android.internal.util.omni.PackageUtils;
 
 public class OmniJawsClient {
     private static final String TAG = "WeatherService:OmniJawsClient";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     public static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
     public static final Uri WEATHER_URI
             = Uri.parse("content://org.omnirom.omnijaws.provider/weather");
