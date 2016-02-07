@@ -70,6 +70,13 @@ public class DetailedWeatherView extends LinearLayout {
     private TextView mForecastText3;
     private TextView mForecastText4;
     private ActivityStarter mActivityStarter;
+    private OmniJawsClient mWeatherClient;
+
+    /** The background colors of the app, it changes thru out the day to mimic the sky. **/
+    public static final String[] BACKGROUND_SPECTRUM = { "#212121", "#27232e", "#2d253a",
+            "#332847", "#382a53", "#3e2c5f", "#442e6c", "#393a7a", "#2e4687", "#235395", "#185fa2",
+            "#0d6baf", "#0277bd", "#0d6cb1", "#1861a6", "#23569b", "#2d4a8f", "#383f84", "#433478",
+            "#3d3169", "#382e5b", "#322b4d", "#2c273e", "#272430" };
 
     public DetailedWeatherView(Context context) {
         this(context, null);
@@ -81,6 +88,10 @@ public class DetailedWeatherView extends LinearLayout {
 
     public DetailedWeatherView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public void setWeatherClient(OmniJawsClient client) {
+        mWeatherClient = client;
     }
 
     public void setActivityStarter(ActivityStarter activityStarter) {
@@ -115,7 +126,7 @@ public class DetailedWeatherView extends LinearLayout {
         super.onDetachedFromWindow();
     }
 
-    public void updateWeatherData(OmniJawsClient client, OmniJawsClient.WeatherInfo weatherData) {
+    public void updateWeatherData(OmniJawsClient.WeatherInfo weatherData) {
         if (weatherData == null) {
             return;
         }
@@ -131,7 +142,7 @@ public class DetailedWeatherView extends LinearLayout {
         Calendar cal = Calendar.getInstance();
         String dayShort = sdf.format(new Date(cal.getTimeInMillis()));
 
-        Drawable d = client.getWeatherConditionImage(weatherData.forecasts.get(0).conditionCode);
+        Drawable d = mWeatherClient.getWeatherConditionImage(weatherData.forecasts.get(0).conditionCode);
         d = overlay(mContext.getResources(), d, weatherData.forecasts.get(0).low, weatherData.forecasts.get(0).high);
         mForecastImage0.setImageDrawable(d);
         mForecastText0.setText(dayShort);
@@ -139,7 +150,7 @@ public class DetailedWeatherView extends LinearLayout {
         cal.add(Calendar.DATE, 1);
         dayShort = sdf.format(new Date(cal.getTimeInMillis()));
 
-        d = client.getWeatherConditionImage(weatherData.forecasts.get(1).conditionCode);
+        d = mWeatherClient.getWeatherConditionImage(weatherData.forecasts.get(1).conditionCode);
         d = overlay(mContext.getResources(), d, weatherData.forecasts.get(1).low, weatherData.forecasts.get(1).high);
         mForecastImage1.setImageDrawable(d);
         mForecastText1.setText(dayShort);
@@ -147,7 +158,7 @@ public class DetailedWeatherView extends LinearLayout {
         cal.add(Calendar.DATE, 1);
         dayShort = sdf.format(new Date(cal.getTimeInMillis()));
 
-        d = client.getWeatherConditionImage(weatherData.forecasts.get(2).conditionCode);
+        d = mWeatherClient.getWeatherConditionImage(weatherData.forecasts.get(2).conditionCode);
         d = overlay(mContext.getResources(), d, weatherData.forecasts.get(2).low, weatherData.forecasts.get(2).high);
         mForecastImage2.setImageDrawable(d);
         mForecastText2.setText(dayShort);
@@ -155,7 +166,7 @@ public class DetailedWeatherView extends LinearLayout {
         cal.add(Calendar.DATE, 1);
         dayShort = sdf.format(new Date(cal.getTimeInMillis()));
 
-        d = client.getWeatherConditionImage(weatherData.forecasts.get(3).conditionCode);
+        d = mWeatherClient.getWeatherConditionImage(weatherData.forecasts.get(3).conditionCode);
         d = overlay(mContext.getResources(), d, weatherData.forecasts.get(3).low, weatherData.forecasts.get(3).high);
         mForecastImage3.setImageDrawable(d);
         mForecastText3.setText(dayShort);
@@ -163,10 +174,12 @@ public class DetailedWeatherView extends LinearLayout {
         cal.add(Calendar.DATE, 1);
         dayShort = sdf.format(new Date(cal.getTimeInMillis()));
 
-        d = client.getWeatherConditionImage(weatherData.forecasts.get(4).conditionCode);
+        d = mWeatherClient.getWeatherConditionImage(weatherData.forecasts.get(4).conditionCode);
         d = overlay(mContext.getResources(), d, weatherData.forecasts.get(4).low, weatherData.forecasts.get(4).high);
         mForecastImage4.setImageDrawable(d);
         mForecastText4.setText(dayShort);
+
+        setBackgroundColor(getCurrentHourColor());
     }
 
     private Drawable overlay(Resources resources, Drawable image, String min, String max) {
@@ -174,12 +187,12 @@ public class DetailedWeatherView extends LinearLayout {
         canvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.ANTI_ALIAS_FLAG,
                 Paint.FILTER_BITMAP_FLAG));
         final float density = resources.getDisplayMetrics().density;
-        final int footerHeight = Math.round(10 * density);
+        final int footerHeight = Math.round(12 * density);
         final int imageWidth = image.getIntrinsicWidth();
         final int imageHeight = image.getIntrinsicHeight();
         final TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        Typeface font = Typeface.create("sans-serif-condensed", Typeface.BOLD);
-        textPaint.setTypeface(font);
+        //Typeface font = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+        //textPaint.setTypeface(font);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.LEFT);
         final int textSize= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14f, resources.getDisplayMetrics());
@@ -193,7 +206,7 @@ public class DetailedWeatherView extends LinearLayout {
 
         String str = null;
         if (min != null) {
-            str = min +"-"+max;
+            str = min +"/"+max;
         } else {
             str = max;
         }
@@ -202,5 +215,14 @@ public class DetailedWeatherView extends LinearLayout {
         canvas.drawText(str, width / 2 - bounds.width() / 2, height - textSize / 2, textPaint);
 
         return new BitmapDrawable(resources, bmp);
+    }
+
+    private void forceRefreshWeatherSettings() {
+        mWeatherClient.updateWeather(true);
+    }
+
+    public static int getCurrentHourColor() {
+        final int hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return Color.parseColor(BACKGROUND_SPECTRUM[hourOfDay]);
     }
 }

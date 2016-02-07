@@ -44,6 +44,9 @@ public class OmniJawsClient {
     public static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
     public static final Uri WEATHER_URI
             = Uri.parse("content://org.omnirom.omnijaws.provider/weather");
+    public static final Uri SETTINGS_URI
+            = Uri.parse("content://org.omnirom.omnijaws.provider/settings");
+
     private static final String ICON_PACKAGE_DEFAULT = "org.omnirom.omnijaws";
     private static final String ICON_PREFIX_DEFAULT = "weather";
 
@@ -60,6 +63,10 @@ public class OmniJawsClient {
             "forecast_condition_code",
             "time_stamp",
             "forecast_date"
+    };
+
+    final String[] SETTINGS_PROJECTION = new String[] {
+            "enabled"
     };
 
     public static class WeatherInfo {
@@ -125,12 +132,21 @@ public class OmniJawsClient {
         }
     }
 
+    public Intent getSettingsIntent() {
+        if (mEnabled) {
+            Intent settings = new Intent(Intent.ACTION_MAIN)
+                    .setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".SettingsActivity");
+            return settings;
+        }
+        return null;
+    }
+
     public WeatherInfo getWeatherInfo() {
         return mCachedInfo;
     }
 
     public void queryWeather() {
-        if (!mEnabled) {
+        if (!isOmniJawsEnabled()) {
             Log.w(TAG, "queryWeather while disabled");
             mCachedInfo = null;
             return;
@@ -223,7 +239,7 @@ public class OmniJawsClient {
     }
 
     public Drawable getWeatherConditionImage(int conditionCode) {
-        if (!mEnabled) {
+        if (!isOmniJawsEnabled()) {
             Log.w(TAG, "Requesting condition image while disabled");
             return mContext.getResources().getDrawable(R.drawable.weather_na);
         }
@@ -240,8 +256,29 @@ public class OmniJawsClient {
         }
     }
 
+    public Drawable getErrorWeatherConditionImage() {
+        return mContext.getResources().getDrawable(R.drawable.weather_na);
+    }
+
     private boolean isOmniJawsServiceInstalled() {
         return PackageUtils.isAvailableApp(SERVICE_PACKAGE, mContext);
+    }
+
+    public boolean isOmniJawsEnabled() {
+        if (!mEnabled) {
+            return false;
+        }
+        final Cursor c = mContext.getContentResolver().query(SETTINGS_URI, SETTINGS_PROJECTION,
+                null, null, null);
+        if (c != null) {
+            int count = c.getCount();
+            if (count == 1) {
+                c.moveToPosition(0);
+                boolean enabled = c.getInt(0) == 1;
+                return enabled;
+            }
+        }
+        return true;
     }
 
     public void settingsChanged() {
