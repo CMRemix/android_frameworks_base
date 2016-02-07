@@ -4888,6 +4888,18 @@ public final class Settings {
         public static final String SHOW_FOURG = "show_fourg";
 
         /**
+         * Enable weather display in header view
+         * @hide
+         */
+        public static final String STATUS_BAR_HEADER_WEATHER = "status_bar_header_weather";
+
+        /**
+         * icon pack to use for weather condition images
+         * @hide
+         */
+        public static final String STATUS_BAR_WEATHER_ICON_PACK = "status_bar_weather_icon_pack";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

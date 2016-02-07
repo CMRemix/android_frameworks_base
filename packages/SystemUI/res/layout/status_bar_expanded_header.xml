@@ -30,6 +30,7 @@
     android:background="@drawable/notification_header_bg"
     android:clickable="true"
     android:focusable="true"
+    android:clipChildren="false"
     >
 
     <ImageView android:id="@+id/background_image"
@@ -256,9 +257,9 @@
         systemui:hasOverlappingRendering="false"
         />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/header_debug_info"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -267,6 +268,22 @@
         android:textStyle="bold"
         android:textColor="@color/header_debug_info_text_color"
         android:padding="2dp"
-        />
+        />-->
+
+    <include layout="@layout/current_weather_view"
+         android:id="@+id/current_weather_view"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:visibility="gone"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentEnd="true"
+         android:layout_marginEnd="10dp"
+         android:layout_marginBottom="@dimen/clock_collapsed_bottom_margin" />
+
+    <include layout="@layout/detailed_weather_view"
+         android:id="@+id/detailed_weather_view"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:visibility="gone" />
 
 </com.android.systemui.statusbar.phone.StatusBarHeaderView>
