@@ -43,6 +43,7 @@ import com.android.systemui.qs.external.TileServices;
 import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
 import com.android.systemui.qs.tiles.BatteryTile;
+import com.android.systemui.qs.tiles.AppPickerTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
@@ -464,6 +465,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         //else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(this);
         else if (tileSpec.equals("music")) return new MusicTile(this);
+        else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
         else if (tileSpec.equals("ime")) return new ImeTile(this);
         else if (tileSpec.equals("configurations")) return new CMRTile(this);
         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
