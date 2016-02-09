@@ -3955,6 +3955,64 @@ public final class Settings {
          */
         public static final String DOZE_TIMEOUT = "doze_timeout";
 
+
+	/*
+         * Hide panel clock
+         * @hide
+         */
+        public static final String HIDE_PANEL_CLOCK = "hide_panel_clock";
+
+	/*
+         * Hide AM/PM values Of Header clock
+         * @hide
+         */
+        public static final String HIDE_PANEL_DATE = "hide_panel_date";
+	/*
+         * Hide panel clock
+         * @hide
+         */
+        public static final String HIDE_PANEL_CLOCKVALUE = "hide_panel_clockvalue";
+
+	/*
+         *  Hide Settings Battery Charging text in Panel
+         * @hide
+         */
+        public static final String HIDE_PANEL_BATTERY = "hide_panel_battery";
+
+
+	/*
+         * Hide panel icons
+         * @hide
+         */
+        public static final String HIDE_PANEL_ICONS = "hide_panel_icons";
+
+
+	/*
+         * Hide Settings icon in Panel
+         * @hide
+         */
+        public static final String HIDE_SETTINGS_ICON = "hide_settings_icon";
+
+
+	/*
+         * Hide user icon in Panel
+         * @hide
+         */
+        public static final String HIDE_USER_ICON = "hide_user_icon";
+
+	/*
+         * Header Clock Font Style
+         * @hide
+         */
+        public static final String HEADER_CLOCK_FONT_STYLE = "header_clock_font_style";
+
+
+	/*
+         * Hide Weather Font Style
+         * @hide
+         */
+        public static final String HEADER_WEATHER_FONT_STYLE = "header_weather_font_style";
+
         /**
          * Use pick up gesture sensor as doze pulse trigger
          * @hide
