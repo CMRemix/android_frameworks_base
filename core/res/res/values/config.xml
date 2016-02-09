@@ -2545,5 +2545,5 @@
     <bool name="config_showBatteryFullyChargedNotification">false</bool>
 
     <!-- Use alternative way to blur lockscreen -->
-    <bool name="config_use_stackblur">false</bool>
+    <bool name="config_use_stackblur">true</bool>
 </resources>
