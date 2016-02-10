@@ -7544,7 +7544,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 else {
                     mBootMsgDialog.setMessage("Powered By SaberMod Optimizations\n\n" + msg
-                    + "\n\nCMRemix Lollipop 6.0.1_R10 Official");
+                    + "\n\nCMRemix Android 6.0.1_R13 Marshmallow");
                 }
             }
         });
