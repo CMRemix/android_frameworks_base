@@ -5066,6 +5066,18 @@ public final class Settings {
         public static final String HEADS_UP_SNOOZE_LENGTH_MS = "heads_up_snooze_length_ms";
 
         /**
+         * Color of the notification icons on the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_NOTIFICATION_ICONS_COLOR = "status_bar_notification_icons_color";
+
+        /**
+         * Color of the notification icons on the status bar, (dark mode)
+         * @hide
+         */
+        public static final String STATUS_BAR_NOTIFICATION_ICONS_COLOR_DARK_MODE = "status_bar_notification_icons_color_dark_mode";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

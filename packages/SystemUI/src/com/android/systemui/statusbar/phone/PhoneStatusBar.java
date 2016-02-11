@@ -607,6 +607,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_WEATHER_ICON_PACK),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_NOTIFICATION_ICONS_COLOR),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -683,6 +686,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     updateSpeedbump();
                     updateClearAll();
                     updateEmptyShadeView();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_NOTIFICATION_ICONS_COLOR))) {
+                updateNotificationIconsColor();
             }
             update();
         }
@@ -2932,6 +2938,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 0xffffffff, mCurrentUserId);
         if (mDismissView != null) {
             mDismissView.updateIconColor(color);
+        }
+    }
+
+    private void updateNotificationIconsColor() {
+        if (mIconController != null) {
+            mIconController.updateNotificationIconsColor();
         }
     }
 
