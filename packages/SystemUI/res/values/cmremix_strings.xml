@@ -197,5 +197,8 @@
   <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_killtask">Kill Task</string>
 
+   <!-- Kill app toast -->
+    <string name="app_killed_message">App Killed</string>
+
 </resources>
 
