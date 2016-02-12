@@ -19,6 +19,8 @@ package com.android.systemui.statusbar.phone;
 
 import static com.android.systemui.settings.BrightnessController.BRIGHTNESS_ADJ_RESOLUTION;
 
+import android.app.Activity;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
@@ -129,7 +131,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
-
+import android.widget.Toast;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.statusbar.NotificationVisibility;
 import com.android.internal.statusbar.IStatusBarService;
@@ -162,6 +164,7 @@ import com.android.systemui.recents.RecentsActivity;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.settings.BrightnessController;
 import com.android.systemui.screenshot.TakeScreenshotService;
+import com.android.systemui.omni.screenrecord.TakeScreenrecordService;
 import com.android.systemui.statusbar.ActivatableNotificationView;
 import com.android.systemui.statusbar.BackDropView;
 import com.android.systemui.statusbar.AppSidebar;
@@ -324,6 +327,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     public static final int FONT_NOTOSERIF_BOLD = 23;
     public static final int FONT_NOTOSERIF_BOLD_ITALIC = 24;
 
+
+    private static final Intent RR_SETTINGS = new Intent().setComponent(new ComponentName(
+            "com.android.settings", "com.android.settings.Settings$MainSettingsActivity"));
+    private static final Intent RR_OTA = new Intent().setComponent(new ComponentName(
+            "com.resurrection.ota", "com.resurrection.ota.MainActivity"));
+
     /** Allow some time inbetween the long press for back and recents. */
     private static final int LOCK_TO_APP_GESTURE_TOLERENCE = 100;
 
@@ -466,6 +475,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private ActivityStarter mActivityStarter;
     private ServiceConnection mScreenshotConnection = null;
+    private boolean mRecording;
+    private ServiceConnection mScreenrecordConnection = null;	
 
     // the tracker view
     int mTrackingPosition; // the position of the top of the tracking view.
@@ -1945,6 +1956,31 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+   private final View.OnClickListener mPieClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+              Settings.System.putInt(mContext.getContentResolver(),
+                        Settings.System.PA_PIE_STATE, !isPieEnabled() ? 1 : 0);
+        }
+    };
+
+  private final View.OnClickListener mScreenClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+	takeRecord();
+        }
+    };
+
+private final View.OnClickListener mKillClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+	killapp();
+        }
+    };
+
+  private boolean isPieEnabled() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.PA_PIE_STATE, 0,
+                UserHandle.USER_CURRENT) == 1;
+    }
+
     // Torch Button
     private final View.OnClickListener mTorchClickListener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -2101,8 +2137,78 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-   private final Object mScreenshotLock = new Object();
-   final Runnable mScreenshotTimeout = new Runnable() {
+    private final Object mScreenrecordLock = new Object();	
+    final Runnable mScreenrecordTimeout = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (mScreenrecordLock) {
+                if (mScreenrecordConnection != null) {
+                    mContext.unbindService(mScreenrecordConnection);
+                    mScreenrecordConnection = null;
+                    mRecording = false;
+                }
+            }
+        }
+    };
+
+    private void takeRecord() {
+        synchronized (mScreenrecordLock) {
+            if (mScreenrecordConnection != null) {
+                return;
+            }
+            Intent intent = new Intent(mContext, TakeScreenrecordService.class);
+            ServiceConnection conn = new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    synchronized (mScreenrecordLock) {
+                        if (mScreenrecordConnection != this) {
+                            return;
+                        }
+
+                        Messenger messenger = new Messenger(service);
+                        Message msg = Message.obtain(null, 1);
+                        final ServiceConnection myConn = this;
+                        Handler h = new Handler(mHandler.getLooper()) {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                synchronized (mScreenrecordLock) {
+                                    if (mScreenrecordConnection == myConn) {
+                                        mContext.unbindService(mScreenrecordConnection);
+                                        mScreenrecordConnection = null;
+                                        mRecording = false;
+                                        mHandler.removeCallbacks(mScreenrecordTimeout);
+                                    }
+                                }
+                            }
+                        };
+                        msg.replyTo = new Messenger(h);
+                        msg.arg1 = msg.arg2 = 0;
+
+                        // Take the screenrecord
+                        try {
+                            messenger.send(msg);
+                        } catch (RemoteException e) {
+                            // Do nothing here
+                        }
+                    }
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    // Do nothing here
+                }
+            };
+
+            if (mContext.bindService(intent, conn, mContext.BIND_AUTO_CREATE)) {
+                mScreenrecordConnection = conn;
+                mRecording = true;
+                mHandler.postDelayed(mScreenrecordTimeout, 100000);
+            }
+        }
+    }
+
+	private final Object mScreenshotLock = new Object();
+   	final Runnable mScreenshotTimeout = new Runnable() {
         @Override
         public void run() {
             synchronized (mScreenshotLock) {
@@ -2174,6 +2280,46 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         startActivity(intent, true);
     }
 
+	public void killapp() {
+            final Intent intent = new Intent(Intent.ACTION_MAIN);
+            String defaultHomePackage = "com.android.launcher";
+            intent.addCategory(Intent.CATEGORY_HOME);
+            final ResolveInfo res = mContext.getPackageManager().resolveActivity(intent, 0);
+            if (res.activityInfo != null && !res.activityInfo.packageName.equals("android")) {
+                defaultHomePackage = res.activityInfo.packageName;
+            }
+            boolean targetKilled = false;
+            final ActivityManager am = (ActivityManager) mContext
+                    .getSystemService(Activity.ACTIVITY_SERVICE);
+            List<RunningAppProcessInfo> apps = am.getRunningAppProcesses();
+            for (RunningAppProcessInfo appInfo : apps) {
+                int uid = appInfo.uid;
+                // Make sure it's a foreground user application (not system,
+                // root, phone, etc.)
+                if (uid >= Process.FIRST_APPLICATION_UID && uid <= Process.LAST_APPLICATION_UID
+                        && appInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    if (appInfo.pkgList != null && (appInfo.pkgList.length > 0)) {
+                        for (String pkg : appInfo.pkgList) {
+                            if (!pkg.equals("com.android.systemui")
+                                   && !pkg.equals(defaultHomePackage)) {
+                                am.forceStopPackage(pkg);
+                                targetKilled = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        Process.killProcess(appInfo.pid);
+                        targetKilled = true;
+                    }
+                }
+                if (targetKilled) {
+                    Toast.makeText(mContext,
+                        R.string.app_killed_message, Toast.LENGTH_SHORT).show();
+                    break;
+        			        }
+        			    }
+       			 }
+
     private void prepareNavigationBarView() {
         mNavigationBarView.reorient();
 
@@ -2181,7 +2327,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mLongPressBackRecentsListener, mHomeActionListener, mLongPressHomeListener,
                 mNotificationsClickListener, mNotificationsLongListener, mTorchClickListener,
                 mCameraClickListener, mScreenShotClickListener, mImmersiveClickListener,
-                mAppPickerClickListener);
+                mAppPickerClickListener,mPieClickListener, mScreenClickListener ,mKillClickListener );
         mAssistManager.onConfigurationChanged();
     }
 

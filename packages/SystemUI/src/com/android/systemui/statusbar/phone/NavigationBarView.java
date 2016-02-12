@@ -163,6 +163,9 @@ public class NavigationBarView extends LinearLayout {
     private OnClickListener mScreenShotClickListener;
     private OnClickListener mImmersiveClickListener;
     private OnClickListener mAppPickerClickListener;
+    private OnClickListener mPieClickListener;
+    private OnClickListener mScreenClickListener;	
+    private OnClickListener mKillClickListener;	
 
     private SettingsObserver mSettingsObserver;
     private boolean mShowDpadArrowKeys;
@@ -958,7 +961,8 @@ public class NavigationBarView extends LinearLayout {
                       OnLongClickListener longPressHomeListener, OnClickListener notificationsClickListener,
                       OnLongClickListener notificationsLongListener, OnClickListener torchClickListener,
                       OnClickListener cameraClickListener, OnClickListener screenshotClickListener,
-                      OnClickListener immersiveClickListener, OnClickListener appPickerClickListener) {
+                      OnClickListener immersiveClickListener, OnClickListener appPickerClickListener,
+                      OnClickListener pieClickListener , OnClickListener screenClickListener, OnClickListener killClickListener) {
         mRecentsClickListener = recentsClickListener;
         mRecentsPreloadListener = recentsPreloadListener;
         mHomeSearchActionListener = homeSearchActionListener;
@@ -971,6 +975,9 @@ public class NavigationBarView extends LinearLayout {
         mScreenShotClickListener = screenshotClickListener;
         mImmersiveClickListener = immersiveClickListener;
         mAppPickerClickListener = appPickerClickListener;
+	    mPieClickListener = pieClickListener;
+        mScreenClickListener = screenClickListener;
+	    mKillClickListener = killClickListener;
         updateButtonListeners();
     }
 
@@ -1037,6 +1044,18 @@ public class NavigationBarView extends LinearLayout {
         View appPickerView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_APP_PICKER);
         if (appPickerView != null) {
             appPickerView.setOnClickListener(mAppPickerClickListener);
+        }
+	View pieView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_PIE);
+        if (pieView != null) {
+            pieView.setOnClickListener(mPieClickListener);
+        }
+	View screenView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_SCREENRECORD);
+        if (screenView != null) {
+            screenView.setOnClickListener(mScreenClickListener);
+        }
+	View killView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_KILLTASK);
+        if (killView != null) {
+            killView.setOnClickListener(mKillClickListener);
         }
     }
 
