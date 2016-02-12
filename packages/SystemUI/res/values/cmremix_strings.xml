@@ -136,6 +136,8 @@
     <!-- Content description of the power button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_torch">Torch</string>
 
+    <string name="qs_kill_app">Kill App</string>
+
     <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_camera">Camera</string>
 

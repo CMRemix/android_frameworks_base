@@ -69,6 +69,7 @@ import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.SElinuxTile;
+import com.android.systemui.qs.tiles.KillAppTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.ThemesTile;
 import com.android.systemui.qs.tiles.NfcTile;
@@ -417,6 +418,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (tileSpec.equals("themes")) return new ThemesTile(this);
 	    else if (tileSpec.equals("gesture_anywhere")) return new GestureAnyWhereTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
+	    else if (tileSpec.equals("kill_app")) return new KillAppTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -528,6 +530,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("gesture_anywhere")) return R.string.quick_settings_gesture_anywhere_label;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
+	    else if (spec.equals("kill_app")) return R.string.qs_kill_app;
         return 0;
     }
 
@@ -577,6 +580,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (spec.equals("themes")) return R.drawable.ic_qs_themes;
 	    else if (spec.equals("gesture_anywhere")) return R.drawable.ic_qs_gestures_on;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
+ 	    else if (spec.equals("kill_app")) return R.drawable.ic_app_kill;
         return 0;
     }
 
