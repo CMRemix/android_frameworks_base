@@ -44,6 +44,7 @@ import com.android.systemui.qs.tiles.AppPickerTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
+import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
@@ -419,6 +420,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (tileSpec.equals("gesture_anywhere")) return new GestureAnyWhereTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
 	    else if (tileSpec.equals("kill_app")) return new KillAppTile(this);
+        else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -531,6 +533,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("gesture_anywhere")) return R.string.quick_settings_gesture_anywhere_label;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
 	    else if (spec.equals("kill_app")) return R.string.qs_kill_app;
+        else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         return 0;
     }
 
@@ -581,6 +584,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (spec.equals("gesture_anywhere")) return R.drawable.ic_qs_gestures_on;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
  	    else if (spec.equals("kill_app")) return R.drawable.ic_app_kill;
+        else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
         return 0;
     }
 
