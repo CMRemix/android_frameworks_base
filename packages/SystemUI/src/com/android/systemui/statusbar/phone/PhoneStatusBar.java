@@ -2730,6 +2730,14 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
         mNotificationPanel.notifyVisibleChildrenChanged();
     }
 
+    protected boolean hasActiveVisibleNotifications() {
+        return mNotificationData.hasActiveVisibleNotifications();
+    }
+
+    protected boolean hasActiveClearableNotifications() {
+        return mNotificationData.hasActiveClearableNotifications();
+    }
+
     @Override
     protected void setAreThereNotifications() {
 
