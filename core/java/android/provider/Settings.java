@@ -4963,12 +4963,6 @@ public final class Settings {
         public static final String SCREENSHOT_SOUND = "screenshot_sound";
 
         /**
-         * Whether or not to launch default music player when headset is connected
-         * @hide
-         */
-        public static final String HEADSET_CONNECT_PLAYER = "headset_connect_player";
-
-        /**
          * Whether to show Brightness Icon On Brightness Slider
          * @hide
          */
