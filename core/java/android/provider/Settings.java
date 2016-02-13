@@ -4381,6 +4381,13 @@ public final class Settings {
          */
         public static final String APP_SIDEBAR_DISABLE_LABELS = "app_sidebar_disable_labels";
 
+
+	/*
+         * Custom Colors Switch
+         * @hide
+         */
+        public static final String NOTIF_COLOR_SWITCH = "notif_color_switch";
+
          /**
          * Colorize the media notifications background
          * 0: never
