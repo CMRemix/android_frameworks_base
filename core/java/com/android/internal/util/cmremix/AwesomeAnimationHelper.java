@@ -75,7 +75,7 @@ public class AwesomeAnimationHelper {
         return anim;
     }
 
-    public static int[] getSystemAnimations(int mAnim, boolean enterOnly, boolean reverseExit) {
+    public static int[] getAnimations(int mAnim, boolean enterOnly, boolean reverseExit) {
         int[] anim = new int[2];
         switch (mAnim) {
             case ANIMATION_FADE:
@@ -83,7 +83,7 @@ public class AwesomeAnimationHelper {
                 anim[1] = com.android.internal.R.anim.slow_fade_in;
                 break;
             case ANIMATION_SLIDE_RIGHT:
-                anim[0] =  reverseExit ? com.android.internal.R.anim.slide_out_left_ribbon : com.android.internal.R.anim.slide_out_right_ribbon;
+                anim[0] = reverseExit ? com.android.internal.R.anim.slide_out_left_ribbon : com.android.internal.R.anim.slide_out_right_ribbon;
                 anim[1] = com.android.internal.R.anim.slide_in_right_ribbon;
                 break;
             case ANIMATION_SLIDE_LEFT:
