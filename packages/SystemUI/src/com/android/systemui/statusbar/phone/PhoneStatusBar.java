@@ -5674,6 +5674,9 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
         mStackScroller.setAnimationsEnabled(false);
         updateVisibleToUser();
         mVisualizerView.setVisible(false);
+        if (mQSTileHost.isEditing()) {
+            mQSTileHost.setEditing(false);
+        }
         if (mLaunchCameraOnFinishedGoingToSleep) {
             mLaunchCameraOnFinishedGoingToSleep = false;
 
