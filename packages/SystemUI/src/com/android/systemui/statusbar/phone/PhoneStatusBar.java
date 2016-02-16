@@ -327,12 +327,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     public static final int FONT_NOTOSERIF_BOLD = 23;
     public static final int FONT_NOTOSERIF_BOLD_ITALIC = 24;
 
-
-    private static final Intent RR_SETTINGS = new Intent().setComponent(new ComponentName(
-            "com.android.settings", "com.android.settings.Settings$MainSettingsActivity"));
-    private static final Intent RR_OTA = new Intent().setComponent(new ComponentName(
-            "com.resurrection.ota", "com.resurrection.ota.MainActivity"));
-
     /** Allow some time inbetween the long press for back and recents. */
     private static final int LOCK_TO_APP_GESTURE_TOLERENCE = 100;
 
