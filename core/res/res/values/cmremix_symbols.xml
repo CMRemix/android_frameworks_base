@@ -26,6 +26,9 @@
   <!-- Config IME switcher -->
   <java-symbol type="bool" name="config_show_IMESwitcher" />
 
+  <!-- Notification and battery light -->
+  <java-symbol type="integer" name="config_notificationsBatteryReallyFullARGB" />
+
   <!-- Shortcut actions -->
   <java-symbol type="drawable" name="ic_shortcut_action_silent" />
   <java-symbol type="drawable" name="ic_shortcut_action_theme_switch" />
