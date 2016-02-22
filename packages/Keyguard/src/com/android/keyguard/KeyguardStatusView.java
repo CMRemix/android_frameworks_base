@@ -743,6 +743,12 @@ public class KeyguardStatusView extends GridLayout implements
         mWIconColor = res.getColor(R.color.keyguard_default_icon_color);
 
 
+        int ownerInfoColor = Settings.System.getInt(resolver,
+                Settings.System.LOCKSCREEN_OWNER_INFO_COLOR, 0xFFFFFFFF);
+        int alarmColor = Settings.System.getInt(resolver,
+                Settings.System.LOCKSCREEN_ALARM_COLOR, 0xFFFFFFFF);
+
+
         if (hideMode == 0) {
             if (currentVisibleNotifications > maxAllowedNotifications) {
                 forceHideByNumberOfNotifications = true;
@@ -856,6 +862,15 @@ public class KeyguardStatusView extends GridLayout implements
             mDateView.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
         }
 
+        if (mOwnerInfo != null) {
+            mOwnerInfo.setTextColor(ownerInfoColor);
+        }
+
+        if (mAlarmStatusView != null) {
+            mAlarmStatusView.setTextColor(alarmColor);
+        }
+
+        mWeatherConditionImage.setImageDrawable(null);
         Drawable weatherIcon = mWeatherConditionDrawable;
         if (mWIconColor == -2) {
             if (mWeatherConditionImage != null) {

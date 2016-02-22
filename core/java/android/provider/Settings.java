@@ -4861,6 +4861,21 @@ public final class Settings {
         public static final String QS_ROWS_LANDSCAPE = "qs_rows_landscape";
 
         /**
+         * Change the color of the lockscreen owner's info text
+         *
+         * @hide
+         */
+        public static final String LOCKSCREEN_OWNER_INFO_COLOR = "lockscreen_owner_info_color";
+
+        /**
+         * Change the color of the lockscreen alarm text
+         *
+         * @hide
+         */
+        public static final String LOCKSCREEN_ALARM_COLOR = "lockscreen_alarm_color";
+
+
+        /**
          * Number of columns used for the Quick Settings (landscape)
          *
          * @hide
