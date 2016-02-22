@@ -3955,132 +3955,129 @@ public final class Settings {
         public static final String DOZE_TIMEOUT = "doze_timeout";
 
 
-	/*
+	    /**
          * Hide panel clock
          * @hide
          */
         public static final String HIDE_PANEL_CLOCK = "hide_panel_clock";
 
-	/*
+	    /**
          * Hide Date Of Header clock
          * @hide
          */
         public static final String HIDE_PANEL_DATE = "hide_panel_date";
 
-	/*
+	    /**
          * Hide panel clock
          * @hide
          */
         public static final String HIDE_PANEL_CLOCKVALUE = "hide_panel_clockvalue";
 
-	/*
+	    /**
          * Hide panel clock
          * @hide
          */
         public static final String HIDE_PANEL_ALARM = "hide_panel_alarm";
 
-	/*
+	    /**
          *  Hide Settings Battery Charging text in Panel
          * @hide
          */
         public static final String HIDE_PANEL_BATTERY = "hide_panel_battery";
 
 
-	/*
+	    /**
          * Hide panel icons
          * @hide
          */
         public static final String HIDE_PANEL_ICONS = "hide_panel_icons";
 
 
-	/*
+	    /**
          * Hide Settings icon in Panel
          * @hide
          */
         public static final String HIDE_SETTINGS_ICON = "hide_settings_icon";
 
 
-	/*
+	    /**
          * Hide user icon in Panel
          * @hide
          */
         public static final String HIDE_USER_ICON = "hide_user_icon";
 
-	/*
+	    /**
          * Header Clock Font Style
          * @hide
          */
         public static final String HEADER_CLOCK_FONT_STYLE = "header_clock_font_style";
 
 
-	/*
+	    /**
          * Hide Weather Font Style
          * @hide
          */
         public static final String HEADER_WEATHER_FONT_STYLE = "header_weather_font_style";
 
-	/*
+	    /**
          * Hide AM/PM Font Style
          * @hide
          */
         public static final String HEADER_DETAIL_FONT_STYLE = "header_detail_font_style";
 
-	/*
+	    /**
          * Hide Date Font Style
          * @hide
          */
         public static final String HEADER_DATE_FONT_STYLE = "header_date_font_style";
 
-	/*
+	    /**
          * Hide Alarm Font Style
          * @hide
          */
         public static final String HEADER_ALARM_FONT_STYLE = "header_alarm_font_style";
 
-	/*
+	    /**
          * Header Color Switch
          * @hide
          */
         public static final String HEADER_COLOR_SWITCH = "header_color_switch";
 
-	/*
+	    /**
          * Header Clock Color
          * @hide
          */
         public static final String HEADER_CLOCK_COLOR = "header_clock_color";
 
-	/*
+	    /**
          * Header Date Color
          * @hide
          */
         public static final String HEADER_DETAIL_COLOR = "header_detail_color";
 
-	/*
+	    /**
          * Header Weather Color
          * @hide
          */
         public static final String HEADER_WEATHERONE_COLOR = "header_weatherone_color";
 
-	/*
+	    /**
          * Header Weather Color
          * @hide
          */
         public static final String HEADER_WEATHERTWO_COLOR = "header_weather2_color";
 
-
-
-	/*
+	    /**
          * Header Battery Text Color
          * @hide
          */
         public static final String HEADER_BATTERY_TEXT_COLOR = "header_battery_text_color";
 
-	/*
+	    /**
          * Header alarm Color
          * @hide
          */
         public static final String HEADER_ALARM_TEXT_COLOR = "header_alarm_text_color";
-
 
         /**
          * Use pick up gesture sensor as doze pulse trigger
@@ -4114,7 +4111,7 @@ public final class Settings {
 
         /**
          * show clear all recents button
-         *  @hide
+         * @hide
          */
         public static final String SHOW_CLEAR_ALL_RECENTS = "show_clear_all_recents";
 
@@ -5173,6 +5170,13 @@ public final class Settings {
          * @hide
          */
         public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
+
+        /**
+         * Number of rows to display on the quick settings panel
+         * Default is 3
+         * @hide
+         */
+        public static final String QS_NUM_TILE_ROWS = "sysui_qs_num_tile_rows";
 
         /**
          * Whether to display dashboard dividers
