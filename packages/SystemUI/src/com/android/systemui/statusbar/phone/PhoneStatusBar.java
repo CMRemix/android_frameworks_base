@@ -673,9 +673,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                   Settings.System.STATUS_BAR_CUSTOM_HEADER),
                   false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.CLEAR_RECENTS_STYLE), false, this, UserHandle.USER_ALL);
+                  Settings.System.CLEAR_RECENTS_STYLE),
+                  false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.CLEAR_RECENTS_STYLE_ENABLE), false, this, UserHandle.USER_ALL);
+                  Settings.System.CLEAR_RECENTS_STYLE_ENABLE),
+                  false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.QS_LAYOUT_COLUMNS),
                   false, this, UserHandle.USER_ALL);
@@ -693,7 +695,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                  false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                  Settings.System.TRANSLUCENT_QUICK_SETTINGS_PREFERENCE_KEY), 
-                 false, this);
+                 false, this, UserHandle.USER_ALL);
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN_FP),
                   false, this, UserHandle.USER_ALL);
@@ -766,6 +768,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.BATTERY_LARGE_TEXT),
                   false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_ALPHA),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_SECURITY_ALPHA),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -791,7 +799,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             mContext.getContentResolver(),
                             Settings.System.SHOW_THREEG,
                             0, UserHandle.USER_CURRENT) == 1;
-                        	mNetworkController.onConfigurationChanged();
+                            mNetworkController.onConfigurationChanged();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR))) {
                     mBatterySaverWarningColor = Settings.System.getIntForUser(
@@ -942,6 +950,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mQsLayoutColumns = Settings.System.getIntForUser(resolver,
                     Settings.System.QS_LAYOUT_COLUMNS, 3, mCurrentUserId);
 
+            if (mHeader != null) {
+                mHeader.updateSettings();
+            }
+
             mBlurScale = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.BLUR_SCALE_PREFERENCE_KEY, 10);
             mBlurRadius = Settings.System.getInt(mContext.getContentResolver(),
@@ -979,12 +991,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mSystemNavigationKeysEnabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                     Settings.Secure.SYSTEM_NAVIGATION_KEYS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
 
-                    
             RecentsActivity.updateBlurColors(mBlurDarkColorFilter,mBlurMixedColorFilter,mBlurLightColorFilter);
             RecentsActivity.updateRadiusScale(mScaleRecents,mRadiusRecents);
 
-            if (mHeader != null) {
-                mHeader.updateSettings();
+            float overlayalpha = Settings.System.getFloatForUser(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_ALPHA, 0.45f, UserHandle.USER_CURRENT);
+            if (mScrimController != null) {
+                mScrimController.setOverlayAlpha(overlayalpha);
+            }
+
+            float securityoverlayalpha = Settings.System.getFloatForUser(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_SECURITY_ALPHA, 0.75f, UserHandle.USER_CURRENT);
+            if (mScrimController != null) {
+                mScrimController.setSecurityOverlayAlpha(securityoverlayalpha);
             }
 
             int sidebarPosition = Settings.System.getInt(
