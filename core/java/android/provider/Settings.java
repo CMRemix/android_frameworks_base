@@ -5469,6 +5469,11 @@ public final class Settings {
         public static final String HIDE_FROM_RECENTS_LIST = "hide_from_recents_list";
 
         /**
+         * Nfc sound mode.
+         */
+        public static final String NFC_SOUND_MODE = "nfc_sound_mode";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
