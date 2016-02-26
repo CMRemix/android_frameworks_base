@@ -662,13 +662,13 @@ public class Matrix {
         rm[rmOffset + 2]  =   sy;
         rm[rmOffset + 3]  =  0.0f;
 
-        rm[rmOffset + 4]  =  cxsy * cz + cx * sz;
-        rm[rmOffset + 5]  = -cxsy * sz + cx * cz;
+        rm[rmOffset + 4]  =  sxsy * cz + cx * sz;
+        rm[rmOffset + 5]  = -sxsy * sz + cx * cz;
         rm[rmOffset + 6]  =  -sx * cy;
         rm[rmOffset + 7]  =  0.0f;
 
-        rm[rmOffset + 8]  = -sxsy * cz + sx * sz;
-        rm[rmOffset + 9]  =  sxsy * sz + sx * cz;
+        rm[rmOffset + 8]  = -cxsy * cz + sx * sz;
+        rm[rmOffset + 9]  =  cxsy * sz + sx * cz;
         rm[rmOffset + 10] =  cx * cy;
         rm[rmOffset + 11] =  0.0f;
 
