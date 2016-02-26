@@ -222,7 +222,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private boolean mShowWeatherHeader;
     private boolean mWeatherDataInvalid;
 
-    private boolean mQsColorSwitch = false ;
+    private boolean mQsColorSwitch = false;
     private int mHeaderColor;
 
     // Font style
@@ -1079,7 +1079,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             anim.start();
         } else {
             return;
-            }
         }
         if (mQsVibrateHeader) {
         vibrateheader(20);
