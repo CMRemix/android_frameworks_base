@@ -159,11 +159,13 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private int mStatusBarHeaderDateFont = FONT_NORMAL;
     private int mStatusBarHeaderDetailFont = FONT_NORMAL;
 
-    protected Vibrator mVibrator;
 
     // Task manager
     private boolean mShowTaskManager;
     private View mTaskManagerButton;
+
+    protected Vibrator mVibrator;
+    private boolean mQsVibLongpress = false;
 
     // Network traffic
     private View mNetworkTraffic;
@@ -1039,8 +1041,19 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         } else {
             return;
         }
-        vibrateheader(20);
+        }
+	checktile();
     }
+
+     public void checktile() {
+	   mQsVibLongpress = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QUICK_SETTINGS_ICON_VIBRATE, 0) == 1;
+		if (mQsVibLongpress) {
+		 mQSPanel.vibrateTile(20);
+		} else { 
+		 mQSPanel.vibrateTile(0);
+		}
+	}
 
     @Override
     public boolean onLongClick(View v) {
