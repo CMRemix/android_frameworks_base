@@ -5143,6 +5143,13 @@ public final class Settings {
         public static final String LOCKSCREEN_ALARM_COLOR = "lockscreen_alarm_color";
 
         /**
+         *
+         * whether to enable or disable vibration on succesful fingerprint auth
+         * @hide
+         */
+        public static final String FINGERPRINT_SUCCESS_VIB = "fingerprint_success_vib";
+
+        /**
          * Add rotation to navbar buttons on navbar recreate (rotate screen, etc)
          * @hide
          */
