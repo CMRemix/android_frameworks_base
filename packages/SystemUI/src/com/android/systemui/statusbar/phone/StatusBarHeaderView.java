@@ -46,6 +46,7 @@ import android.os.Handler;
 import android.os.IRemoteCallback;
 import android.os.RemoteException;
 import android.os.UserHandle;
+import android.os.Vibrator;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -55,7 +56,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.MathUtils;
 import android.util.TypedValue;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -156,8 +156,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private int mStatusBarHeaderClockFont = FONT_NORMAL;
     private int mStatusBarHeaderWeatherFont = FONT_NORMAL;
     private int mStatusBarHeaderAlarmFont = FONT_NORMAL;
-    private int mStatusBarHeaderDateFont = FONT_NORMAL;	
-    private int mStatusBarHeaderDetailFont = FONT_NORMAL;	
+    private int mStatusBarHeaderDateFont = FONT_NORMAL;
+    private int mStatusBarHeaderDetailFont = FONT_NORMAL;
+
+    protected Vibrator mVibrator;
 
     // Task manager
     private boolean mShowTaskManager;
@@ -290,6 +292,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mTaskManagerButton.setOnLongClickListener(this);
         mQsDetailHeader = findViewById(R.id.qs_detail_header);
         mQsDetailHeader.setAlpha(0);
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         mQsDetailHeaderTitle = (TextView) mQsDetailHeader.findViewById(android.R.id.title);
         mQsDetailHeaderSwitch = (Switch) mQsDetailHeader.findViewById(android.R.id.toggle);
         mQsDetailHeaderProgress = (ImageView) findViewById(R.id.qs_detail_header_progress);
@@ -440,6 +443,12 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mUserInfoController.removeListener(mUserInfoChangedListener);
         }
         setListening(false);
+    }
+
+    public void vibrateheader(int duration) {
+        if (mVibrator != null) {
+            if (mVibrator.hasVibrator()) { mVibrator.vibrate(duration); }
+        }
     }
 
     private void updateClockCollapsedMargin() {
@@ -1030,7 +1039,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         } else {
             return;
         }
-        performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        vibrateheader(20);
     }
 
     @Override
@@ -1059,7 +1068,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             forceRefreshWeatherSettings();
             return true;
         }
-        performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        vibrateheader(20);
         return false;
     }
 

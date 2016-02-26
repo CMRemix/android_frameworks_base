@@ -23,7 +23,6 @@ import android.os.UserManager;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -145,7 +144,6 @@ public class MultiUserSwitch extends FrameLayout implements View.OnClickListener
                 getContext().startActivityAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
             }
         }
-        performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
     }
 
     @Override
