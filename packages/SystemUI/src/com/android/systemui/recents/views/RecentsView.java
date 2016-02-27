@@ -24,6 +24,7 @@ import android.app.ActivityOptions;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.ContentResolver;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -107,6 +108,9 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
 
     private ActivityManager mAm;
     private int mTotalMem;
+
+    public int mClearStyle;
+    public boolean mClearStyleSwitch = false;;
 
     TextClock mClock;
     TextView mDate;
@@ -361,6 +365,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        final ContentResolver resolver = mContext.getContentResolver();
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         Rect searchBarSpaceBounds = new Rect();
@@ -372,6 +377,11 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
 
         boolean enableMemDisplay = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.SYSTEMUI_RECENTS_MEM_DISPLAY, 1) == 1;
+
+	    mClearStyle = Settings.System.getIntForUser(
+                    resolver, Settings.System.CLEAR_RECENTS_STYLE, 0,
+                    UserHandle.USER_CURRENT);
+	    checkstyle(mClearStyle);
 
         // Get the search bar bounds and measure the search bar layout
         if (mSearchBar != null && mConfig.searchBarEnabled) {
@@ -498,11 +508,19 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
+        final ContentResolver resolver = mContext.getContentResolver();
         mMemText = (TextView) ((View)getParent()).findViewById(R.id.recents_memory_text);
         mMemBar = (ProgressBar) ((View)getParent()).findViewById(R.id.recents_memory_bar);
         updateMemoryStatus();
         mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
+        mClearStyle = Settings.System.getIntForUser(
+                    resolver, Settings.System.CLEAR_RECENTS_STYLE, 0,
+                    UserHandle.USER_CURRENT);
+        mClearStyleSwitch  = Settings.System.getInt(mContext.getContentResolver(),
+				 Settings.System.CLEAR_RECENTS_STYLE_ENABLE, 0) == 1;
         mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
+				 checkstyle(mClearStyle);
+        mClearRecents.setVisibility(View.VISIBLE);
         mClearRecents.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 dismissAllTasksAnimated();
@@ -511,6 +529,83 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         mClock = (TextClock) ((View)getParent()).findViewById(R.id.recents_clock);
         mDate = (TextView) ((View)getParent()).findViewById(R.id.recents_date);
         updateTimeVisibility();
+    }
+
+    public void checkstyle(int style) {
+	final ContentResolver resolver = mContext.getContentResolver();
+	mClearStyle = Settings.System.getIntForUser(
+                    resolver, Settings.System.CLEAR_RECENTS_STYLE, 0,
+                    UserHandle.USER_CURRENT);
+    mClearStyleSwitch  = Settings.System.getInt(mContext.getContentResolver(),
+				  Settings.System.CLEAR_RECENTS_STYLE_ENABLE, 0) == 1;
+	mClearStyle = style;
+	if (mClearStyleSwitch) {
+	if (style == 0) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	} 
+	if (style == 1) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents1);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 2) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents2);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 3) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents3);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 4) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents4);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 5) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents5);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 6) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents6);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 7) {
+	   mClearRecents.setVisibility(View.GONE);	
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents7);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 8) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents8);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 9) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents9);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	if (style == 10) {
+	   mClearRecents.setVisibility(View.GONE);
+	   mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents10);
+	   mClearRecents.setVisibility(View.VISIBLE);
+	}
+	   mClearRecents.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dismissAllTasksAnimated();
+                updateMemoryStatus();
+            }
+        });
+	} else {
+	    mClearRecents.setVisibility(View.GONE);
+	    mClearRecents = ((View)getParent()).findViewById(R.id.clear_recents);
+	    mClearRecents.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean showMemDisplay() {
