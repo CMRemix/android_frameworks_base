@@ -5341,6 +5341,13 @@ public final class Settings {
         public static final String DASHBOARD_TILEVIEW_DIVIDERS = "dashboard_tileview_dividers";
 
         /**
+	     *
+         * Whether to show switches for wifi/cell/bt in the settings dashboard
+         * @hide
+         */
+        public static final String DASHBOARD_SWITCHES = "dashboard_switches";
+
+        /**
          * Whether to apply a shadow on top of the header image
          * value is the alpha value of the shadow image is 0 -> no shadow -> 255 black
          * @hide
