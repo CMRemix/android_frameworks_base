@@ -4303,6 +4303,12 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_WEATHER = "status_bar_show_weather";
 
         /**
+         * Status Bar Colors Switch
+         * @hide
+         */
+        public static final String STATUSBAR_COLOR_SWITCH = "statusbar_color_switch";
+
+        /**
          * Whether to show the weather info on the lock screen
          * @hide
          */
@@ -4518,6 +4524,18 @@ public final class Settings {
          * @hide
          */
         public static final String NOTIFICATION_ICON_COLOR = "notification_icon_color";
+
+        /**
+         * Color of Battery Icon
+         * @hide
+         */
+        public static final String BATTERY_ICON_COLOR = "battery_icon_color";
+
+        /**
+         * Color of Battery Text
+         * @hide
+         */
+        public static final String BATTERY_TEXT_COLOR = "battery_text_color";
 
         /**
          * Position of app sidebar
