@@ -216,5 +216,8 @@
     <!-- vpn icon switch -->
     <string name="status_bar_vpn">VPN</string>
 
+    <!-- vibrate/silent icon switch -->
+    <string name="status_bar_vibsil">vibrate/silent</string>
+
 </resources>
 
