@@ -3485,6 +3485,12 @@ public final class Settings {
         public static final String UNLOCK_SOUND = Global.UNLOCK_SOUND;
 
         /**
+         * Give SMS notifications a breathing effect
+         * @hide
+         */
+        public static final String KEY_SMS_BREATH = "sms_breath";
+
+        /**
          * Give Missed call notifications a breathing effect
          * @hide
          */
