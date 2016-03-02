@@ -3838,6 +3838,12 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_COLOR = "statusbar_clock_color";
 
         /**
+         * Switch for clock color
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCKCOLOR_SWITCH = "statusbar_clockcolor_switch";
+
+        /**
          * Settings for clock font style
          * @hide
          */
