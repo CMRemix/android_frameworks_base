@@ -185,6 +185,8 @@ public class NavigationBarView extends LinearLayout {
     private boolean mLayoutTransitionsEnabled = true;
     private boolean mWakeAndUnlocking;
 
+    public boolean mNavSwitch = false ;
+
     private class NavTransitionListener implements TransitionListener {
         private boolean mBackTransitioning;
         private boolean mHomeAppearing;
@@ -538,11 +540,17 @@ public class NavigationBarView extends LinearLayout {
         ((ImageView)getBackButton()).setImageDrawable(backAlt
                 ? (mVertical ? mBackAltLandIcon : mBackAltIcon)
                 : (mVertical ? mBackLandIcon : mBackIcon));
-
+	mNavSwitch = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVBAR_RECENTS_SWITCH, 0,
+                UserHandle.USER_CURRENT) == 1;
+		if(mNavSwitch) {
         ((ImageView)getRecentsButton()).setImageDrawable(
                     (0 != (hints & StatusBarManager.NAVIGATION_HINT_RECENT_ALT))
                             ? (mVertical ? mRecentAltLandIcon : mRecentAltIcon)
                             : (mVertical ? mRecentLandIcon : mRecentIcon));
+	} else {
+	((ImageView)getRecentsButton()).setImageDrawable(mVertical ? mRecentLandIcon : mRecentIcon);
+	}
         ((ImageView)getHomeButton()).setImageDrawable(mVertical ? mHomeLandIcon : mHomeIcon);
 
         final boolean showImeButton = ((hints & StatusBarManager.NAVIGATION_HINT_IME_SHOWN) != 0)

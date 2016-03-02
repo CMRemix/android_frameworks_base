@@ -414,6 +414,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private  View mIcon;
     public QSDetailItems mQsDetail;
     public SignalTileView mSignalView;	
+    public boolean mNavSwitch = false ;
 
     int mPixelFormat;
     Object mQueueLock = new Object();
@@ -680,6 +681,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_ICON_COLOR),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_RECENTS_SWITCH),
+                    false, this, UserHandle.USER_ALL);
 
 		    update();
         }
@@ -893,6 +897,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             boolean mShow4G = Settings.System.getIntForUser(resolver,
                     Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
+
+	    mNavSwitch = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVBAR_RECENTS_SWITCH, 0,
+                UserHandle.USER_CURRENT) == 1;
 
             float overlayalpha = Settings.System.getFloatForUser(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_ALPHA, 0.45f, UserHandle.USER_CURRENT);
@@ -6018,6 +6026,10 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
             }
 
             if (hijackRecentsLongPress) {
+		mNavSwitch = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVBAR_RECENTS_SWITCH, 0,
+                UserHandle.USER_CURRENT) == 1;
+		if(mNavSwitch) {
                 if (isRecentAppsVisible() && hasRecentApps()) {
                     clearRecentApps();
                 } else {
@@ -6031,8 +6043,16 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
                         startCustomRecentsLongPressActivity(customRecentsLongPressHandler);
                     } else {
                         ActionUtils.switchToLastApp(mContext, mCurrentUserId);
-                    }
-                }
+                	    }
+                	}
+		} else {
+		 ComponentName customRecentsLongPressHandler = mCustomRecentsLongPressHandler;
+                 if (customRecentsLongPressHandler != null) {
+                    startCustomRecentsLongPressActivity(customRecentsLongPressHandler);
+		} else {
+ 		 ActionUtils.switchToLastApp(mContext, mCurrentUserId);
+			}
+		}
             }
         } catch (RemoteException e) {
             Log.d(TAG, "Unable to reach activity manager", e);
