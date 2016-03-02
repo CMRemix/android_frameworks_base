@@ -42,6 +42,7 @@ import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.FontSizeUtils;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile.DetailAdapter;
+import com.android.systemui.qs.QSTileView;
 import com.android.systemui.settings.BrightnessController;
 import com.android.systemui.settings.ToggleSlider;
 import com.android.systemui.statusbar.phone.QSTileHost;
@@ -81,6 +82,7 @@ public class QSPanel extends ViewGroup {
     private boolean mClosingDetail;
 
     private boolean mQsColorSwitch = false;
+    public QSTileView mTileView;
 
     protected Record mDetailRecord;
     private Callback mCallback;
@@ -120,7 +122,9 @@ public class QSPanel extends ViewGroup {
         mClipper = new QSDetailClipper(mDetail);
         updateResources();
 
-        boolean brightnessIconEnabled = Settings.System.getIntForUser(
+
+	mTileView = new QSTileView(mContext);
+	boolean brightnessIconEnabled = Settings.System.getIntForUser(
             mContext.getContentResolver(), Settings.System.BRIGHTNESS_ICON,
                 1, UserHandle.USER_CURRENT) == 1;
 
@@ -191,9 +195,9 @@ public class QSPanel extends ViewGroup {
                 Settings.System.QS_BRIGHTNESS_ICON_COLOR, 0xFFFFFFFF);
         ImageView brightnessIcon = (ImageView) findViewById(R.id.brightness_icon);
 	if (mQsColorSwitch) {
-	 brightnessIcon.setColorFilter(mIconColor, Mode.MULTIPLY);
+	    brightnessIcon.setColorFilter(mIconColor, Mode.SRC_IN);
 		}
-	}
+     }
 
     protected void updateDetailText() {
         mDetailDoneButton.setText(R.string.quick_settings_done);
@@ -242,6 +246,7 @@ public class QSPanel extends ViewGroup {
             refreshAllTiles();
         }
         updateDetailText();
+	updatecolors();
     }
 
     @Override

@@ -185,7 +185,7 @@ public class StatusBarHeaderMachine {
         mObservers.remove(observer);
     }
 
-    private void doUpdateStatusHeaderObservers(final boolean force) {
+    public void doUpdateStatusHeaderObservers(final boolean force) {
         Iterator<IStatusBarHeaderMachineObserver> nextObserver = mObservers
                 .iterator();
         while (nextObserver.hasNext()) {
