@@ -5163,6 +5163,7 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
      * meantime, just update the things that we know change.
      */
     void updateResources(Configuration newConfig) {
+       SettingsObserver observer = new SettingsObserver(mHandler);
         // detect theme change.
         ThemeConfig newTheme = newConfig != null ? newConfig.themeConfig : null;
         final boolean updateStatusBar = shouldUpdateStatusbar(mCurrentTheme, newTheme);
@@ -5170,6 +5171,20 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
         if (newTheme != null) mCurrentTheme = (ThemeConfig) newTheme.clone();
         if (updateStatusBar) {
             recreateStatusBar();
+            observer.update();
+        // lets handle the child notifications now
+        updateNotificationShadeForChildren();
+
+        // clear the map again for the next usage
+        mTmpChildOrderMap.clear();
+
+        updateRowStates();
+        updateSpeedbump();
+        updateClearAll();
+        updateEmptyShadeView();
+
+        updateQsExpansionEnabled();
+        mShadeUpdates.check();
         } else {
             loadDimens();
         }
