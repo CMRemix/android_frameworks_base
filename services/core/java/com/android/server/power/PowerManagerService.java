@@ -83,6 +83,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cyanogenmod.providers.CMSettings;
+import org.cyanogenmod.internal.util.ThemeUtils;
 import libcore.util.Objects;
 
 import static android.os.PowerManagerInternal.POWER_HINT_INTERACTION;
@@ -180,6 +181,7 @@ public final class PowerManagerService extends SystemService
     private static final int MAX_CPU_BOOST_TIME = 5000000;
 
     private final Context mContext;
+    private Context mUiContext;
     private final ServiceThread mHandlerThread;
     private final PowerManagerHandler mHandler;
 
@@ -2420,6 +2422,14 @@ public final class PowerManagerService extends SystemService
         updatePowerStateLocked();
     }
 
+    private Context getUiContext() {
+        if (mUiContext == null) {
+            mUiContext = ThemeUtils.createUiContext(mContext);
+            mUiContext.setTheme(android.R.style.Theme_DeviceDefault_Light_DarkActionBar);
+        }
+        return mUiContext != null ? mUiContext : mContext;
+    }
+
     private void shutdownOrRebootInternal(final boolean shutdown, final boolean confirm,
             final String reason, boolean wait) {
         if (mHandler == null || !mSystemReady) {
@@ -2431,9 +2441,9 @@ public final class PowerManagerService extends SystemService
             public void run() {
                 synchronized (this) {
                     if (shutdown) {
-                        ShutdownThread.shutdown(mContext, confirm);
+                        ShutdownThread.shutdown(getUiContext(), confirm);
                     } else {
-                        ShutdownThread.reboot(mContext, reason, confirm);
+                        ShutdownThread.reboot(getUiContext(), reason, confirm);
                     }
                 }
             }
