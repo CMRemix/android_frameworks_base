@@ -6125,7 +6125,8 @@ private final View.OnClickListener mKillClickListener = new View.OnClickListener
         if (mStackScroller == null) return;
         boolean onKeyguard = mState == StatusBarState.KEYGUARD;
         mStackScroller.setHideSensitive(isLockscreenPublicMode()
-                || !userAllowsPrivateNotificationsInPublic(mCurrentUserId), goingToFullShade);
+                || (!userAllowsPrivateNotificationsInPublic(mCurrentUserId) && onKeyguard),
+                goingToFullShade);
         mStackScroller.setDimmed(onKeyguard, false /* animate */);
         mStackScroller.setExpandingEnabled(!onKeyguard);
         ActivatableNotificationView activatedChild = mStackScroller.getActivatedChild();
