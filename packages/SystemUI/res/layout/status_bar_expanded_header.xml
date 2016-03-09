@@ -233,7 +233,7 @@
         android:paddingEnd="20dp"
         android:gravity="center">
 
-     <ImageView
+     <ImageButton
         android:id="@+id/no_weather_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
