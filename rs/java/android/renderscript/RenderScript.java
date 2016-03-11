@@ -1345,12 +1345,19 @@ public class RenderScript {
     }
 
     /**
+     * Name of the file that holds the object cache.
+     */
+    private static String mCachePath;
+
+    String getCachePath() { return mCachePath; }
+
+    /**
      * Create a RenderScript context.
      *
      * @param ctx The context.
      * @return RenderScript
      */
-    private static RenderScript internalCreate(Context ctx, int sdkVersion, ContextType ct, int flags) {
+    private static synchronized RenderScript internalCreate(Context ctx, int sdkVersion, ContextType ct, int flags) {
         if (!sInitialized) {
             Log.e(LOG_TAG, "RenderScript.create() called when disabled; someone is likely to crash");
             return null;
@@ -1374,7 +1381,7 @@ public class RenderScript {
         // set up cache directory for entire context
         final String CACHE_PATH = "com.android.renderscript.cache";
         File f = new File(RenderScriptCacheDir.mCacheDir, CACHE_PATH);
-        String mCachePath = f.getAbsolutePath();
+        mCachePath = f.getAbsolutePath();
         f.mkdirs();
         rs.nContextSetCacheDir(mCachePath);
 
