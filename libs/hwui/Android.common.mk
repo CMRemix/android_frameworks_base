@@ -2,8 +2,6 @@
 # Allow Gnu extension: in-class initializer of static 'const float' member.
 # DeferredLayerUpdater.h: private field 'mRenderThread' is not used.
 
-LOCAL_CLANG := true
-
 LOCAL_CLANG_CFLAGS += \
     -Wno-deprecated-declarations \
     -Wno-gnu-static-float-init \
@@ -122,7 +120,7 @@ endif
 # Defaults for ATRACE_TAG and LOG_TAG for libhwui
 LOCAL_CFLAGS += -DATRACE_TAG=ATRACE_TAG_VIEW -DLOG_TAG=\"OpenGLRenderer\"
 LOCAL_CFLAGS += -Wall -Wno-unused-parameter -Wunreachable-code
-LOCAL_CFLAGS += -O3
+LOCAL_CFLAGS += -ffast-math -O3
 
 # b/21698669
 ifneq ($(USE_CLANG_PLATFORM_BUILD),true)
