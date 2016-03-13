@@ -156,4 +156,8 @@
 
     <!-- Use alternative way to blur lockscreen -->
     <java-symbol type="bool" name="config_use_stackblur" />
+
+    <!-- Uicc hotswapped event configuration needed notification -->
+    <java-symbol type="string" name="uicc_hot_swapped_event_title" />
+    <java-symbol type="string" name="uicc_hot_swapped_event_text" />
 </resources>
