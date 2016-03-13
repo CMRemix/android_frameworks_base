@@ -7553,11 +7553,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mBootMsgDialog.setMessage(Html.fromHtml(msg +
                                                             "<br><b><font color=\"#" + randomColor + "\">" +
                                                             currentPackageName +
-                                                            "</font></b>"));
+                                                            "</font><br><br>Powered By SaberMod & DragonTC Optimizations</b>"));
                 }
                 else {
-                    mBootMsgDialog.setMessage("Powered By SaberMod Optimizations\n\n" + msg
-                    + "\n\nCMRemix Android 6.0.1_r17 Marshmallow");
+                    mBootMsgDialog.setMessage("Powered By SaberMod & DragonTC Optimizations\n\n" + msg
+                    + "\n\nCMRemix Android 6.0.1_r22 Marshmallow");
                 }
             }
         });
