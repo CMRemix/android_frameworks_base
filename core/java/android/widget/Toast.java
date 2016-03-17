@@ -19,6 +19,7 @@ package android.widget;
 
 import android.annotation.IntDef;
 import android.annotation.StringRes;
+import android.app.ActivityManager;
 import android.app.INotificationManager;
 import android.app.ITransientNotification;
 import android.content.Context;
@@ -408,7 +409,10 @@ public class Toast {
                 ImageView appIcon = (ImageView) mView.findViewById(android.R.id.icon);
                 if ((Settings.System.getInt(context.getContentResolver(),
                         Settings.System.TOAST_ICON, 1) == 1)) {
-                    if (appIcon != null) {
+                if (appIcon != null) {
+                    ActivityManager am =
+                            (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                    if (!am.isPackageInForeground(packageName)) {
                         PackageManager pm = context.getPackageManager();
                         Drawable icon = null;
                         try {
@@ -417,6 +421,7 @@ public class Toast {
                             // nothing to do
                         }
                         appIcon.setImageDrawable(icon);
+                        }
                     }
                 }
                 mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
