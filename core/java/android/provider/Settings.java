@@ -3055,6 +3055,12 @@ public final class Settings {
         public static final String NAVIGATION_BAR_TINT = "navigation_bar_tint";
 
         /**
+         * Navigation bar button color master switch
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_TINT_SWITCH = "navigation_bar_tint_switch";
+
+        /**
          * Enable HW keys
          * @hide
          */
