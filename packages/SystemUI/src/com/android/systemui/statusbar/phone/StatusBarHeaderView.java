@@ -89,6 +89,7 @@ import com.android.systemui.qs.QSTile;
 import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.policy.DockBatteryController;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl.EmergencyListener;
+import com.android.systemui.statusbar.policy.MinitBattery;
 import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.tuner.TunerService;
@@ -328,6 +329,11 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mBackgroundImage = (ImageView) findViewById(R.id.background_image);
         mWeatherImage = (CurrentWeatherView) findViewById(R.id.current_weather_view);
         mWeatherDetailed = (DetailedWeatherView) findViewById(R.id.detailed_weather_view);
+        MinitBattery mb = (MinitBattery) mSystemIcons.findViewById(R.id.minitBattery);
+        if (!mb.isSetup()) {
+            BatteryMeterView bmv = (BatteryMeterView) mSystemIcons.findViewById(R.id.battery);
+            bmv.setVisibility(View.VISIBLE);
+        }
         loadDimens();
         updateVisibilities();
         updateClockScale();
