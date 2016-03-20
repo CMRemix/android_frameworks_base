@@ -333,17 +333,19 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         updateVisibilities();
         updateClockScale();
         updateAvatarScale();
-	hidepanelItems();
-	mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
+	    hidepanelItems();
+
+	    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-	if(mColorSwitch){
-	setclockcolor();
-	setdetailcolor();
-	setweathercolor1();
-	setweathercolor2();
-	setalarmtextcolor();
-	setbatterytextcolor();
-	}
+        if(mColorSwitch){
+	        setclockcolor();
+	        setdetailcolor();
+	        setweathercolor1();
+	        setweathercolor2();
+	        setalarmtextcolor();
+	        setbatterytextcolor();
+        }
+
         setQSHeaderAlpha();
 	    setHeaderColor();
         setStatusBarClockFontStyle(mStatusBarHeaderClockFont);
@@ -481,17 +483,16 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mClockCollapsedScaleFactor = (float) mClockCollapsedSize / (float) mClockExpandedSize;
         updateClockScale();
         updateClockCollapsedMargin();
-	mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
+	    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-	if(mColorSwitch){
-	setclockcolor();
-	setdetailcolor();
-	setweathercolor1();
-	setweathercolor2();
-	setalarmtextcolor();   
-	setbatterytextcolor(); 
-	}    
-	     
+        if(mColorSwitch){
+	        setclockcolor();
+	        setdetailcolor();
+	        setweathercolor1();
+	        setweathercolor2();
+	        setalarmtextcolor();
+	        setbatterytextcolor();
+        }
     }
 
     @Override
@@ -554,17 +555,16 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mMultiUserSwitch.setActivityStarter(activityStarter);
             mWeatherDetailed.setActivityStarter(activityStarter);
         }
-	mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
+    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-	if(mColorSwitch){
-	setclockcolor();
-	setdetailcolor();
-	setweathercolor1();
-	setweathercolor2();
-	setalarmtextcolor();   
-	setbatterytextcolor(); 
-	}    
-	     	
+        if(mColorSwitch){
+	        setclockcolor();
+	        setdetailcolor();
+	        setweathercolor1();
+	        setweathercolor2();
+	        setalarmtextcolor();
+	        setbatterytextcolor();
+        }
     }
 
     public void setBatteryController(BatteryController batteryController) {
@@ -635,18 +635,17 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         updateAvatarScale();
         updateClockLp();
         requestCaptureValues();
-	hidepanelItems();
+
 	mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-	if(mColorSwitch){
-	setclockcolor();
-	setdetailcolor();
-	setweathercolor1();
-	setweathercolor2();
-	setalarmtextcolor();   
-	setbatterytextcolor(); 
-	} 
-	     	
+        if(mColorSwitch){
+	        setclockcolor();
+	        setdetailcolor();
+	        setweathercolor1();
+	        setweathercolor2();
+	        setalarmtextcolor();
+	        setbatterytextcolor();
+        }
     }
 
     void setTaskManagerEnabled(boolean enabled) {
@@ -680,7 +679,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             if (mSignalCluster != null) {
                 updateSignalClusterDetachment();
             }
-            mEmergencyCallsOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly ? VISIBLE : GONE);
+            mEmergencyCallsOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly ? View.VISIBLE : View.GONE);
             mBatteryLevel.setForceShown(mExpanded && mShowBatteryTextExpanded);
             mBatteryLevel.setVisibility(View.VISIBLE);
             if (mDockBatteryLevel != null) {
@@ -706,7 +705,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 Settings.System.HIDE_PANEL_CLOCK, 1) == 1) {
        	    mTime = (TextView) findViewById(R.id.time_view);
             mTime.setVisibility(View.VISIBLE);
-	    
+
         } else {
         mTime = (TextView) findViewById(R.id.time_view);
         mAmPm = (TextView) findViewById(R.id.am_pm_view);
@@ -935,11 +934,11 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
         if (info.temp == null || info.condition == null) {
 			mWeatherimage = (ImageButton) findViewById(R.id.no_weather_image);
-			mWeatherimage.setVisibility(VISIBLE);
+			mWeatherimage.setVisibility(View.VISIBLE);
             mWeatherLine1.setText(null);
             mWeatherLine2.setText(null);
         } else {
-            mWeatherimage.setVisibility(GONE);
+            mWeatherimage.setVisibility(View.GONE);
             mWeatherLine1.setText(mContext.getString(
                     R.string.status_bar_expanded_header_weather_format,
                     info.temp,
@@ -1606,7 +1605,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 final Boolean toggleState = detail.getToggleState();
                 if (detail.getTitle() == R.string.quick_settings_edit_label) {
                     mEditTileDoneText.setVisibility(View.VISIBLE);
-                    mQsDetailHeaderSwitch.setVisibility(INVISIBLE);
+                    mQsDetailHeaderSwitch.setVisibility(View.INVISIBLE);
                     mQsDetailHeader.setClickable(true);
                     mQsDetailHeader.setOnClickListener(new OnClickListener() {
                         @Override
@@ -1615,12 +1614,12 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                         }
                     });
                 } else if (toggleState == null) {
-                    mQsDetailHeaderSwitch.setVisibility(INVISIBLE);
+                    mQsDetailHeaderSwitch.setVisibility(View.INVISIBLE);
                     mEditTileDoneText.setVisibility(View.GONE);
                     mQsDetailHeader.setClickable(false);
                 } else {
                     mEditTileDoneText.setVisibility(View.GONE);
-                    mQsDetailHeaderSwitch.setVisibility(VISIBLE);
+                    mQsDetailHeaderSwitch.setVisibility(View.VISIBLE);
                     mQsDetailHeaderSwitch.setChecked(toggleState);
                     mQsDetailHeader.setClickable(true);
                     mQsDetailHeader.setOnClickListener(new OnClickListener() {
@@ -1770,11 +1769,11 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 		setdetailcolor();
 		setweathercolor1();
 		setweathercolor2();
-		setalarmtextcolor();   
-		setbatterytextcolor(); 
-		} 	    
-            updateVisibilities();
-            requestCaptureValues();
+		setalarmtextcolor();
+		setbatterytextcolor();
+		}
+        updateVisibilities();
+        requestCaptureValues();
 	    setHeaderColor();
         }
     }
