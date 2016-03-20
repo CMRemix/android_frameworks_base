@@ -3936,13 +3936,6 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_NAVBAR = "double_tap_sleep_navbar";
 
         /**
-	     *
-         * Navbar Recents Switch
-         * @hide
-         */
-        public static final String NAVBAR_RECENTS_SWITCH = "navbar_recents_switch";
-
-        /**
          * Defines the shortcuts to be shown on lockscreen
          * Usage is like this: target:icon|target:icon|target:icon
          * if :icon is not set, default application icon will be used
