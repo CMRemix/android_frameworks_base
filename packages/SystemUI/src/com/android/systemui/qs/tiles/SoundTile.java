@@ -22,7 +22,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.provider.Settings.Global;
 
-import com.android.internal.logging.MetricsLogger;
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 
@@ -96,7 +96,7 @@ public class SoundTile extends QSTile<QSTile.State> {
             default:
                 break;
         }
-        MetricsLogger.action(mContext, getMetricsCategory(), newState);
+        CMMetricsLogger.action(mContext, getMetricsCategory(), newState);
     }
 
     @Override
@@ -120,8 +120,10 @@ public class SoundTile extends QSTile<QSTile.State> {
         }
     }
 
+   
     @Override
     public int getMetricsCategory() {
-        return MetricsLogger.NOTIFICATION_APP_NOTIFICATION;
+        return CMMetricsLogger.DONT_LOG;
     }
+
 }

@@ -26,7 +26,8 @@ import android.view.View;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.QSTileView;
-import com.android.internal.logging.MetricsLogger;
+
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 /** Quick settings tile: KernelAdiutor **/
 public class KernelAdiutorTile extends QSTile<QSTile.BooleanState> {
@@ -41,11 +42,6 @@ public class KernelAdiutorTile extends QSTile<QSTile.BooleanState> {
     protected void handleDestroy() {
         super.handleDestroy();
     }
-   @Override
-    public int getMetricsCategory() {
-        return MetricsLogger.DONT_TRACK_ME_BRO;
-    }
-
 
     @Override
     protected BooleanState newTileState() {
@@ -59,6 +55,10 @@ public class KernelAdiutorTile extends QSTile<QSTile.BooleanState> {
     @Override
     protected void handleClick() {
 	mHost.startActivityDismissingKeyguard(APP_KERNEL_TILE);
+	}
+	
+    public int getMetricsCategory() {
+        return CMMetricsLogger.DONT_LOG;
     }
 
     @Override

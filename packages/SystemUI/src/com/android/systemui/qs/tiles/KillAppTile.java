@@ -52,8 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-
-import com.android.internal.logging.MetricsLogger;
+import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 /** Quick settings tile: KillApps **/
 public class KillAppTile extends QSTile<QSTile.BooleanState> {
@@ -68,11 +67,11 @@ public class KillAppTile extends QSTile<QSTile.BooleanState> {
         super.handleDestroy();
     }
 
-   @Override
+    @Override
     public int getMetricsCategory() {
-        return MetricsLogger.DONT_TRACK_ME_BRO;
+        return CMMetricsLogger.DONT_LOG;
     }
-
+    
     @Override
     protected BooleanState newTileState() {
         return new BooleanState();
