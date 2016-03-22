@@ -170,4 +170,30 @@
   <!-- Doze mode -->
   <java-symbol type="bool" name="config_doze_enabled_by_default" />
 
+  <!-- Dexopt screen -->
+  <java-symbol type="color" name="dexopt_background" />
+  <java-symbol type="color" name="dexopt_primary_text" />
+  <java-symbol type="color" name="dexopt_secondary_text" />
+  <java-symbol type="color" name="dexopt_progress_tint" />
+  <java-symbol type="dimen" name="dexopt_icon_margin" />
+  <java-symbol type="dimen" name="dexopt_icon_size" />
+  <java-symbol type="dimen" name="dexopt_logo_size" />
+  <java-symbol type="dimen" name="dexopt_margin" />
+  <java-symbol type="dimen" name="dexopt_logo_margin_top" />
+  <java-symbol type="dimen" name="dexopt_shadow_margin_top" />
+  <java-symbol type="layout" name="dexopt_layout" />
+  <java-symbol type="id" name="dexopt_icon" />
+  <java-symbol type="id" name="dexopt_message" />
+  <java-symbol type="id" name="dexopt_message_detail" />
+  <java-symbol type="id" name="dexopt_progress" />
+  <java-symbol type="id" name="dexopt_logo" />
+  <java-symbol type="id" name="dexopt_logo_shadow" />
+  <java-symbol type="id" name="dexopt_logo_text" />
+  <java-symbol type="id" name="dexopt_logo_text_shadow" />
+  <java-symbol type="drawable" name="dexopt_brand_logo" />
+  <java-symbol type="drawable" name="logo_cmremix" />
+  <java-symbol type="drawable" name="dexopt_logo_text" />
+  <java-symbol type="drawable" name="dexopt_logo_text_shadow1" />
+  <java-symbol type="drawable" name="dexopt_logo_text_shadow2" />
+
 </resources>
