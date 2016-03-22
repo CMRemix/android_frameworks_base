@@ -32,6 +32,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.cyanogenmod.internal.logging.CMMetricsLogger;
+
+import com.android.internal.logging.MetricsLogger;
 import com.android.internal.utils.du.DUActionUtils;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSDetailItemsList;
@@ -227,6 +229,16 @@ public class NavBarTile extends QSTile<NavBarTile.NavbarState> {
         }
 
         @Override
+        public int getMetricsCategory() {
+            return MetricsLogger.DISPLAY;
+        }
+
+        @Override
+        public StatusBarPanelCustomTile getCustomTile() {
+            return null;
+        }
+
+        @Override
         public Intent getSettingsIntent() {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setClassName(SETTINGS_PACKAGE_NAME, NAVBAR_SETTINGS);
@@ -235,14 +247,8 @@ public class NavBarTile extends QSTile<NavBarTile.NavbarState> {
 
         @Override
         public void setToggleState(boolean state) {
-            //MetricsLogger.action(mContext, MetricsLogger.QS_NAVBAR_TOGGLE, state);
             Settings.Secure.putInt(mContext.getContentResolver(),
                     Settings.Secure.NAVIGATION_BAR_VISIBLE, state ? 1 : 0);
-        }
-
-        @Override
-        public StatusBarPanelCustomTile getCustomTile() {
-            return null;
         }
 
         @Override
