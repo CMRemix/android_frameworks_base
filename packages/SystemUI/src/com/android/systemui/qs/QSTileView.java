@@ -542,6 +542,9 @@ public class QSTileView extends ViewGroup {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_ICON_COLOR),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TEXT_COLOR),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -569,7 +572,12 @@ public class QSTileView extends ViewGroup {
 		updateColors();
 		setIconColor();
 		}
+	if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_TEXT_COLOR))) {
+		updateColors();
+		setIconColor();
         }
+    }
 
         public void update() {
 	ContentResolver resolver = mContext.getContentResolver();

@@ -332,28 +332,22 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         loadDimens();
         updateVisibilities();
         updateClockScale();
-        updateAvatarScale();
-	    hidepanelItems();
-
-	    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-        if(mColorSwitch){
-	        setclockcolor();
-	        setdetailcolor();
-	        setweathercolor1();
-	        setweathercolor2();
-	        setalarmtextcolor();
-	        setbatterytextcolor();
-        }
-
-        setQSHeaderAlpha();
-	    setHeaderColor();
-        setStatusBarClockFontStyle(mStatusBarHeaderClockFont);
+	updateAvatarScale();
+	hidepanelItems();
+	setclockcolor();
+	setdetailcolor();
+	setweathercolor1();
+	setweathercolor2();
+	setalarmtextcolor();   
+	setbatterytextcolor();     
+	setQSHeaderAlpha();
+	setHeaderColor();
+	setStatusBarClockFontStyle(mStatusBarHeaderClockFont);
 	setStatusBarWeatherFontStyle(mStatusBarHeaderWeatherFont);
 	setStatusBarHeaderFontStyle(mStatusBarHeaderFontStyle);
 	setStatusBarAlarmFontStyle(mStatusBarHeaderAlarmFont);
 	setStatusBarDateFontStyle(mStatusBarHeaderDateFont);
-        setStatusBarDetailFontStyle(mStatusBarHeaderDetailFont);
+	setStatusBarDetailFontStyle(mStatusBarHeaderDetailFont);
         addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right,
@@ -422,9 +416,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mHeaderView.getBackground().setColorFilter(
                         mHeaderColor, Mode.SRC_IN);
         }
-	if (mBackgroundImage != null) {
-            mBackgroundImage.setColorFilter(mHeaderColor);
-       	 }
 	if ( mQsDetailHeaderTitle != null) {
 	    mQsDetailHeaderTitle.setTextColor(mQsDetailColor);
 	}
@@ -433,9 +424,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	if (mHeaderView != null) {
             mHeaderView.getBackground().setColorFilter(null);
         }
-        if (mBackgroundImage != null) {
-            mBackgroundImage.setColorFilter(null);
-       	 }
 	if ( mQsDetailHeaderTitle != null) {
 	    mQsDetailHeaderTitle.setTextColor(mStockHeaderText);
 		}
@@ -483,16 +471,19 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mClockCollapsedScaleFactor = (float) mClockCollapsedSize / (float) mClockExpandedSize;
         updateClockScale();
         updateClockCollapsedMargin();
-	    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-        if(mColorSwitch){
-	        setclockcolor();
-	        setdetailcolor();
-	        setweathercolor1();
-	        setweathercolor2();
-	        setalarmtextcolor();
-	        setbatterytextcolor();
-        }
+	setclockcolor();
+	setdetailcolor();
+	setweathercolor1();
+	setweathercolor2();	
+	setalarmtextcolor();
+	setbatterytextcolor();
+    }
+
+
+    public void vibrateheader(int duration) {
+        if (mVibrator != null) {
+            if (mVibrator.hasVibrator()) { mVibrator.vibrate(duration); }
+        	}
     }
 
     @Override
@@ -555,16 +546,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mMultiUserSwitch.setActivityStarter(activityStarter);
             mWeatherDetailed.setActivityStarter(activityStarter);
         }
-    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-        if(mColorSwitch){
-	        setclockcolor();
-	        setdetailcolor();
-	        setweathercolor1();
-	        setweathercolor2();
-	        setalarmtextcolor();
-	        setbatterytextcolor();
-        }
+
     }
 
     public void setBatteryController(BatteryController batteryController) {
@@ -636,16 +618,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         updateClockLp();
         requestCaptureValues();
 
-	mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-        if(mColorSwitch){
-	        setclockcolor();
-	        setdetailcolor();
-	        setweathercolor1();
-	        setweathercolor2();
-	        setalarmtextcolor();
-	        setbatterytextcolor();
-        }
     }
 
     void setTaskManagerEnabled(boolean enabled) {
@@ -687,17 +659,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 mDockBatteryLevel.setVisibility(View.VISIBLE);
             }
             mWeatherImage.setVisibility((mExpanded && isShowWeatherHeader())? View.VISIBLE : View.INVISIBLE);
-	        mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-	        if(mColorSwitch){
-	        setclockcolor();
-	        setdetailcolor();
-	        setweathercolor1();
-	        setweathercolor2();	
-	        setalarmtextcolor();
-	        setbatterytextcolor();
-	        }
         }
+         applyHeaderBackgroundShadow();
     }
 
 	public void hidepanelItems() {
@@ -944,7 +907,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     info.temp,
                     info.condition));
         }
-        mWeatherLine2.setText(info.city);
+            mWeatherLine2.setText(info.city);
+
     }
 
     private void updateClickTargets() {
@@ -1645,47 +1609,45 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         @Override
         protected void observe() {
             super.observe();
-
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.STATUS_BAR_SHOW_WEATHER), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.STATUS_BAR_BATTERY_STYLE), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.STATUS_BAR_SHOW_BATTERY_PERCENT), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_TRANSPARENT_HEADER), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_HEADER_FONT_STYLE), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_CLOCK), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_DATE), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_CLOCKVALUE), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_BATTERY), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_ICONS), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_SETTINGS_ICON), false, this, UserHandle.USER_ALL);
-           resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_USER_ICON), false, this, UserHandle.USER_ALL);
-	            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADER_CLOCK_FONT_STYLE), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HIDE_PANEL_ALARM), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADER_ALARM_FONT_STYLE), false, this, UserHandle.USER_ALL);
-  resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADER_DETAIL_FONT_STYLE), false, this, UserHandle.USER_ALL);
- resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADER_ALARM_FONT_STYLE), false, this, UserHandle.USER_ALL);
- resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_COLOR_SWITCH), false, this,
-                    UserHandle.USER_ALL);
-	
-            update();
+	resolver.registerContentObserver(CMSettings.System.getUriFor(
+			CMSettings.System.STATUS_BAR_SHOW_WEATHER), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(CMSettings.System.getUriFor(
+			CMSettings.System.STATUS_BAR_BATTERY_STYLE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(CMSettings.System.getUriFor(
+			CMSettings.System.STATUS_BAR_SHOW_BATTERY_PERCENT), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.QS_TRANSPARENT_HEADER), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.STATUS_BAR_HEADER_FONT_STYLE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_PANEL_CLOCK), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_PANEL_DATE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_PANEL_CLOCKVALUE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_PANEL_BATTERY), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_PANEL_ICONS), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_SETTINGS_ICON), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HIDE_USER_ICON), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HEADER_CLOCK_FONT_STYLE), false, this, UserHandle.USER_ALL);
+    resolver.registerContentObserver(Settings.System.getUriFor(
+            Settings.System.HIDE_PANEL_ALARM), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HEADER_ALARM_FONT_STYLE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HEADER_DETAIL_FONT_STYLE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.HEADER_ALARM_FONT_STYLE), false, this, UserHandle.USER_ALL);
+	resolver.registerContentObserver(Settings.System.getUriFor(
+			Settings.System.QS_COLOR_SWITCH), false, this,
+			UserHandle.USER_ALL);
+			update();
         }
 
 	@Override
@@ -1757,24 +1719,20 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 UserHandle.USER_CURRENT);
 
 	    setStatusBarHeaderFontStyle	(mStatusBarHeaderFontStyle);
-            setStatusBarWeatherFontStyle(mStatusBarHeaderWeatherFont);
+        setStatusBarWeatherFontStyle(mStatusBarHeaderWeatherFont);
 	    setStatusBarClockFontStyle(mStatusBarHeaderClockFont);
 	    setStatusBarAlarmFontStyle(mStatusBarHeaderAlarmFont);
 	    setStatusBarDateFontStyle(mStatusBarHeaderDateFont);
-            setStatusBarDetailFontStyle(mStatusBarHeaderDetailFont);
-	    mColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System. HEADER_COLOR_SWITCH, 0) == 1;
-		if(mColorSwitch){
-		setclockcolor();
-		setdetailcolor();
-		setweathercolor1();
-		setweathercolor2();
-		setalarmtextcolor();
-		setbatterytextcolor();
-		}
-        updateVisibilities();
-        requestCaptureValues();
+        setStatusBarDetailFontStyle(mStatusBarHeaderDetailFont);
+	    setclockcolor();
+	    setdetailcolor();
+	    setweathercolor1();
+	    setweathercolor2();	
+	    setalarmtextcolor();
+	    setbatterytextcolor();	    
 	    setHeaderColor();
+	    hidepanelItems();   
+	    updateEverything();
         }
     }
 

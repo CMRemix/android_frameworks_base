@@ -149,23 +149,24 @@ public class QSPanel extends ViewGroup {
         boolean brightnessSliderEnabled = CMSettings.System.getIntForUser(
             mContext.getContentResolver(), CMSettings.System.QS_SHOW_BRIGHTNESS_SLIDER,
                 1, UserHandle.USER_CURRENT) == 1;
-        boolean brightnessIconEnabled = Settings.System.getIntForUser(
+ 	boolean brightnessIconEnabled = Settings.System.getIntForUser(
             mContext.getContentResolver(), Settings.System.BRIGHTNESS_ICON,
                 1, UserHandle.USER_CURRENT) == 1;
         ToggleSlider brightnessSlider = (ToggleSlider) findViewById(R.id.brightness_slider);
         ImageView brightnessIcon = (ImageView) findViewById(R.id.brightness_icon);
         if (brightnessSliderEnabled) {
-            mBrightnessView.setVisibility(VISIBLE);
-            brightnessSlider.setVisibility(VISIBLE);
-            if (brightnessIconEnabled) {
-                brightnessIcon.setVisibility(VISIBLE);
+  	if (brightnessIconEnabled) {
+            brightnessIcon.setVisibility(View.VISIBLE);
             } else {
-                brightnessIcon.setVisibility(GONE);
+            brightnessIcon.setVisibility(View.GONE);
             }
+            mBrightnessView.setVisibility(View.VISIBLE);
+            brightnessSlider.setVisibility(View.VISIBLE);
+            
         } else {
-            mBrightnessView.setVisibility(GONE);
-            brightnessSlider.setVisibility(GONE);
-            brightnessIcon.setVisibility(GONE);
+            mBrightnessView.setVisibility(View.GONE);
+            brightnessSlider.setVisibility(View.GONE);
+	        brightnessIcon.setVisibility(View.GONE);	       
         }
  	    updatecolors();
         updateResources();
@@ -189,11 +190,11 @@ public class QSPanel extends ViewGroup {
     }
 
    public void updatecolors() {
+	ImageView brightnessIcon = (ImageView) findViewById(R.id.brightness_icon);
 	mQsColorSwitch = Settings.System.getInt(getContext().getContentResolver(),
                 Settings.System.QS_COLOR_SWITCH, 0) == 1;
 	int mIconColor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_BRIGHTNESS_ICON_COLOR, 0xFFFFFFFF);
-        ImageView brightnessIcon = (ImageView) findViewById(R.id.brightness_icon);
 	if (mQsColorSwitch) {
 	    brightnessIcon.setColorFilter(mIconColor, Mode.SRC_IN);
 		}
