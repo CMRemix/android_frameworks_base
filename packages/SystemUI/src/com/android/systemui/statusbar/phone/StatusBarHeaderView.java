@@ -495,12 +495,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         setListening(false);
     }
 
-    public void vibrateheader(int duration) {
-        if (mVibrator != null) {
-            if (mVibrator.hasVibrator()) { mVibrator.vibrate(duration); }
-        }
-    }
-
     private void updateClockCollapsedMargin() {
         Resources res = getResources();
         int padding = res.getDimensionPixelSize(R.dimen.clock_collapsed_bottom_margin);
