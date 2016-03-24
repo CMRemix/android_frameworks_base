@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
+ * Copyright (c) 2016, NVIDIA CORPORATION. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -209,9 +210,29 @@ public class JobStatus {
     public synchronized boolean isReady() {
         // Deadline constraint trumps other constraints
         // AppNotIdle implicit constraint trumps all!
-        return (isConstraintsSatisfied()
-                    || (hasDeadlineConstraint() && deadlineConstraintSatisfied.get()))
-                && appNotIdleConstraintSatisfied.get();
+        if (hasDeadlineConstraint() && deadlineConstraintSatisfied.get()) {
+            return appNotIdleConstraintSatisfied.get();
+        }
+
+        // Has Deadline, but not satified, just check other constraints
+        if (hasDeadlineConstraint() && !deadlineConstraintSatisfied.get()) {
+            if (!hasConstraintExceptDeadline()) {
+                return false;
+            } else {
+                //fall through to final check
+            }
+        }
+
+        return isConstraintsSatisfied() && appNotIdleConstraintSatisfied.get();
+    }
+
+    /**
+     * @return Whether there is other constraint except deadline.
+     */
+    public synchronized boolean hasConstraintExceptDeadline() {
+        return hasChargingConstraint() || hasTimingDelayConstraint()
+                || hasConnectivityConstraint() || hasUnmeteredConstraint()
+                || hasIdleConstraint();
     }
 
     /**
