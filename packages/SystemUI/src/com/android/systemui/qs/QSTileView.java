@@ -70,7 +70,7 @@ public class QSTileView extends ViewGroup {
     private final int mTileSpacingPx;
     private int mTilePaddingTopPx;
     private int mTilePaddingBelowIconPx;
-    private final int mDualTileVerticalPaddingPx;
+    private int mDualTileVerticalPaddingPx;
     private final View mTopBackgroundView;
     private boolean mQsColorSwitch = false;
     public int mIconColor;
@@ -122,10 +122,12 @@ public class QSTileView extends ViewGroup {
 
     void updateDimens(Resources res, float scaleFactor) {
         mSizeScale = scaleFactor;
-        mIconSizePx = Math
-                .round(res.getDimensionPixelSize(R.dimen.qs_tile_icon_size) * scaleFactor);
+        mIconSizePx = Math.round(res
+                .getDimensionPixelSize(R.dimen.qs_tile_icon_size) * scaleFactor);
         mTilePaddingBelowIconPx = Math.round(res
                 .getDimensionPixelSize(R.dimen.qs_tile_padding_below_icon) * scaleFactor);
+        mDualTileVerticalPaddingPx = Math.round(res
+                .getDimensionPixelSize(R.dimen.qs_dual_tile_padding_vertical) * scaleFactor);
     }
 
     private void updateTopPadding() {
