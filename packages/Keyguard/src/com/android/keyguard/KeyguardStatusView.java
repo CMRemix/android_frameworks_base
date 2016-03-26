@@ -352,12 +352,22 @@ public class KeyguardStatusView extends GridLayout implements
         if (forceHide) {
             mWeatherView.setVisibility(View.GONE);
         } else {
-            mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
+            if (mWeatherView != null) {
+                mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
+            }
         }
-        mWeatherCity.setVisibility(showLocation ? View.VISIBLE : View.INVISIBLE);
-        mWeatherCity.setTextColor(primaryTextColor);
-        mWeatherConditionText.setTextColor(primaryTextColor);
-        mWeatherCurrentTemp.setTextColor(secondaryTextColor);
+        if (mWeatherCity != null) {
+            mWeatherCity.setVisibility(showLocation ? View.VISIBLE : View.INVISIBLE);
+        }
+        if (mWeatherCity != null) {
+            mWeatherCity.setTextColor(primaryTextColor);
+        }
+        if (mWeatherConditionText != null) {
+            mWeatherConditionText.setTextColor(primaryTextColor);
+        }
+        if (mWeatherCurrentTemp != null) {
+            mWeatherCurrentTemp.setTextColor(secondaryTextColor);
+        }
 
         if (showClock) {
             mClockView = (TextClock) findViewById(R.id.clock_view);
@@ -381,7 +391,6 @@ public class KeyguardStatusView extends GridLayout implements
             mAlarmStatusView.setVisibility(View.GONE);
         }
 
-       
         if (lockClockFont == 0) {
             mClockView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         }
@@ -471,13 +480,15 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherController.updateWeather();
         }
 
-        mWeatherConditionImage.setImageDrawable(null);
+        if (mWeatherConditionImage != null) {
+            mWeatherConditionImage.setImageDrawable(null);
+        }
         Drawable weatherIcon = mWeatherConditionDrawable;
         if (iconNameValue == 0 || colorizeAllIcons) {
             Bitmap coloredWeatherIcon =
                     ImageHelper.getColoredBitmap(weatherIcon, iconColor);
             mWeatherConditionImage.setImageBitmap(coloredWeatherIcon);
-        } else {
+        } else if (mWeatherConditionImage != null) {
             mWeatherConditionImage.setImageDrawable(weatherIcon);
         }
     }
