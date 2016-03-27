@@ -33,7 +33,6 @@ import android.widget.ListView;
 
 import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
-import com.android.internal.logging.MetricsLogger;
 import com.android.internal.utils.du.DUActionUtils;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSDetailItemsList;
@@ -230,7 +229,7 @@ public class NavBarTile extends QSTile<NavBarTile.NavbarState> {
 
         @Override
         public int getMetricsCategory() {
-            return MetricsLogger.DISPLAY;
+            return CMMetricsLogger.DONT_LOG;
         }
 
         @Override
