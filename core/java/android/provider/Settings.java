@@ -5093,6 +5093,12 @@ public final class Settings {
          */
         public static final String TRANSPARENT_VOLUME_DIALOG = "transparent_volume_dialog";
 
+	/**
+         * Heads up timeout configuration
+         * @hide
+         */
+        public static final String HEADS_UP_TIMEOUT = "heads_up_timeout";
+
         /**
          * Transparent power menu and dialogs
          * @hide
