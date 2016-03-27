@@ -30,6 +30,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -49,7 +50,6 @@ import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 public class KeyguardIndicationController {
 
     private static final String TAG = "KeyguardIndicationController";
-    private static final boolean DEBUG_CHARGING_CURRENT = true;
 
     private static final int MSG_HIDE_TRANSIENT = 1;
     private static final int MSG_CLEAR_FP_MSG = 2;
@@ -178,7 +178,9 @@ public class KeyguardIndicationController {
         }
         if (mPowerPluggedIn) {
             String indication = computePowerIndication();
-            if (DEBUG_CHARGING_CURRENT) {
+            boolean showChargingCurrent = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.KEYGUARD_SHOW_CHARGING_CURRENT, 0) == 1;
+            if (showChargingCurrent) {
                 indication += ",  " + mChargingCurrent + " mA";
             }
             return indication;

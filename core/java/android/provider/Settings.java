@@ -5452,6 +5452,18 @@ public final class Settings {
         public static final String DOZE_SCREEN_BRIGHTNESS = "doze_screen_brightness";
 
         /**
+         * Color of the keyguard lock icon
+         * @hide
+         */
+        public static final String KEYGUARD_LOCK_ICON_COLOR = "keyguard_lock_icon_color";
+
+        /**
+         * Show or hide charging current on lockscreen when device is plugged in
+         * @hide
+         */
+        public static final String KEYGUARD_SHOW_CHARGING_CURRENT = "keyguard_show_charging_current";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
