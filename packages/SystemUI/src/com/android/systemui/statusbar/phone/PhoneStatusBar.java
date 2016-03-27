@@ -471,6 +471,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     boolean mExpandedVisible;
 
+    // QS Colors
+    private int mQsIconColor;
+    private int mLabelColor;
+
    // Custom Logos
     private boolean mCustomlogo;
     private ImageView mCLogo;
@@ -728,13 +732,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_TEXT_COLOR),
                     false, this, UserHandle.USER_ALL);
-	    resolver.registerContentObserver(Settings.System.getUriFor(
+	        resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_BACKGROUND_COLOR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_ICON_COLOR),
                     false, this, UserHandle.USER_ALL);
-	    resolver.registerContentObserver(Settings.System.getUriFor(
+	        resolver.registerContentObserver(Settings.System.getUriFor(
+			        Settings.System.QS_TEXT_COLOR),
+			        false, this, UserHandle.USER_ALL);
+	        resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHOW_CUSTOM_LOGO),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -830,6 +837,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_ICON_COLOR))) {
                 DontStressOnRecreate();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_TEXT_COLOR))) {
+                DontStressOnRecreate();
 	        } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_HEADER_TEXT_COLOR))
                     || uri.equals(Settings.System.getUriFor(
@@ -878,13 +888,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             UserHandle.USER_CURRENT);
             mAutomaticBrightness = mode != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
             mBrightnessControl = CMSettings.System.getIntForUser(
-                    resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
-                    UserHandle.USER_CURRENT) == 1;
-            mQsColorSwitch = Settings.System.getIntForUser(resolver,
-                    Settings.System.QS_COLOR_SWITCH, 0, mCurrentUserId) == 1;
-
-            mIconColor = Settings.System.getIntForUser(resolver,
-                    Settings.System.QS_ICON_COLOR, 0xFFFFFFFF, mCurrentUserId);
+			resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
+			UserHandle.USER_CURRENT) == 1;
+		mQsColorSwitch = Settings.System.getIntForUser(resolver,
+			Settings.System.QS_COLOR_SWITCH, 0, mCurrentUserId) == 1;
+		mQsIconColor = Settings.System.getIntForUser(resolver,
+			Settings.System.QS_ICON_COLOR, 0xFFFFFFFF, mCurrentUserId);
+		mLabelColor = Settings.System.getIntForUser(resolver,
+			Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF, mCurrentUserId);
 
 		mCustomlogoStyle = Settings.System.getIntForUser(
 		resolver, Settings.System.CUSTOM_LOGO_STYLE, 0,
@@ -1920,8 +1931,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		}
 		showmCustomlogo(mCustomlogo, mCustomlogoColor,  mCustomlogoStyle);
 
-        mIconColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+        mQsIconColor = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.QS_ICON_COLOR, 0xFFFFFFFF, mCurrentUserId);
+
+        mLabelColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF, mCurrentUserId);
 
         mKeyguardUserSwitcher = new KeyguardUserSwitcher(mContext,
                 (ViewStub) mStatusBarWindowContent.findViewById(R.id.keyguard_user_switcher),

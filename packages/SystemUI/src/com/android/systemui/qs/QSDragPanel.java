@@ -116,6 +116,10 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
     private int moreSlots;
     public QSTileView mTileView;
 
+    // QS Colors
+    private int mQsIconColor;
+    private int mLabelColor;
+
     protected Vibrator mVibrator;
     private boolean mQsVibSignlepress = false;
 
@@ -168,15 +172,17 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
         mDetail.setClickable(true);
 	mQsColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_COLOR_SWITCH, 0) == 1;
-	int QsTextColor = Settings.System.getInt(mContext.getContentResolver(),
+	mLabelColor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF);
+	mQsIconColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_ICON_COLOR, 0xFFFFFFFF);
 	 if (mQsColorSwitch) {
-            mDetailDoneButton.setTextColor(QsTextColor);
-            mDetailSettingsButton.setTextColor(QsTextColor);
-	    mDetailRemoveButton.setTextColor(QsTextColor);
+            mDetailDoneButton.setTextColor(mLabelColor);
+            mDetailSettingsButton.setTextColor(mLabelColor);
+	    mDetailRemoveButton.setTextColor(mLabelColor);
         }
 
-	    mQsVibSignlepress = Settings.System.getInt(mContext.getContentResolver(),
+	mQsVibSignlepress = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QUICK_SETTINGS_SP_VIBRATE, 0) == 1;
 
         mQsPanelTop = (QSPanelTopView) LayoutInflater.from(mContext).inflate(R.layout.qs_tile_top,
@@ -804,9 +810,9 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
     }
 
     public void updateicons() {
-	int mQsText = Settings.System.getInt(mContext.getContentResolver(),
+	mLabelColor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF);
-	int mQsIcon = Settings.System.getInt(mContext.getContentResolver(),
+	mQsIconColor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QS_ICON_COLOR, 0xFFFFFFFF);
 	}
 
