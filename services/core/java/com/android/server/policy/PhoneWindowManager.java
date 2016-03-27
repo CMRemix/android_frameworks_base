@@ -7018,14 +7018,16 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    Handler animHandler = new Handler();
+                    /*Handler animHandler = new Handler();
                     animHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mBootMsgDialog.dismiss();
                             mBootMsgDialog = null;
                         }
-                    }, 100);
+                    }, 100); */
+                    mBootMsgDialog.dismiss();
+                    mBootMsgDialog = null;
                 }
                 @Override
                 public void onAnimationRepeat(Animation animation) {

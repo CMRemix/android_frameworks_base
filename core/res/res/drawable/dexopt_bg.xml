@@ -15,5 +15,14 @@
     limitations under the License.
 -->
 
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/logo_cmremix" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:centerColor="@color/dexopt_background"
+        android:endColor="@color/black"
+        android:gradientRadius="436dp"
+        android:startColor="#ff313131"
+        android:type="radial" />
+
+</shape>

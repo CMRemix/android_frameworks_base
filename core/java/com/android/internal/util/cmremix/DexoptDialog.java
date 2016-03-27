@@ -41,6 +41,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.internal.R;
@@ -68,6 +69,8 @@ public class DexoptDialog extends Dialog {
     private ImageView mLogoText;
     private ImageView mLogoTextShadow;
 
+    private RelativeLayout mAppIconFrame;
+
     public static DexoptDialog create(Context context) {
         return create(context,  WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
     }
@@ -93,6 +96,7 @@ public class DexoptDialog extends Dialog {
         mLogoShadow = (ImageView) rootView.findViewById(R.id.dexopt_logo_shadow);
         mLogoText = (ImageView) rootView.findViewById(R.id.dexopt_logo_text);
         mLogoTextShadow = (ImageView) rootView.findViewById(R.id.dexopt_logo_text_shadow);
+        mAppIconFrame = (RelativeLayout) rootView.findViewById(R.id.dexopt_icon_frame);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(rootView);
@@ -136,6 +140,7 @@ public class DexoptDialog extends Dialog {
         if (info == null) {
             if (current == Integer.MIN_VALUE) {
                 msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_starting_apps);
+                mAppIconFrame.setVisibility(View.GONE);
             } else if (current == (Integer.MIN_VALUE + 1)) {
                 msg = mContext.getResources().getString(com.android.internal.R.string.android_upgrading_fstrim);
             } else if (current == (Integer.MIN_VALUE + 3)) {

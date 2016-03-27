@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (C) 2015 CMRemix Rom
+<!-- Copyright (C) 2016 AllianceROM, ~Morningstar
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,15 +13,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<!-- Colors specific to Material themes. -->
-<resources>
-
-    <!-- Dexopt dialog -->
-    <color name="dexopt_background">#ff212121</color>
-    <color name="dexopt_primary_text">#ffffffff</color>
-    <color name="dexopt_secondary_text">#b3ffffff</color>
-    <color name="dexopt_progress_tint">#ff6a1212</color>
-    <color name="dexopt_circle_color">#cc121212</color>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+	android:shape="oval">
+	<corners android:radius="10dp" />
+	<stroke android:color="@color/dexopt_progress_tint" android:width="2dp" />
+	<solid android:color="@color/dexopt_circle_color" />
+</shape>

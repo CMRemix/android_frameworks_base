@@ -190,6 +190,7 @@
   <java-symbol type="id" name="dexopt_logo_shadow" />
   <java-symbol type="id" name="dexopt_logo_text" />
   <java-symbol type="id" name="dexopt_logo_text_shadow" />
+  <java-symbol type="id" name="dexopt_icon_frame" />
   <java-symbol type="drawable" name="dexopt_brand_logo" />
   <java-symbol type="drawable" name="logo_cmremix" />
   <java-symbol type="drawable" name="dexopt_logo_text" />

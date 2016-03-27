@@ -18,8 +18,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dexopt_background"
-    android:padding="@dimen/dexopt_margin">
+    android:background="@drawable/dexopt_bg"
+    android:padding="@dimen/dexopt_margin"
+    android:animateLayoutChanges="true">
 
     <ImageView
         android:id="@+id/dexopt_logo_shadow"
@@ -64,94 +65,81 @@
         android:src="@drawable/dexopt_logo_text_shadow2"
         android:contentDescription="@null" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/dexopt_message"
+        android:layout_above="@+id/dexopt_message_detail"
+        style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center"
-        android:layout_centerHorizontal="true">
+        android:lines="1"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/dexopt_primary_text"
+        tools:text="Optimizing app 4 of 100."
+        android:layout_centerHorizontal="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="36dp">
+    <TextView
+        android:id="@+id/dexopt_message_detail"
+        android:layout_above="@+id/dexopt_progress"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:lines="1"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/dexopt_secondary_text"
+        android:visibility="gone"
+        tools:text="(com.android.internal)"
+        tools:visibility="visible"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true" />
 
-            <ImageView
-                android:id="@+id/dexopt_icon"
-                android:layout_width="@dimen/dexopt_icon_size"
-                android:layout_height="@dimen/dexopt_icon_size"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/dexopt_icon_margin"
-                android:scaleType="centerInside"
-                tools:src="@drawable/dexopt_brand_logo"
-                android:contentDescription="@null" />
+    <ProgressBar
+        android:id="@+id/dexopt_progress"
+        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        tools:progress="10"
+        android:progressTintMode="src_atop"
+        android:progressTint="@color/dexopt_progress_tint"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/dexopt_message"
-                    style="?android:attr/textAppearanceMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="1"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:textColor="@color/dexopt_primary_text"
-                    tools:text="Optimizing app 4 of 100." />
+    <RelativeLayout
+        android:id="@+id/dexopt_icon_frame"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/dexopt_message"
+        android:layout_marginBottom="20dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/circle">
 
-                <TextView
-                    android:id="@+id/dexopt_message_detail"
-                    style="?android:attr/textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="1"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:textColor="@color/dexopt_secondary_text"
-                    android:visibility="gone"
-                    tools:text="(com.android.internal)"
-                    tools:visibility="visible" />
+        <ImageView
+            android:id="@+id/dexopt_icon"
+            android:layout_width="@dimen/dexopt_icon_size"
+            android:layout_height="@dimen/dexopt_icon_size"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dexopt_icon_margin"
+            android:scaleType="centerInside"
+            tools:src="@drawable/dexopt_brand_logo"
+            android:contentDescription="@null"
+            android:layout_centerInParent="true" />
 
-            </LinearLayout>
-
-            <Space
-                android:layout_width="@dimen/dexopt_icon_size"
-                android:layout_height="@dimen/dexopt_icon_size"
-                android:layout_margin="@dimen/dexopt_icon_margin" />
-
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/dexopt_progress"
-            style="@android:style/Widget.Material.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="false"
-            tools:progress="10"
-            android:progressTintMode="src_atop"
-            android:progressTint="@color/dexopt_progress_tint" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
