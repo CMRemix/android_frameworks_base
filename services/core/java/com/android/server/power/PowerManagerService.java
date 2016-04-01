@@ -76,6 +76,7 @@ import android.provider.Settings;
 import android.service.dreams.DreamManagerInternal;
 import android.telephony.TelephonyManager;
 import android.util.EventLog;
+import android.util.Log;
 import android.util.Slog;
 import android.util.TimeUtils;
 import android.view.Display;
@@ -85,6 +86,10 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.IOException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import cyanogenmod.providers.CMSettings;
 import org.cyanogenmod.internal.util.ThemeUtils;
@@ -522,6 +527,7 @@ public final class PowerManagerService extends SystemService
     private static native void nativeSendPowerHint(int hintId, int data);
     private static native void nativeSetFeature(int featureId, int data);
     private static native int nativeGetFeature(int featureId);
+    private static native void nativeCpuBoost(int duration);
 
     private boolean mKeyboardVisible = false;
 
@@ -2488,6 +2494,19 @@ public final class PowerManagerService extends SystemService
         return mUiContext != null ? mUiContext : mContext;
     }
 
+    /**
+     * Boost the CPU
+     * @param duration Duration to boost the CPU for, in milliseconds.
+     * @hide
+     */
+    public void cpuBoost(int duration) {
+        if (duration > 0 && duration <= MAX_CPU_BOOST_TIME) {
+            nativeCpuBoost(duration);
+        } else {
+            Log.e(TAG, "Invalid boost duration: " + duration);
+        }
+    }
+ 
     private void shutdownOrRebootInternal(final boolean shutdown, final boolean confirm,
             final String reason, boolean wait) {
         if (mHandler == null || !mSystemReady) {
