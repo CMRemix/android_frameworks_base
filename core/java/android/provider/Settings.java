@@ -5464,6 +5464,12 @@ public final class Settings {
         public static final String KEYGUARD_SHOW_CHARGING_CURRENT = "keyguard_show_charging_current";
 
         /**
+         * Force heads up in all applications
+         * @hide
+         */
+        public static final String HEADS_UP_FORCE_ALL = "heads_up_force_all";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
