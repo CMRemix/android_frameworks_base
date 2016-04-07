@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.os.PowerManager;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.MathUtils;
@@ -45,6 +46,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.GestureDetector;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
