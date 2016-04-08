@@ -2966,7 +2966,6 @@ public class NotificationPanelView extends PanelView implements
         return !tasks.isEmpty() && pkgName.equals(tasks.get(0).topActivity.getPackageName());
     }
 
-
  public void setQSBackgroundColor() {
 	final Resources res = getContext().getResources();
         ContentResolver resolver = mContext.getContentResolver();
@@ -3000,5 +2999,9 @@ public class NotificationPanelView extends PanelView implements
         if (mQsPanel != null) {
             mQsPanel.refreshAllTiles();
         }
+    }
+
+    public void slideLockScreenOut() {
+        mSwipeCallback.onChildDismissed(this);
     }
 }
