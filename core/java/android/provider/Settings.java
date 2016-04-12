@@ -5141,20 +5141,6 @@ public final class Settings {
          */
         public static final String STATUS_BAR_HEADER_FONT_STYLE = "status_bar_header_font_style";
 
-        /**
-         * Timeout for Heads Up
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_TIMEOUT = "heads_up_timeout";
-
-        /**
-         * Snooze time for heads up
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_SNOOZE_LENGTH_MS = "heads_up_snooze_length_ms";
-
          /**
          * Change the color of the lockscreen bottom camera shortcut
          *
