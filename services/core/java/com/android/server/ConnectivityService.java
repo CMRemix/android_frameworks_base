@@ -627,9 +627,21 @@ public class ConnectivityService extends IConnectivityManager.Stub
         return new HandlerThread("ConnectivityServiceThread");
     }
 
+    // This variable defines the behavior of Cellular connection when non-Cellular network with
+    // higher score is connected. There is situation when network operator prefers Cellular to be
+    // kept. For example, when a train arrived at station and passengers' devices are connected to
+    // station Wi-Fi all at once. Keeping Cellular helps to reduce the load of detachment and
+    // re-attachment (when leaving station) signals to operator network.
+    private final boolean mKeepPdpDuringNonCellular;
+
     public ConnectivityService(Context context, INetworkManagementService netManager,
             INetworkStatsService statsService, INetworkPolicyManager policyManager) {
         if (DBG) log("ConnectivityService starting up");
+
+        // Value of "persist.pdp.during.noncellular" should be set to "true" if
+        // there is specific operator requirement for changing default Cellular behavior.
+        mKeepPdpDuringNonCellular = SystemProperties.getBoolean(
+            "persist.pdp.during.noncellular", false);
 
         mDefaultRequest = createInternetRequestForTransport(-1);
         NetworkRequestInfo defaultNRI = new NetworkRequestInfo(null, mDefaultRequest,
@@ -4318,6 +4330,15 @@ public class ConnectivityService extends IConnectivityManager.Stub
             loge("Unknown NetworkAgentInfo in handleLingerComplete");
             return;
         }
+
+        // Not handle LingerComplete, when persist.pdp.during.noncellular is true and target of
+        // LingerComplete is MOBILE.
+        if (mKeepPdpDuringNonCellular &&
+                oldNetwork.networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            if (DBG) log("Not handleLingerComplete for Type MOBILE.");
+            return;
+        }
+
         if (DBG) log("handleLingerComplete for " + oldNetwork.name());
         teardownUnneededNetwork(oldNetwork);
     }
