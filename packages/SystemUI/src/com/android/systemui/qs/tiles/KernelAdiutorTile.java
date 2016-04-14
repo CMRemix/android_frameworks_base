@@ -58,7 +58,7 @@ public class KernelAdiutorTile extends QSTile<QSTile.BooleanState> {
 	}
 	
     public int getMetricsCategory() {
-        return CMMetricsLogger.DONT_LOG;
+        return CMMetricsLogger.TILE_KERNEL_ADIUTER;
     }
 
     @Override

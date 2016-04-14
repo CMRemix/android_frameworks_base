@@ -77,7 +77,7 @@ private static final Intent POWER_SETTINGS = new Intent().setComponent(new Compo
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.DONT_LOG;
+        return CMMetricsLogger.TILE_POWER_MENU;
     }
 
     @Override

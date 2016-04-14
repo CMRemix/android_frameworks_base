@@ -123,7 +123,7 @@ public class SoundTile extends QSTile<QSTile.State> {
    
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.DONT_LOG;
+        return CMMetricsLogger.TILE_SOUND;
     }
 
 }

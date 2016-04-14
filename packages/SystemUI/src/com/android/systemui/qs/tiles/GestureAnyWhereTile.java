@@ -61,7 +61,7 @@ public class GestureAnyWhereTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.DONT_LOG;
+        return CMMetricsLogger.TILE_GESTURE_ANYWHERE;
     }
 
 

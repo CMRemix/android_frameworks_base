@@ -84,7 +84,7 @@ public class NavBarTile extends QSTile<NavBarTile.NavbarState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.DONT_LOG;
+        return CMMetricsLogger.TILE_NAVBAR;
     }
 
     @Override
@@ -229,7 +229,7 @@ public class NavBarTile extends QSTile<NavBarTile.NavbarState> {
 
         @Override
         public int getMetricsCategory() {
-            return CMMetricsLogger.DONT_LOG;
+            return CMMetricsLogger.TILE_NAVBAR;
         }
 
         @Override
