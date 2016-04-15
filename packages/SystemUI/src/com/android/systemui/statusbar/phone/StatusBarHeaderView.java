@@ -1640,8 +1640,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	resolver.registerContentObserver(Settings.System.getUriFor(
 			Settings.System.HEADER_ALARM_FONT_STYLE), false, this, UserHandle.USER_ALL);
 	resolver.registerContentObserver(Settings.System.getUriFor(
-			Settings.System.QS_COLOR_SWITCH), false, this,
-			UserHandle.USER_ALL);
+			Settings.System.QS_COLOR_SWITCH), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER), false, this);
 			update();
         }
 
@@ -1693,6 +1694,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
 	    mQsColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
 		Settings.System.QS_COLOR_SWITCH, 0) == 1;
+
+            mShowTaskManager = Settings.System.getIntForUser(resolver,
+                Settings.System.ENABLE_TASK_MANAGER, 0, currentUserId) == 1;
 
             mStatusBarHeaderFontStyle = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_HEADER_FONT_STYLE, FONT_NORMAL,
