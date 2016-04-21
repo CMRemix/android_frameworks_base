@@ -5197,6 +5197,12 @@ public final class Settings {
         public static final String LOCKSCREEN_CLOCK_DATE_COLOR = "lockscreen_clock_date_color";
 
         /**
+         * Display second in the Clock
+         * @hide
+         */
+        public static final String CLOCK_USE_SECOND = "clock_use_second";
+
+        /**
          * Change the color of the lockscreen owner's info text
          *
          * @hide
