@@ -3775,6 +3775,18 @@ public final class Settings {
 
 		public static final String STATUS_BAR_CMR_LOGO_STYLE = "status_bar_cmr_logo_style";
 
+	    /**
+         * Navbar Button Color Switch
+         * @hide
+         */
+        public static final String NAVBAR_TINT_SWITCH = "navbar_tint_switch";
+
+        /**
+         * Navbar Button Color
+         * @hide
+         */
+        public static final String NAVBAR_BUTTON_COLOR= "navbar_button_color";
+
 
         /**
          * AOKP Custom System Animations
