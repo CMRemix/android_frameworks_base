@@ -5457,6 +5457,12 @@ public final class Settings {
         public static final String KEYGUARD_SHOW_CHARGING_CURRENT = "keyguard_show_charging_current";
 
         /**
+         * whether to enable /disable showing charging current on lockscreen
+         * @hide
+         */
+        public static final String LOCK_SCREEN_SHOW_CURRENT = "lock_screen_show_current";
+
+        /**
          * Force heads up in all applications
          * @hide
          */
