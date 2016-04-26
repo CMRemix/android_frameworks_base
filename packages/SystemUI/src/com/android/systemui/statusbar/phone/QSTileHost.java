@@ -54,6 +54,7 @@ import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.EditTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.FloatingWindowsTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
@@ -333,7 +334,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
     public SecurityController getSecurityController() {
         return mSecurity;
     }
-    
+
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (!CMSettings.Secure.QS_TILES.equals(key)) {
@@ -431,6 +432,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
    	    else if (tileSpec.equals("hw_keys")) return new HardwareKeysTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
+        else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -544,6 +546,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("hw_keys")) return R.string.quick_settings_hwkeys_title;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
+        else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
         return 0;
     }
 
@@ -579,9 +582,9 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	    else if (spec.equals("reboot")) return R.drawable.ic_qs_reboot;
         else if (spec.equals("navbar")) return R.drawable.ic_qs_smartbar;
 	    else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
-	    else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;	
-	    else if (spec.equals("screenrecord")) return R.drawable.ic_qs_screenrecord;	
-	    else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;	
+	    else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;
+	    else if (spec.equals("screenrecord")) return R.drawable.ic_qs_screenrecord;
+	    else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
 	    else if (spec.equals("appsidebar")) return R.drawable.ic_qs_appsidebar_on;
 	    else if (spec.equals("restartui")) return R.drawable.ic_qs_systemui_restart;
         else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
@@ -596,6 +599,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("hw_keys")) return R.drawable.ic_qs_hwkeys_on;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
         else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
+        else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
         return 0;
     }
 

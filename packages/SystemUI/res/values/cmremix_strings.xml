@@ -225,5 +225,15 @@
     <!-- vibrate/silent icon switch -->
     <string name="status_bar_vibsil">vibrate/silent</string>
 
-</resources>
+    <!-- Title shown in recents popup for showing app launch in floating mode -->
+    <string name="recent_float_mode_title">Float Mode</string>
 
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_floating_windows_on">Float Mode Enabled</string>
+    <string name="quick_settings_floating_windows_off">Float Mode Disabled</string>
+
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_slim_floats_on">Slim Float Mode Enabled</string>
+    <string name="quick_settings_slim_floats_off">Slim Float Mode Disabled</string>
+
+</resources>
