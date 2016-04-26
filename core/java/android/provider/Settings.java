@@ -5525,6 +5525,20 @@ public final class Settings {
         public static final String NAVBAR_BUTTON_COLOR= "navbar_button_color";
 
         /**
+         * Switch to Enable/Disable ScreenRecord Shorcut.
+         *
+         * @hide
+         */
+        public static final String SCREEN_RECORD_SHORTCUT_SWITCH = "screen_record_shortcut";
+
+	    /**
+         * Switch to Enable/Disable ScreenShot Shorcut.
+         *
+         * @hide
+         */
+        public static final String SCREEN_SHOT_SHORTCUT_SWITCH = "screen_shot_shortcut";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
