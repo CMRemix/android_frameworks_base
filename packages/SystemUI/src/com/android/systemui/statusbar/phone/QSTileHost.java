@@ -66,6 +66,7 @@ import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.HardwareKeysTile;
 import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.PieTile;
+import com.android.systemui.qs.tiles.PulseTile;
 import com.android.systemui.qs.tiles.GestureAnyWhereTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
@@ -433,6 +434,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
+        else if (tileSpec.equals("pulse")) return new PulseTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -547,6 +549,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
+else if (mSpec.equals("pulse")) return R.string.quick_settings_pulse_label;
         return 0;
     }
 
@@ -600,6 +603,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
         else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
         else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
+        else if (mSpec.equals("pulse")) return R.drawable.ic_qs_pulse;
         return 0;
     }
 
