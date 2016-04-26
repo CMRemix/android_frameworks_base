@@ -4365,8 +4365,7 @@ public final class Settings {
          */
         public static final String APP_SIDEBAR_DISABLE_LABELS = "app_sidebar_disable_labels";
 
-
-	/*
+	    /*
          * Custom Colors Switch
          * @hide
          */
@@ -4568,10 +4567,10 @@ public final class Settings {
          */
         public static final String LISTVIEW_INTERPOLATOR = "listview_interpolator";
 
-        /**  
+        /**
          * AOKP Custom System Animations
          * @hide
-         */  
+         */
         public static final String[] ACTIVITY_ANIMATION_CONTROLS = new String[] {
                 "activity_open",
                 "activity_close",
@@ -4584,7 +4583,7 @@ public final class Settings {
                 "wallpaper_intra_open",
                 "wallpaper_intra_close",
                 "task_open_behind",
-        };  
+        };
         public static final String ANIMATION_CONTROLS_DURATION = "animation_controls_duration";
         public static final String ANIMATION_CONTROLS_EXIT_ONLY = "animation_controls_exit_only";
         public static final String ANIMATION_CONTROLS_REVERSE_EXIT = "animation_controls_reverse_exit";
@@ -5026,8 +5025,7 @@ public final class Settings {
          */
         public static final String QS_TRANSPARENT_HEADER = "qs_transparent_header";
 
-
-	/**
+	    /**
          * Color of the signal icons on the status bar
          * @hide
          */
@@ -5283,7 +5281,6 @@ public final class Settings {
          */
         public static final String QUICK_SETTINGS_HEADER_VIBRATE_LONG = "quick_settings_header_vibrate_long";
 
-
         /**
          *
          * @hide
@@ -5331,8 +5328,6 @@ public final class Settings {
          * @hide
          */
         public static final String QS_BRIGHTNESS_ICON_COLOR = "qs_brightness_icon_color";
-
-
 
         /**
          * header image package to use for daylight header - package name - null if default
@@ -5388,7 +5383,7 @@ public final class Settings {
 
         /**
          * Define when Nfc polling is activated.
-	 * @hide
+	     * @hide
          */
         public static final String NFC_POLLING_MODE = "nfc_polling";
 
@@ -5479,8 +5474,8 @@ public final class Settings {
          * @hide
          */
         public static final String HIDE_FROM_RECENTS_LIST = "hide_from_recents_list";
-		
-	/**
+
+	    /**
          * Option to launch slim actions in floating mode
          * @hide
          */
@@ -5537,6 +5532,12 @@ public final class Settings {
          * @hide
          */
         public static final String SCREEN_SHOT_SHORTCUT_SWITCH = "screen_shot_shortcut";
+
+        /**
+         * Color of Lockscreen Shortcuts Icons
+         * @hide
+         */
+        public static final String LS_SHORTCUT_ICON_COLOR = "ls_shortcut_icon_color";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
