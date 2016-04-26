@@ -746,6 +746,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CUSTOM_LOGO_STYLE),
                     false, this, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_TINT_SWITCH),
+                    false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_BUTTON_COLOR),
+                    false, this, UserHandle.USER_ALL);
 
 		    update();
         }
@@ -1020,8 +1026,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         updateQsExpansionEnabled();
         mShadeUpdates.check();
-	   }
-            update();
+		} else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_TINT_SWITCH))) {
+		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
+		} else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NAVBAR_BUTTON_COLOR))) {
+		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
+		} 
+         update();
         }
 
         @Override
@@ -1621,7 +1633,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // let's move it here and get it fired up nice and early and far away from statusbar recreation
         if (mNavigationController == null) {
             mNavigationController = new NavigationController(mContext, getNavbarThemedResources(), this, mAddNavigationBar,
-                    mRemoveNavigationBar);
+                    mRemoveNavigationBar);   
         }
 
         mStatusBarWindow = new StatusBarWindowView(mContext, null);
