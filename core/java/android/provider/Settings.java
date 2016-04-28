@@ -3926,6 +3926,12 @@ public final class Settings {
         public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
 
         /**
+         * Custom Spacing Between Pulse Bars
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIV = "pulse_custom_div";
+
+        /**
          * Allows to show the background activity back the lockscreen
          * 0 = off
          * 1 = on
