@@ -752,9 +752,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR),
                     false, this, UserHandle.USER_ALL);
-        resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.PULSE_CUSTOM_DIMEN),
-                    false, this, UserHandle.USER_ALL);
 		    update();
         }
 
@@ -1033,9 +1030,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
 		} else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR))) {
-		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
-		} else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.PULSE_CUSTOM_DIMEN))) {
 		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
 		} 
          update();
