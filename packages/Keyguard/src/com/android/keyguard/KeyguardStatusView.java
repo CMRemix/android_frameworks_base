@@ -74,12 +74,20 @@ public class KeyguardStatusView extends GridLayout implements
     private int mIconNameValue = 0;
     private WeatherController mWeatherController;
 
+    //On the first boot, keygard will start to receiver TIME_TICK intent.
+    //And onScreenTurnedOff will not get called if power off when keyguard is not started.
+    //Set initial value to false to skip the above case.
+    private boolean mEnableRefresh = false;
+
     private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
 
         @Override
         public void onTimeChanged() {
+            if (mEnableRefresh) {
+                refresh();
                 updateClockColor();
                 updateClockDateColor();
+            }
         }
 
         @Override
@@ -96,6 +104,8 @@ public class KeyguardStatusView extends GridLayout implements
         @Override
         public void onStartedWakingUp() {
             setEnableMarquee(true);
+            mEnableRefresh = true;
+            refresh();
             updateClockColor();
             updateClockDateColor();
         }
@@ -103,6 +113,7 @@ public class KeyguardStatusView extends GridLayout implements
         @Override
         public void onFinishedGoingToSleep(int why) {
             setEnableMarquee(false);
+            mEnableRefresh = false;
         }
 
         @Override
