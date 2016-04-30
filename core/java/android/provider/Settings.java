@@ -3944,6 +3944,12 @@ public final class Settings {
         public static final String PULSE_EMPTY_BLOCK_SIZE = "pulse_empty_block_size";
 
         /**
+         * Pulse Fudge Factor
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_FUDGE_FACTOR = "pulse_custom_fudge_factor";
+
+        /**
          * Allows to show the background activity back the lockscreen
          * 0 = off
          * 1 = on
