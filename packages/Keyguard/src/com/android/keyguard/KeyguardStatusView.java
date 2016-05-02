@@ -44,8 +44,8 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.android.internal.util.cmremix.WeatherController;
-import com.android.internal.util.cmremix.WeatherControllerImpl;
+import com.android.internal.utils.cmremix.WeatherController;
+import com.android.internal.utils.cmremix.WeatherControllerImpl;
 import com.android.internal.util.cmremix.ImageHelper;
 import com.android.internal.widget.LockPatternUtils;
 
