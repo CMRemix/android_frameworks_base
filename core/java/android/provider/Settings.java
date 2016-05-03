@@ -5570,6 +5570,12 @@ public final class Settings {
         public static final String LS_SHORTCUT_ICON_COLOR = "ls_shortcut_icon_color";
 
         /**
+         * Settings Dash Font Style
+         * @hide
+         */
+        public static final String DASHBOARD_FONT_STYLE = "dashboard_font_style";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
