@@ -5582,13 +5582,6 @@ public final class Settings {
         public static final String DASHBOARD_CUSTOMIZATIONS = "dashboard_customizations";
 
         /**
-         *
-         * Whether to show switches for wifi/cell/bt in the settings dashboard
-         * @hide
-         */
-        public static final String DASHBOARD_SWITCHES = "dashboard_switches";
-
-        /**
          * Dashboard color
          * @hide
          */
