@@ -226,6 +226,7 @@ public class NotificationPanelView extends PanelView implements
 
     private int mOneFingerQuickSettingsIntercept;
     private boolean mDoubleTapToSleepEnabled;
+    private boolean mDoubleTapToSleepAnywhere;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
 
@@ -796,6 +797,9 @@ public class NotificationPanelView extends PanelView implements
         if (mDoubleTapToSleepEnabled
                 && mStatusBarState == StatusBarState.KEYGUARD
                 && event.getY() < mStatusBarHeaderHeight) {
+            mDoubleTapGesture.onTouchEvent(event);
+        } else if (mDoubleTapToSleepAnywhere
+                && mStatusBarState == StatusBarState.KEYGUARD) {
             mDoubleTapGesture.onTouchEvent(event);
         }
         initDownStates(event);
@@ -2457,6 +2461,8 @@ public class NotificationPanelView extends PanelView implements
                     CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this);
             resolver.registerContentObserver(CMSettings.Secure.getUriFor(
                     CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this, UserHandle.USER_ALL);2)
             update();
         }
 
@@ -2481,6 +2487,8 @@ public class NotificationPanelView extends PanelView implements
                     resolver, CMSettings.System.STATUS_BAR_QUICK_QS_PULLDOWN, 1);
             mDoubleTapToSleepEnabled = CMSettings.System.getInt(
                     resolver, CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE, 1) == 1;
+            mDoubleTapToSleepAnywhere = Settings.System.getIntForUser(resolver,
+                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE, 0, UserHandle.USER_CURRENT) == 1;
 
             boolean wasKeyguardWeatherEnabled = mKeyguardWeatherEnabled;
             mKeyguardWeatherEnabled = CMSettings.Secure.getInt(
