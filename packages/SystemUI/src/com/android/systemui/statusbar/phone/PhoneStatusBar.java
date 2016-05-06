@@ -1175,10 +1175,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             // This method reads CMSettings.Secure.RECENTS_LONG_PRESS_ACTIVITY
             updateCustomRecentsLongPressHandler(false);
 
-           public void setStatusBarViewVisibility(boolean visible) {
-                mStatusBarView.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-           }
-
             mBlurRadius = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_BLUR_RADIUS, 14);
 
@@ -1333,6 +1329,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             updateWeatherTextState(mWeatherController.getWeatherInfo().temp,
                     mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
         }
+    }
+
+    public void setStatusBarViewVisibility(boolean visible) {
+         mStatusBarView.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void forceAddNavigationBar() {
