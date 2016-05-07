@@ -283,7 +283,7 @@ public class QSTileView extends ViewGroup {
         	if (mIcon instanceof ImageView) {
 		updateColors();
            	ImageView iv = (ImageView) mIcon;
-            	iv.setColorFilter(mIconColor, Mode.MULTIPLY);
+            	iv.setColorFilter(mIconColor, Mode.SRC_ATOP);
 		    }	
     }
 
@@ -323,16 +323,15 @@ public class QSTileView extends ViewGroup {
         mClickSecondary = clickSecondary;
         mLongClick = longClick;
     }
-	
-	
-    
+
     public View createIcon() {
 	updateColors();
         final ImageView icon = new ImageView(mContext);
         icon.setId(android.R.id.icon);
         icon.setScaleType(ScaleType.CENTER_INSIDE);
-	  if (mQsColorSwitch) {
-            icon.setColorFilter(mIconColor, Mode.MULTIPLY);
+        updateColors();
+        if (mQsColorSwitch) {
+            icon.setColorFilter(mIconColor, Mode.SRC_ATOP);
         } 
         return icon;
 	}
@@ -459,7 +458,7 @@ public class QSTileView extends ViewGroup {
             if (state.enabled) {
                 iv.setColorFilter(null);
             } else {
-                iv.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                iv.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
             }
         }
     }

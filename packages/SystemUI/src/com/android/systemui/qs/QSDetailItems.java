@@ -224,8 +224,9 @@ public class QSDetailItems extends FrameLayout {
         view.setVisibility(mItemsVisible ? VISIBLE : INVISIBLE);
         final ImageView iv = (ImageView) view.findViewById(android.R.id.icon);
         iv.setImageResource(item.icon);
-	if (mQsColorSwitch) {
-            iv.setColorFilter(mQsIconColor, Mode.MULTIPLY);
+        updatecolors();
+        if (mQsColorSwitch) {
+            iv.setColorFilter(mQsIconColor, Mode.SRC_ATOP);
         }
         iv.getOverlay().clear();
         if (item.overlay != null) {
@@ -235,7 +236,7 @@ public class QSDetailItems extends FrameLayout {
         }
         final TextView title = (TextView) view.findViewById(android.R.id.title);
         title.setText(item.line1);
-	updatecolors();
+        updatecolors();
 	if (mQsColorSwitch) {
  	title.setTextColor(mLabelColor);
 	}
@@ -254,8 +255,8 @@ public class QSDetailItems extends FrameLayout {
         });
         final ImageView disconnect = (ImageView) view.findViewById(android.R.id.icon2);
         disconnect.setVisibility(item.canDisconnect ? VISIBLE : GONE);
-	 if (mQsColorSwitch) {
-            disconnect.setColorFilter(mQsIconColor, Mode.MULTIPLY);
+         if (mQsColorSwitch) {
+            disconnect.setColorFilter(mQsIconColor, Mode.SRC_ATOP);
         }
         disconnect.setOnClickListener(new OnClickListener() {
             @Override
@@ -266,7 +267,6 @@ public class QSDetailItems extends FrameLayout {
             }
         });
     }
-
 
     private class H extends Handler {
         private static final int SET_ITEMS = 1;
