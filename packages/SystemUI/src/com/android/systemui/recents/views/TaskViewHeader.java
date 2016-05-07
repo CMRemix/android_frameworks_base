@@ -31,6 +31,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -250,6 +251,7 @@ public class TaskViewHeader extends FrameLayout {
         boolean floatingswitch = Settings.System.getInt(mContext.getContentResolver(), Settings.System.FLOATING_WINDOW_MODE, 0) == 1;
 		mFloatButton.setImageDrawable(t.useLightOnPrimaryColor ?
                 mLightFloatDrawable : mDarkFloatDrawable);
+        updaterecentstyles(t);
         if (mConfig.multiStackEnabled) {
             updateResizeTaskBarIcon(t);
         }
@@ -289,6 +291,79 @@ public class TaskViewHeader extends FrameLayout {
         mMoveTaskButton.setColorFilter(t.useLightOnPrimaryColor ?
                 mTaskbarIconLightColor :
                 mTaskbarIconDarkColor, Mode.SRC_ATOP);
+    }
+
+    public void updaterecentstyles(Task t) {
+        boolean mClearStyleSwitch  = Settings.System.getInt(mContext.getContentResolver(),
+				 Settings.System.CLEAR_RECENTS_STYLE_ENABLE, 0) == 1;	
+	final Resources res = getContext().getResources();
+	int mTint = 0x00ffffff;		
+	int Black = Color.BLACK;
+	int mLightColor = res.getColor(R.color.recents_task_bar_dark_dismiss_color);
+	int mDarkColor = res.getColor(R.color.recents_task_bar_dark_dismiss_color);
+	mApplicationIcon = (ImageView) findViewById(R.id.application_icon);				 
+	int mFloatcolor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FLOAT_BUTTON_COLOR, 0xffDC4C3C);	
+	int mPincolor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.PIN_BUTTON_COLOR, 0xff009688);	
+	int mMwcolor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.MW_BUTTON_COLOR, 0xFFFFFFFF);
+	int mKillColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.KILL_APP_BUTTON_COLOR, 0xFFFFFFFF);
+	int mAppColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.TV_APP_COLOR, 0x00FFFFFF);
+        int mTextColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.TV_APP_TEXT_COLOR, 0xFFFFFFFF);       
+	if (mClearStyleSwitch) {
+		if (mDismissButton != null) {
+			 mDismissButton.setColorFilter(mKillColor,Mode.SRC_ATOP);
+		}
+		if(mPinButton !=null) {
+			  mPinButton.setColorFilter(mPincolor,Mode.SRC_ATOP);
+		}      	
+		if(mMoveTaskButton !=null) {
+			  mMoveTaskButton.setColorFilter(mMwcolor,Mode.SRC_ATOP);
+		}
+		if (mFloatButton !=null) {
+			  mFloatButton.setColorFilter(mFloatcolor,Mode.SRC_ATOP);
+		}
+		if(mApplicationIcon !=null) {
+			  if (mAppColor != mTint) {
+			  mApplicationIcon.setColorFilter(mAppColor);
+			  }
+		}
+		if(mActivityDescription !=null) {
+			 mActivityDescription.setTextColor(mTextColor);
+		}
+        } else {
+		if (mDismissButton != null) {
+			 mDismissButton.setColorFilter(null);
+		}
+		if(mPinButton !=null) {
+			  mPinButton.setColorFilter(null);
+		}      	
+		if(mMoveTaskButton !=null) {
+			  mMoveTaskButton.setColorFilter(null);
+		}
+		if (mFloatButton !=null) {
+		mFloatButton = (ImageView) findViewById(R.id.float_task);
+		mFloatButton.setImageDrawable(t.useLightOnPrimaryColor ?
+                mLightFloatDrawable : mDarkFloatDrawable);
+                mFloatButton.setColorFilter(null);
+			if(mDarkFloatDrawable!=null) {
+			mDarkFloatDrawable.setColorFilter(mDarkColor,Mode.SRC_IN);
+			}
+		}
+		if(mApplicationIcon !=null) {
+			  if (mAppColor != mTint) {
+			  mApplicationIcon.setColorFilter(null);
+			  }
+		}
+		if(mActivityDescription !=null) {
+		        mActivityDescription.setTextColor(t.useLightOnPrimaryColor ?
+                mConfig.taskBarViewLightTextColor : mConfig.taskBarViewDarkTextColor);
+            }
+        }
     }
 
     /** Unbinds the bar view from the task */
