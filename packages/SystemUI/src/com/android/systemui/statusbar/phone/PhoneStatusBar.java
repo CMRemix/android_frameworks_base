@@ -259,6 +259,7 @@ import static com.android.systemui.statusbar.BarTransitions.MODE_WARNING;
 
 import cyanogenmod.providers.CMSettings;
 import cyanogenmod.themes.IThemeService;
+import cyanogenmod.weather.util.WeatherUtils;
 
 public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         DragDownHelper.DragDownCallback, ActivityStarter, OnUnlockMethodChangedListener,
@@ -1326,7 +1327,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else {
                 mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.left_weather_temp);
             }
-            updateWeatherTextState(mWeatherController.getWeatherInfo().temp,
+            updateWeatherTextState(WeatherUtils.formatTemperature(mWeatherController.getWeatherInfo().temp, 
+                    mWeatherController.getWeatherInfo().tempUnit),
                     mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
         }
     }
@@ -2033,7 +2035,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWeatherController.addCallback(new WeatherController.Callback() {
             @Override
             public void onWeatherChanged(WeatherInfo temp) {
-                updateWeatherTextState(temp.temp, mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
+                updateWeatherTextState(WeatherUtils.formatTemperature(temp.temp, temp.tempUnit),
+                    mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
             }
         });
         updateWeatherTextState(mWeatherTempView.getText().toString(), mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
@@ -2358,11 +2361,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     @Override
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
         SettingsObserver observer = new SettingsObserver(mHandler);
-        if (info.temp == null || info.condition == null) {
+        if (Double.isNaN(info.temp) || info.condition == null) {
             mWeatherTempView.setText(null);
            // observer.update();
         } else {
-            mWeatherTempView.setText(info.temp);
+            mWeatherTempView.setText(WeatherUtils.formatTemperature(info.temp, info.tempUnit));
            // observer.update();
         }
     }

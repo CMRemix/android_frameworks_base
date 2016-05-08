@@ -49,6 +49,8 @@ import com.android.internal.utils.cmremix.WeatherControllerImpl;
 import com.android.internal.util.cmremix.ImageHelper;
 import com.android.internal.widget.LockPatternUtils;
 
+import cyanogenmod.weather.util.WeatherUtils;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -272,7 +274,7 @@ public class KeyguardStatusView extends GridLayout implements
 
     @Override
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
-        if (info.temp == null || info.condition == null) {
+        if (Double.isNaN(info.temp) || info.condition == null) {
             mWeatherCity.setText("--");
             mWeatherConditionDrawable = null;
             mWeatherCurrentTemp.setText(null);
@@ -282,7 +284,7 @@ public class KeyguardStatusView extends GridLayout implements
         } else {
             mWeatherCity.setText(info.city);
             mWeatherConditionDrawable = info.conditionDrawable;
-            mWeatherCurrentTemp.setText(info.temp);
+            mWeatherCurrentTemp.setText(WeatherUtils.formatTemperature(info.temp, info.tempUnit));
             mWeatherConditionText.setText(info.condition);
             mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
             updateSettings(false);
