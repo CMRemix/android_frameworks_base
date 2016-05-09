@@ -71,9 +71,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.internal.utils.cmremix.WeatherController;
-import com.android.internal.utils.cmremix.WeatherControllerImpl;
-
+import com.android.internal.util.cmremix.WeatherController;
+import com.android.internal.util.cmremix.WeatherControllerImpl;
 import com.android.keyguard.KeyguardStatusView;
 import com.android.systemui.BatteryLevelTextView;
 import com.android.systemui.BatteryMeterView;
