@@ -99,7 +99,6 @@ import java.text.NumberFormat;
 
 import cyanogenmod.app.StatusBarPanelCustomTile;
 import cyanogenmod.providers.CMSettings;
-import cyanogenmod.weather.util.WeatherUtils;
 import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 /**
@@ -892,7 +891,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
     @Override
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
-        if (Double.isNaN(info.temp) || info.condition == null) {
+        if (info.temp == null || info.condition == null) {
 			mWeatherimage = (ImageButton) findViewById(R.id.no_weather_image);
 			mWeatherimage.setVisibility(View.VISIBLE);
             mWeatherLine1.setText(null);
@@ -901,7 +900,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mWeatherimage.setVisibility(View.GONE);
             mWeatherLine1.setText(mContext.getString(
                     R.string.status_bar_expanded_header_weather_format,
-                    WeatherUtils.formatTemperature(info.temp, info.tempUnit),
+                    info.temp,
                     info.condition));
         }
             mWeatherLine2.setText(info.city);
