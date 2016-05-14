@@ -839,7 +839,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.ACCELEROMETER_ROTATION))) {
                 mStatusBarWindowManager.updateKeyguardScreenRotation();
-	}  else if (uri.equals(Settings.System.getUriFor(
+	        } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_NETWORK_ICONS_SIGNAL_COLOR))) {
                 updateNetworkSignalColor();
             } else if (uri.equals(Settings.System.getUriFor(
@@ -1186,16 +1186,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mWeatherTempFontStyle = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_WEATHER_FONT_STYLE, FONT_NORMAL, mCurrentUserId);
 
-            if (mWeatherTempStyle == 0) {
-                mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
-            } else {
-                mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.left_weather_temp);
-            }
             mWeatherTempState = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
                     UserHandle.USER_CURRENT);
-            updateWeatherTextState(mWeatherController.getWeatherInfo().temp,
-                    mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
+
+	        updateTempView();
 
             boolean mShow4G = Settings.System.getIntForUser(resolver,
                     Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
@@ -1349,6 +1344,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mNetworkTrafficHeader.setVisibility(View.VISIBLE);
                 break;
          }
+    }
+
+    private void updateTempView() {
+        if (mWeatherTempView != null) {
+            mWeatherTempView.setVisibility(View.GONE);
+            if (mWeatherTempStyle == 0) {
+                mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
+            } else {
+                mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.left_weather_temp);
+            }
+	    updateWeatherTextState(mWeatherController.getWeatherInfo().temp,
+                    mWeatherTempColor, mWeatherTempSize, mWeatherTempFontStyle);
+        }
     }
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
@@ -2004,7 +2012,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWeatherTempState = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
                 UserHandle.USER_CURRENT);
-        mWeatherController = new WeatherControllerImpl(mContext);
+        if (mWeatherController == null) {
+            mWeatherController = new WeatherControllerImpl(mContext);
+        }
+ 	    updateTempView();
         mWeatherController.addCallback(new WeatherController.Callback() {
             @Override
             public void onWeatherChanged(WeatherInfo temp) {
