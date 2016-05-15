@@ -17,7 +17,6 @@
 package com.android.systemui.qs.tiles;
 
 import android.content.Context;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -42,8 +41,6 @@ import java.util.UUID;
 public class FloatingWindowsTile extends QSTile<QSTile.BooleanState> {
     private boolean mListening;
     private FloatingWindowsObserver mObserver;
-    private static final Intent CMREMIX_FLOATING_WINDOW = new Intent().setComponent(new ComponentName(
-            "com.android.settings", "com.android.settings.Settings$FloatingWindowActivity"));
 
     public FloatingWindowsTile(Host host) {
         super(host);
@@ -59,11 +56,6 @@ public class FloatingWindowsTile extends QSTile<QSTile.BooleanState> {
     protected void handleClick() {
         toggleState();
         refreshState();
-    }
-
-    @Override
-    public void handleLongClick() {
-    mHost.startActivityDismissingKeyguard(CMREMIX_FLOATING_WINDOW);
     }
 
     protected void toggleState() {
