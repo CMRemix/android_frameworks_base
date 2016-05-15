@@ -4236,6 +4236,12 @@ public final class Settings {
         public static final String STATUSBAR_BATTERY_BAR = "statusbar_battery_bar";
 
         /**
+         * Status Bar Colors Switch
+         * @hide
+         */
+        public static final String STATUSBAR_COLOR_SWITCH = "statusbar_color_switch";
+
+        /**
          * @hide
          */
         public static final String STATUSBAR_BATTERY_BAR_COLOR = "statusbar_battery_bar_color";
@@ -4244,11 +4250,47 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_BATTERY_BAR_THICKNESS = "statusbar_battery_bar_thickness";
+        
+        /**
+         * @hide
+         */       
+        public static final String STATUSBAR_BATTERY_BAR_CHARGING_COLOR = "statusbar_battery_bar_charging_color";
+
+
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_BATTERY_LOW_COLOR_WARNING =
+                "statusbar_battery_bar_battery_low_color_warning";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_HIGH_COLOR =
+                "statusbar_battery_bar_high_color";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_LOW_COLOR =
+                "statusbar_battery_bar_low_color";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_USE_GRADIENT_COLOR =
+                "statusbar_battery_bar_use_gradient_color";
 
         /**
          * @hide
          */
         public static final String STATUSBAR_BATTERY_BAR_STYLE = "statusbar_battery_bar_style";
+
+        /**
+         * @hide
+         */
+       public static final String STATUSBAR_BATTERY_BAR_ANIMATE = "statusbar_battery_bar_animate";
 
         /**
          * Position of date
@@ -4263,11 +4305,6 @@ public final class Settings {
          * @hide
          */
         public static final String CMREMIX_OTA_FAB = "cmremix_ota_fab";
-
-        /**
-         * @hide
-         */
-        public static final String STATUSBAR_BATTERY_BAR_ANIMATE = "statusbar_battery_bar_animate";
 
         /**
          * @hide
@@ -4362,20 +4399,20 @@ public final class Settings {
          *
          * @hide
          */
+
         public static final String LOCK_DATE_FONTS = "lock_date_fonts";
-
-        /**
-         * show lockscreen alarm
-         *  @hide
-         */
-        public static final String SHOW_LOCKSCREEN_ALARM = "show_lockscreen_alarm";
-
         /**
          * Change font size for the system lockscreen clock widget
          *
          * @hide
          */
         public static final String LOCKCLOCK_FONT_SIZE = "lockclock_font_size";
+
+        /**
+         * show lockscreen alarm
+         *  @hide
+         */
+        public static final String SHOW_LOCKSCREEN_ALARM = "show_lockscreen_alarm";
 
         /**
          * Enable/Disable screenshot sound
