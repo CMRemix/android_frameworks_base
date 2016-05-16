@@ -801,6 +801,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 updateSpeedbump();
                 updateClearAll();
                 updateEmptyShadeView();
+                updateTempView();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
                     UpdateNotifDrawerClearAllIconColor();
@@ -2263,6 +2264,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mKeyguardStatusBar.setBatteryController(mBatteryController);
         mHeader.setDockBatteryController(mDockBatteryController);
         mKeyguardStatusBar.setDockBatteryController(mDockBatteryController);
+        mHeader.setNextAlarmController(mNextAlarmController);
+        mHeader.setWeatherController(mWeatherController);
+
         if (mDockBatteryController != null) {
             DockBatteryMeterView dockBatteryMeterView =
                     ((DockBatteryMeterView) mStatusBarView.findViewById(R.id.dock_battery));
@@ -2281,9 +2285,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mStatusBarView.removeView(dockBatteryLevel);
             }
         }
-
-        mHeader.setNextAlarmController(mNextAlarmController);
-        mHeader.setWeatherController(mWeatherController);
 
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
