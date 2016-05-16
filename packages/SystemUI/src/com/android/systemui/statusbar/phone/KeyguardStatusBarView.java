@@ -61,6 +61,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
     private MultiUserSwitch mMultiUserSwitch;
     private ImageView mMultiUserAvatar;
     private BatteryLevelTextView mBatteryLevel;
+    private BatteryMeterView mBatteryMeterView;
     private BatteryLevelTextView mDockBatteryLevel;
 
     private TextView mCarrierLabel;
@@ -98,10 +99,9 @@ public class KeyguardStatusBarView extends RelativeLayout {
 
     private int mSystemIconsSwitcherHiddenExpandedMargin;
     private Interpolator mFastOutSlowInInterpolator;
-   
-    public Boolean mColorSwitch = false ;
-
     private UserInfoController mUserInfoController;
+
+    public Boolean mColorSwitch = false ;
 
     private ContentObserver mObserver = new ContentObserver(new Handler()) {
         public void onChange(boolean selfChange, Uri uri) {
@@ -117,7 +117,6 @@ public class KeyguardStatusBarView extends RelativeLayout {
 
     private void showStatusBarCarrier() {
         ContentResolver resolver = getContext().getContentResolver();
-
         mShowCarrierLabel = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_SHOW_CARRIER, 0,
                 UserHandle.USER_CURRENT);
@@ -139,6 +138,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
         mBatteryLevel = (BatteryLevelTextView) findViewById(R.id.battery_level_text);
         mDockBatteryLevel = (BatteryLevelTextView) findViewById(R.id.dock_battery_level_text);
         mCarrierLabel = (TextView) findViewById(R.id.keyguard_carrier_text);
+        mBatteryMeterView = new BatteryMeterView(mContext);
         loadDimens();
         mFastOutSlowInInterpolator = AnimationUtils.loadInterpolator(getContext(),
                 android.R.interpolator.fast_out_slow_in);
@@ -170,6 +170,8 @@ public class KeyguardStatusBarView extends RelativeLayout {
     }
 
     private void updateVisibilities() {
+    	int batterytext = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.BATTERY_TEXT_COLOR, 0xFFFFFFFF);
         if (mMultiUserSwitch.getParent() != this && !mKeyguardUserSwitcherShowing) {
             if (mMultiUserSwitch.getParent() != null) {
                 getOverlay().remove(mMultiUserSwitch);
@@ -177,6 +179,8 @@ public class KeyguardStatusBarView extends RelativeLayout {
             addView(mMultiUserSwitch, 0);
         } else if (mMultiUserSwitch.getParent() == this && mKeyguardUserSwitcherShowing) {
             removeView(mMultiUserSwitch);
+        } if(mColorSwitch) {
+        mBatteryLevel.setTextColor(batterytext);
         }
         mBatteryLevel.setVisibility(View.VISIBLE);
         if (mDockBatteryLevel != null) {
@@ -460,6 +464,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
                 "status_bar_carrier_spot"), false, mObserver);
         getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                 "status_bar_carrier_font_style"), false, mObserver);
+        updateBatteryviews();
     }
 
     public void updateNetworkIconColors() {
@@ -470,7 +475,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
                 StatusBarColorHelper.getNetworkSignalColor(mContext),
                 StatusBarColorHelper.getNoSimColor(mContext),
                 StatusBarColorHelper.getAirplaneModeColor(mContext), 0f);
-	 }
+        }
     }
 
     public void updateNetworkSignalColor() {
@@ -478,7 +483,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
 				 Settings.System.STATUSBAR_COLOR_SWITCH, 0) == 1;
 	if(mColorSwitch) {
         mSignalCluster.applyNetworkSignalTint(StatusBarColorHelper.getNetworkSignalColor(getContext()));
-	}
+        }
     }
 
     public void updateNoSimColor() {
@@ -486,7 +491,7 @@ public class KeyguardStatusBarView extends RelativeLayout {
 				 Settings.System.STATUSBAR_COLOR_SWITCH, 0) == 1;
 	if(mColorSwitch) {
         mSignalCluster.applyNoSimTint(StatusBarColorHelper.getNoSimColor(getContext()));
-	}
+        }
     }
 
     public void updateAirplaneModeColor() {
@@ -494,6 +499,19 @@ public class KeyguardStatusBarView extends RelativeLayout {
 				 Settings.System.STATUSBAR_COLOR_SWITCH, 0) == 1;
 	if(mColorSwitch) {
         mSignalCluster.applyAirplaneModeTint(StatusBarColorHelper.getAirplaneModeColor(getContext()));
+		}
 	}
-    }
+
+    public void updateBatteryviews() {
+	mBatteryMeterView = (BatteryMeterView) findViewById(R.id.battery);
+	int mBatteryIconColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.BATTERY_ICON_COLOR, 0xFFFFFFFF);
+    	mColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
+				 Settings.System.STATUSBAR_COLOR_SWITCH, 0) == 1;
+	if(mColorSwitch) {
+	   if(mBatteryMeterView != null) {
+		  mBatteryMeterView.setDarkIntensity(mBatteryIconColor);
+		  }
+	   }
+	}
 }
