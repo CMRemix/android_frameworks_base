@@ -132,6 +132,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.Formatter;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -3132,8 +3133,14 @@ class MountService extends IMountService.Stub
                     KeySpec ks = new PBEKeySpec(mKey.toCharArray(), obbInfo.salt,
                             PBKDF2_HASH_ROUNDS, CRYPTO_ALGORITHM_KEY_SIZE);
                     SecretKey key = factory.generateSecret(ks);
-                    BigInteger bi = new BigInteger(key.getEncoded());
-                    hashedKey = bi.toString(16);
+                    byte[] keyBytes = key.getEncoded();
+                    StringBuilder sb = new StringBuilder(keyBytes.length * 2);
+                    Formatter formatter = new Formatter(sb);
+
+                    for(byte b: keyBytes){
+                        formatter.format("%02x", b);
+                    }
+                    hashedKey = sb.toString();
                 } catch (NoSuchAlgorithmException e) {
                     Slog.e(TAG, "Could not load PBKDF2 algorithm", e);
                     sendNewStatusOrIgnore(OnObbStateChangeListener.ERROR_INTERNAL);
