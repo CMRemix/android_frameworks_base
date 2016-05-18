@@ -753,6 +753,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR),
                     false, this, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.FLING_PULSE_ENABLED),
+                    false, this, UserHandle.USER_ALL);
 		    update();
         }
 
@@ -1018,7 +1021,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		} else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR))) {
 		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
-		} 
+		}  else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.FLING_PULSE_ENABLED))) {
+		    makepulsetoast();
+		    }
          update();
         }
 
@@ -3314,6 +3320,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mKeyguardStatusBar != null) {
             mKeyguardStatusBar.updateNetworkIconColors();
         }
+    }
+
+    public void makepulsetoast() {
+    Toast.makeText(mContext,
+                        R.string.pulse_toast_message, Toast.LENGTH_SHORT).show();   
     }
 
     private void updateNoSimColor() {
