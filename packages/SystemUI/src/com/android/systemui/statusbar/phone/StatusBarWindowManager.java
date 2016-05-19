@@ -24,7 +24,6 @@ import android.graphics.Point;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.SystemProperties;
-import android.util.Log;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.Gravity;
@@ -39,6 +38,7 @@ import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.StatusBarState;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
+import com.android.systemui.statusbar.policy.LiveLockScreenController;
 import cyanogenmod.providers.CMSettings;
 
 import java.io.FileDescriptor;
@@ -73,6 +73,7 @@ public class StatusBarWindowManager implements KeyguardMonitor.Callback {
     private boolean mKeyguardScreenRotation;
 
     private final State mCurrentState = new State();
+    private LiveLockScreenController mLiveLockScreenController;
 
     public StatusBarWindowManager(Context context, KeyguardMonitor kgm) {
         mContext = context;
@@ -362,7 +363,7 @@ public class StatusBarWindowManager implements KeyguardMonitor.Callback {
     }
 
     public void setKeyguardExternalViewFocus(boolean hasFocus) {
-        mCurrentState.keyguardExternalViewHasFocus = hasFocus;
+        mLiveLockScreenController.onLiveLockScreenFocusChanged(hasFocus);
         // make the keyguard occluded so the external view gets full focus
         setKeyguardOccluded(hasFocus);
     }
@@ -415,7 +416,11 @@ public class StatusBarWindowManager implements KeyguardMonitor.Callback {
     }
 
     public boolean keyguardExternalViewHasFocus() {
-        return mCurrentState.keyguardExternalViewHasFocus;
+        return mLiveLockScreenController.getLiveLockScreenHasFocus();
+    }
+
+    public void setLiveLockscreenController(LiveLockScreenController liveLockScreenController) {
+        mLiveLockScreenController = liveLockScreenController;
     }
 
     private static class State {
@@ -432,7 +437,6 @@ public class StatusBarWindowManager implements KeyguardMonitor.Callback {
         boolean forceStatusBarVisible;
         boolean forceCollapsed;
         boolean forceDozeBrightness;
-        boolean keyguardExternalViewHasFocus;
 
         /**
          * The {@link BaseStatusBar} state from the status bar.
