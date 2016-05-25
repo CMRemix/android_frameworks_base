@@ -23,6 +23,7 @@ LOCAL_SRC_FILES := \
 
 LOCAL_CFLAGS := -g
 LOCAL_MODULE := aidl
+LOCAL_CLANG := false
 
 include $(BUILD_HOST_EXECUTABLE)
 

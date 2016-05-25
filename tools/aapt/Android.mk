@@ -97,6 +97,7 @@ LOCAL_CPPFLAGS += $(aaptCppFlags)
 ifeq (darwin,$(HOST_OS))
 LOCAL_CFLAGS += -D_DARWIN_UNLIMITED_STREAMS
 endif
+LOCAL_CLANG := false
 LOCAL_C_INCLUDES += $(aaptCIncludes)
 LOCAL_SRC_FILES := $(aaptSources)
 
@@ -127,6 +128,7 @@ LOCAL_MODULE := aapt
 LOCAL_CFLAGS += $(aaptCFlags)
 LOCAL_CPPFLAGS += $(aaptCppFlags)
 LOCAL_LDLIBS += $(aaptHostLdLibs)
+LOCAL_CLANG := false
 LOCAL_SRC_FILES := $(aaptMain)
 LOCAL_STATIC_LIBRARIES += libaapt $(aaptHostStaticLibs)
 LOCAL_WHOLE_STATIC_LIBRARIES := libc++
@@ -145,6 +147,7 @@ LOCAL_MODULE := libaapt_tests
 LOCAL_CFLAGS += $(aaptCFlags)
 LOCAL_CPPFLAGS += $(aaptCppFlags)
 LOCAL_LDLIBS += $(aaptHostLdLibs)
+LOCAL_CLANG := false
 LOCAL_SRC_FILES += $(aaptTests)
 LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_STATIC_LIBRARIES += libaapt $(aaptHostStaticLibs)
