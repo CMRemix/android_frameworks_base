@@ -349,18 +349,14 @@ void StringPool::sortByConfig()
 
     // Now trim any entries at the end of the new style array that are
     // not needed.
-    ssize_t i;
-    for (i=newEntryStyleArray.size()-1; i>=0; i--) {
+    for (ssize_t i=newEntryStyleArray.size()-1; i>=0; i--) {
         const entry_style& style = newEntryStyleArray[i];
         if (style.spans.size() > 0) {
             // That's it.
             break;
         }
-    }
-
-    ssize_t nToRemove=newEntryStyleArray.size()-(i+1);
-    if (nToRemove) {
-        newEntryStyleArray.removeItemsAt(i+1, nToRemove);
+        // This one is not needed; remove.
+        newEntryStyleArray.removeAt(i);
     }
 
     // All done, install the new data structures and upate mValues with
@@ -394,12 +390,12 @@ sp<AaptFile> StringPool::createStringBlock()
 
 #define ENCODE_LENGTH(str, chrsz, strSize) \
 { \
-    size_t maxMask = 1 << (((chrsz)*8)-1); \
+    size_t maxMask = 1 << ((chrsz*8)-1); \
     size_t maxSize = maxMask-1; \
-    if ((strSize) > maxSize) { \
-        *(str)++ = maxMask | (((strSize)>>((chrsz)*8))&maxSize); \
+    if (strSize > maxSize) { \
+        *str++ = maxMask | ((strSize>>(chrsz*8))&maxSize); \
     } \
-    *(str)++ = strSize; \
+    *str++ = strSize; \
 }
 
 status_t StringPool::writeStringBlock(const sp<AaptFile>& pool)
