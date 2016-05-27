@@ -415,7 +415,7 @@ public class BatteryMeterView extends View implements DemoMode,
 	    mColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
 				 Settings.System.STATUSBAR_COLOR_SWITCH, 0) == 1;
 	    if (mColorSwitch) {
-	    mBatteryMeterDrawable.setDarkIntensity(backgroundColor, mBatteryIconColor);
+	    mBatteryMeterDrawable.setDarkIntensity(mCurrentBackgroundColor, mBatteryIconColor);
 	     } else {
             mBatteryMeterDrawable.setDarkIntensity(mCurrentBackgroundColor, mCurrentFillColor);
             }
