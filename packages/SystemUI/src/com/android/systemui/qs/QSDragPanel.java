@@ -18,6 +18,7 @@ package com.android.systemui.qs;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -403,13 +404,13 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
             if (mDetail != null) {
                     mDetail.getBackground().setColorFilter(
                             color, Mode.SRC_OVER);
-                } 		
+                }
             } else {
 	if (mDetail != null) {
                     mDetail.getBackground().setColorFilter(
                            mStockBg, Mode.SRC_OVER);
                 }
-	 }    
+	      }
 	}
 
     @Override
@@ -437,6 +438,27 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
         setTileVisibility(r.tileView, visibility);
         setTileEnabled(r.tileView, state.enabled);
         r.tileView.onStateChanged(state);
+    }
+
+    private void setAnimationTile(TileRecord r) {
+        ObjectAnimator animTile = null;
+        int animStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.ANIM_TILE_STYLE, 0, UserHandle.USER_CURRENT);
+        int animDuration = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.ANIM_TILE_DURATION, 2000, UserHandle.USER_CURRENT);
+        if (animStyle == 0) {
+            //No animation
+        }
+        if (animStyle == 1) {
+            animTile = ObjectAnimator.ofFloat(r.tileView, "rotationY", 0f, 360f);
+        }
+        if (animStyle == 2) {
+            animTile = ObjectAnimator.ofFloat(r.tileView, "rotation", 0f, 360f);
+        }
+        if (animTile != null) {
+            animTile.setDuration(animDuration);
+            animTile.start();
+        }
     }
 
     @Override
@@ -799,11 +821,12 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
 		mQsVibSignlepress = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QUICK_SETTINGS_SP_VIBRATE, 0) == 1;
                     r.tile.click();
+                    setAnimationTile(r);
 			if (mQsVibSignlepress) {
-	  	    vibrateTile(20);	
-		   } else {
+	  	    vibrateTile(20);
+		    } else {
 		    vibrateTile(0);
-		   }
+		    }
                 }
             }
         };
@@ -812,6 +835,7 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
             public void onClick(View v) {
                 if (!mEditing) {
                     r.tile.secondaryClick();
+                    setAnimationTile(r);
 		mQsVibSignlepress = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QUICK_SETTINGS_SP_VIBRATE, 0) == 1;
 			if (mQsVibSignlepress) {
@@ -827,6 +851,7 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
             public boolean onLongClick(View v) {
                 if (!mEditing) {
                     r.tile.longClick();
+                    setAnimationTile(r);
                 } else {
                     QSDragPanel.this.onLongClick(r.tileView);
                 }
@@ -846,7 +871,7 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
 	updateicons();
         r.tileView.setVisibility(mEditing ? View.VISIBLE : View.GONE);
         callback.onStateChanged(r.tile.getState());
-	
+
         if (DEBUG_TILES) {
             Log.d(TAG, "--- makeRecord() called with " + "tile = [" + tile + "]");
         }
@@ -1562,7 +1587,6 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
         mDragging = true;
         return true;
     }
-
 
     private void shiftTiles(DragTileRecord startingTile, boolean forward) {
         if (DEBUG_DRAG) {
@@ -2429,7 +2453,7 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
                     CMSettings.Secure.QS_USE_MAIN_TILES), false, this, UserHandle.USER_ALL);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_COLOR_SWITCH),
-                    false, this, UserHandle.USER_ALL);	
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
