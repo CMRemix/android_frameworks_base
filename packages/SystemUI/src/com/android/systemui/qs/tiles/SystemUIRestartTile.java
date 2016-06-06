@@ -39,7 +39,7 @@ public class SystemUIRestartTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.TILE_SYSTEM_UI_RESTART;
+        return CMMetricsLogger.TILE_RESTART_SYSTEM_UI;
     }
 
     @Override
