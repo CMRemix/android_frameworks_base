@@ -26,13 +26,20 @@ import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
 
 import com.android.internal.util.cmremix.Helpers;
+
 import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 /** Quick settings tile: Heads Up **/
 public class SystemUIRestartTile extends QSTile<QSTile.BooleanState> {
+    private boolean mListening;
 
     public SystemUIRestartTile(Host host) {
         super(host);
+    }
+
+    @Override
+    public int getMetricsCategory() {
+        return CMMetricsLogger.TILE_SYSTEM_UI_RESTART;
     }
 
     @Override
@@ -42,16 +49,17 @@ public class SystemUIRestartTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleClick() {
+        mHost.collapsePanels();
         Helpers.restartSystemUI();
     }
 
     @Override
-    protected void handleLongClick() {
+    protected void handleSecondaryClick() {
+	    handleClick();
     }
 
     @Override
-    public int getMetricsCategory() {
-        return CMMetricsLogger.TILE_SYSTEM_UI_RESTART;
+    protected void handleLongClick() {
     }
 
     @Override
@@ -63,6 +71,8 @@ public class SystemUIRestartTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public void setListening(boolean listening) {
+        if (mListening == listening) return;
+        mListening = listening;
     }
 
 }

@@ -64,7 +64,6 @@ import com.android.systemui.qs.tiles.AppsidebarTile;
 import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.HardwareKeysTile;
-import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.PulseTile;
 import com.android.systemui.qs.tiles.GestureAnyWhereTile;
@@ -85,6 +84,7 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.SyncTile;
+import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.ThemesTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.VolumeTile;
@@ -420,7 +420,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("screenrecord")) return new ScreenrecordTile(this);
         else if (tileSpec.equals("pie")) return new PieTile(this);
         else if (tileSpec.equals("appsidebar")) return new AppsidebarTile(this);
-        else if (tileSpec.equals("restartui")) return new SystemUIRestartTile(this);
         else if (tileSpec.equals("lte")) return new LteTile(this);
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
@@ -435,6 +434,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("pulse")) return new PulseTile(this);
         else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
+        else if (tileSpec.equals("restart_systemui")) return new SystemUIRestartTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (TextUtils.split(tileSpec, "\\|").length == 3) {
             /** restores placeholder for
@@ -541,7 +541,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("screenrecord")) return R.string.quick_settings_screenrecord;
         else if (spec.equals("pie")) return R.string.quick_settings_pie;
         else if (spec.equals("appsidebar")) return R.string.quick_settings_app_sidebar;
-        else if (spec.equals("restartui")) return R.string.quick_settings_systemui_restart_label;
         else if (spec.equals("lte")) return R.string.qs_lte_label;
         else if (spec.equals("heads_up")) return R.string.quick_settings_heads_up_label;
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
@@ -555,6 +554,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("pulse")) return R.string.quick_settings_pulse_label;
         else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
+        else if (spec.equals("restart_systemui")) return R.string.quick_settings_systemui_restart_label;
         return 0;
     }
 
@@ -594,7 +594,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("screenrecord")) return R.drawable.ic_qs_screenrecord;
         else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
         else if (spec.equals("appsidebar")) return R.drawable.ic_qs_appsidebar_on;
-        else if (spec.equals("restartui")) return R.drawable.ic_qs_systemui_restart;
         else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
         else if (spec.equals("heads_up")) return R.drawable.ic_qs_heads_up_on;
         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
@@ -609,6 +608,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
         else if (spec.equals("pulse")) return R.drawable.ic_qs_pulse;
         else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
+        else if (spec.equals("restart_systemui")) return R.drawable.ic_qs_systemui_restart;
         return 0;
     }
 
