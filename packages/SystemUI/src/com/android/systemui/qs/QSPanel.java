@@ -19,8 +19,6 @@ package com.android.systemui.qs;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -366,27 +364,6 @@ public class QSPanel extends ViewGroup {
         r.tileView.onStateChanged(state);
     }
 
-    private void setAnimationTile(TileRecord r) {
-        ObjectAnimator animTile = null;
-        int animStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.ANIM_TILE_STYLE, 0, UserHandle.USER_CURRENT);
-        int animDuration = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.ANIM_TILE_DURATION, 2000, UserHandle.USER_CURRENT);
-        if (animStyle == 0) {
-            //No animation
-        }
-        if (animStyle == 1) {
-            animTile = ObjectAnimator.ofFloat(r.tileView, "rotationY", 0f, 360f);
-        }
-        if (animStyle == 2) {
-            animTile = ObjectAnimator.ofFloat(r.tileView, "rotation", 0f, 360f);
-        }
-        if (animTile != null) {
-            animTile.setDuration(animDuration);
-            animTile.start();
-        }
-    }
-
     private void addTile(final QSTile<?> tile) {
         final TileRecord r = new TileRecord();
         r.tile = tile;
@@ -427,21 +404,18 @@ public class QSPanel extends ViewGroup {
             @Override
             public void onClick(View v) {
                 r.tile.click();
-                setAnimationTile(r);
             }
         };
         final View.OnClickListener clickSecondary = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 r.tile.secondaryClick();
-                setAnimationTile(r);
             }
         };
         final View.OnLongClickListener longClick = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 r.tile.longClick();
-                setAnimationTile(r);
                 return true;
             }
         };
