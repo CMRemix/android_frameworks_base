@@ -63,4 +63,7 @@
     <color name="recents_membar_text_color">@android:color/white</color>
     <color name="recents_membar_color">@*android:color/accent_material_light</color>
 
+    <!-- Volume panel border coler -->
+    <color name="volume_panel_border_color">#ff2962ff</color><!-- blue A700 -->
+
 </resources>
