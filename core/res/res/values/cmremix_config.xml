@@ -128,4 +128,7 @@
     <!-- Wether doze feature is enabled by default in settings. -->
     <bool name="config_doze_enabled_by_default">true</bool>
 
+    <!-- Whether device has dash charging support -->
+    <bool name="config_hasDashCharger">false</bool>
+
 </resources>
