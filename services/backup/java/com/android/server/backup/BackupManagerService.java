@@ -80,7 +80,9 @@ import android.os.storage.StorageManager;
 import android.provider.Settings;
 import android.system.ErrnoException;
 import android.system.Os;
+import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.ArraySet;
 import android.util.AtomicFile;
 import android.util.EventLog;
 import android.util.Log;
@@ -93,6 +95,7 @@ import com.android.internal.backup.IBackupTransport;
 import com.android.internal.backup.IObbBackupService;
 import com.android.server.AppWidgetBackupBridge;
 import com.android.server.EventLogTags;
+import com.android.server.SystemConfig;
 import com.android.server.SystemService;
 import com.android.server.backup.PackageManagerBackupAgent.Metadata;
 
@@ -300,6 +303,7 @@ public class BackupManagerService {
     volatile boolean mClearingData;
 
     // Transport bookkeeping
+    final ArraySet<ComponentName> mTransportWhitelist;
     final Intent mTransportServiceIntent = new Intent(SERVICE_ACTION_TRANSPORT_HOST);
     final ArrayMap<String,String> mTransportNames
             = new ArrayMap<String,String>();             // component name -> registration name
@@ -347,11 +351,6 @@ public class BackupManagerService {
                     sInstance.setBackupEnabled(areEnabled);
                 } catch (RemoteException e) {
                     // can't happen; it's a local object
-                }
-
-                BackupManagerService service = sInstance.mService;
-                if (service != null) {
-                    service.bindTransport(service.mTransportServiceIntent);
                 }
             }
         }
@@ -1089,12 +1088,32 @@ public class BackupManagerService {
 
         // Set up our transport options and initialize the default transport
         // TODO: Don't create transports that we don't need to?
-        mCurrentTransport = Settings.Secure.getString(context.getContentResolver(),
+        SystemConfig systemConfig = SystemConfig.getInstance();
+        mTransportWhitelist = systemConfig.getBackupTransportWhitelist();
+
+        String transport = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.BACKUP_TRANSPORT);
-        if ("".equals(mCurrentTransport)) {
-            mCurrentTransport = null;
+        if (TextUtils.isEmpty(transport)) {
+            transport = null;
         }
+        mCurrentTransport = transport;
         if (DEBUG) Slog.v(TAG, "Starting with transport " + mCurrentTransport);
+
+        // Find all transport hosts and bind to their services
+        List<ResolveInfo> hosts = mPackageManager.queryIntentServicesAsUser(
+                mTransportServiceIntent, 0, UserHandle.USER_OWNER);
+        if (DEBUG) {
+            Slog.v(TAG, "Found transports: " + ((hosts == null) ? "null" : hosts.size()));
+        }
+        if (hosts != null) {
+            for (int i = 0; i < hosts.size(); i++) {
+                final ServiceInfo transportService = hosts.get(i).serviceInfo;
+                if (MORE_DEBUG) {
+                    Slog.v(TAG, "   " + transportService.packageName + "/" + transportService.name);
+                }
+                tryBindTransport(transportService);
+            }
+        }
 
         // Now that we know about valid backup participants, parse any
         // leftover journal files into the pending backup set
@@ -1942,23 +1961,12 @@ public class BackupManagerService {
     void checkForTransportAndBind(PackageInfo pkgInfo) {
         Intent intent = new Intent(mTransportServiceIntent)
                 .setPackage(pkgInfo.packageName);
-        bindTransport(intent);
-    }
-
-    // Find transport hosts by specified intent and bind to their services
-    void bindTransport(Intent intent) {
         List<ResolveInfo> hosts = mPackageManager.queryIntentServicesAsUser(
                 intent, 0, UserHandle.USER_OWNER);
-        if (DEBUG) {
-            Slog.v(TAG, "Found transports: " + ((hosts == null) ? "null" : hosts.size()));
-        }
         if (hosts != null) {
             final int N = hosts.size();
             for (int i = 0; i < N; i++) {
                 final ServiceInfo info = hosts.get(i).serviceInfo;
-                if (MORE_DEBUG) {
-                    Slog.v(TAG, "   " + info.packageName + "/" + info.name);
-                }
                 tryBindTransport(info);
             }
         }
@@ -1983,7 +1991,12 @@ public class BackupManagerService {
     // Actually bind; presumes that we have already validated the transport service
     boolean bindTransport(ServiceInfo transport) {
         ComponentName svcName = new ComponentName(transport.packageName, transport.name);
-        if (MORE_DEBUG) {
+        if (!mTransportWhitelist.contains(svcName)) {
+            Slog.w(TAG, "Proposed transport " + svcName + " not whitelisted; ignoring");
+            return false;
+        }
+
+        if (DEBUG) {
             Slog.i(TAG, "Binding to transport host " + svcName);
         }
         Intent intent = new Intent(mTransportServiceIntent);
@@ -2218,11 +2231,12 @@ public class BackupManagerService {
     // fire off a backup agent, blocking until it attaches or times out
     IBackupAgent bindToAgentSynchronous(ApplicationInfo app, int mode) {
         IBackupAgent agent = null;
-        try {
-            synchronized(mAgentConnectLock) {
-                mConnecting = true;
-                mConnectedAgent = null;
-                if (mActivityManager.bindBackupAgent(app, mode)) {
+        synchronized(mAgentConnectLock) {
+            mConnecting = true;
+            mConnectedAgent = null;
+            try {
+                if (mActivityManager.bindBackupAgent(app.packageName, mode,
+                        UserHandle.USER_OWNER)) {
                     Slog.d(TAG, "awaiting agent for " + app);
 
                     // success; wait for the agent to arrive
@@ -2235,6 +2249,7 @@ public class BackupManagerService {
                         } catch (InterruptedException e) {
                             // just bail
                             Slog.w(TAG, "Interrupted: " + e);
+                            mActivityManager.clearPendingBackup();
                             return null;
                         }
                     }
@@ -2242,22 +2257,14 @@ public class BackupManagerService {
                     // if we timed out with no connect, abort and move on
                     if (mConnecting == true) {
                         Slog.w(TAG, "Timeout waiting for agent " + app);
+                        mActivityManager.clearPendingBackup();
                         return null;
                     }
                     if (DEBUG) Slog.i(TAG, "got agent " + mConnectedAgent);
                     agent = mConnectedAgent;
                 }
-            }
-        } catch (RemoteException e) {
+            } catch (RemoteException e) {
                 // can't happen - ActivityManager is local
-        } finally {
-            // failed to bind backup agent, clear pending backup
-            if (agent == null) {
-                try {
-                    mActivityManager.clearPendingBackup();
-                } catch (RemoteException e) {
-                    // can't happen - ActivityManager is local
-                }
             }
         }
         return agent;
@@ -2938,12 +2945,6 @@ public class BackupManagerService {
 
             final String pkgName = mCurrentPackage.packageName;
             final long filepos = mBackupDataName.length();
-            if (mBackupData == null) {
-                failAgent(mAgentBinder, "Backup data was null: " + mBackupDataName);
-                addBackupTrace("backup data was null: " + mBackupDataName);
-                agentErrorCleanup();
-                return;
-            }
             FileDescriptor fd = mBackupData.getFileDescriptor();
             try {
                 // If it's a 3rd party app, see whether they wrote any protected keys
@@ -7948,11 +7949,6 @@ if (MORE_DEBUG) Slog.v(TAG, "   + got " + nRead + "; now wanting " + (size - soF
                             }
                             int toCopy = result;
                             while (toCopy > 0) {
-                                if (!mEngine.isRunning() && RestoreEngine.SUCCESS != mEngine.getResult()) {
-                                    Slog.e(TAG, "RestoreEngine fail");
-                                    // throw IOException to abandon this package's restore
-                                    throw new IOException();
-                                }
                                 int n = transportIn.read(buffer, 0, toCopy);
                                 engineOut.write(buffer, 0, n);
                                 toCopy -= n;
@@ -9653,6 +9649,12 @@ if (MORE_DEBUG) Slog.v(TAG, "   + got " + nRead + "; now wanting " + (size - soF
             pw.println("Last backup pass started: " + mLastBackupPass
                     + " (now = " + System.currentTimeMillis() + ')');
             pw.println("  next scheduled: " + KeyValueBackupJob.nextScheduled());
+
+            pw.println("Transport whitelist:");
+            for (ComponentName transport : mTransportWhitelist) {
+                pw.print("    ");
+                pw.println(transport.flattenToShortString());
+            }
 
             pw.println("Available transports:");
             final String[] transports = listAllTransports();
