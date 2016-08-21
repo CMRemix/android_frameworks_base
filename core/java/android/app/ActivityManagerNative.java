@@ -1610,10 +1610,9 @@ public abstract class ActivityManagerNative extends Binder implements IActivityM
 
         case START_BACKUP_AGENT_TRANSACTION: {
             data.enforceInterface(IActivityManager.descriptor);
-            String packageName = data.readString();
+            ApplicationInfo info = ApplicationInfo.CREATOR.createFromParcel(data);
             int backupRestoreMode = data.readInt();
-            int userId = data.readInt();
-            boolean success = bindBackupAgent(packageName, backupRestoreMode, userId);
+            boolean success = bindBackupAgent(info, backupRestoreMode);
             reply.writeNoException();
             reply.writeInt(success ? 1 : 0);
             return true;
@@ -3902,14 +3901,13 @@ class ActivityManagerProxy implements IActivityManager
         return binder;
     }
 
-    public boolean bindBackupAgent(String packageName, int backupRestoreMode, int userId)
+    public boolean bindBackupAgent(ApplicationInfo app, int backupRestoreMode)
             throws RemoteException {
         Parcel data = Parcel.obtain();
         Parcel reply = Parcel.obtain();
         data.writeInterfaceToken(IActivityManager.descriptor);
-        data.writeString(packageName);
+        app.writeToParcel(data, 0);
         data.writeInt(backupRestoreMode);
-        data.writeInt(userId);
         mRemote.transact(START_BACKUP_AGENT_TRANSACTION, data, reply, 0);
         reply.readException();
         boolean success = reply.readInt() != 0;
