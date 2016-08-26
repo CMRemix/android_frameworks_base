@@ -48,6 +48,8 @@ public class MetricsLogger implements MetricsConstants {
     public static final int ACTION_WIGGLE_CAMERA_GESTURE = 256;
     public static final int WE_DONT_NEED_NO_BULL_SHIT_METRICS = 959;
 
+    public static final int HALO_SETTINGS = 998;
+
     public static void visible(Context context, int category) throws IllegalArgumentException {
         if (Build.IS_DEBUGGABLE && category == VIEW_UNKNOWN) {
             throw new IllegalArgumentException("Must define metric category");

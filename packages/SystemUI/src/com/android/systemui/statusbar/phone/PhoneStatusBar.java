@@ -2909,7 +2909,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     @Override
-    protected void updateNotifications() {
+    public void updateNotifications() {
         if (!mHandler.hasMessages(MSG_UPDATE_NOTIFICATIONS)) {
             mHandler.sendEmptyMessage(MSG_UPDATE_NOTIFICATIONS);
         }
@@ -5091,6 +5091,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // fix notification panel being shifted to the left by calling
         // instantCollapseNotificationPanel()
         instantCollapseNotificationPanel();
+
+        restartHalo();
 
         mStatusBarWindow.requestLayout();
         mStatusBarWindow.getViewTreeObserver().addOnGlobalLayoutListener(
