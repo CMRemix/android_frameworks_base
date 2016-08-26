@@ -5598,7 +5598,7 @@ public final class Settings {
          * Navbar Button Color
          * @hide
          */
-        public static final String NAVBAR_BUTTON_COLOR= "navbar_button_color";
+        public static final String NAVBAR_BUTTON_COLOR = "navbar_button_color";
 
         /**
          * Switch to Enable/Disable ScreenRecord Shorcut.
@@ -8450,6 +8450,12 @@ public final class Settings {
          * @hide
          */
         public static final String PULSE_CUSTOM_FUDGE_FACTOR = "pulse_custom_fudge_factor";
+
+        /**
+         * Navbar buttons transparency
+         * @hide
+         */
+        public static final String NAVBAR_BUTTONS_ALPHA = "navbar_buttons_alpha";
 
         /**
          * This are the settings to be backed up.

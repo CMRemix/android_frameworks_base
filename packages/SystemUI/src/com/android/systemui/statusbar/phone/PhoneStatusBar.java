@@ -744,14 +744,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CUSTOM_LOGO_STYLE),
                     false, this, UserHandle.USER_ALL);
-        resolver.registerContentObserver(Settings.System.getUriFor(
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_TINT_SWITCH),
                     false, this, UserHandle.USER_ALL);
-	    resolver.registerContentObserver(Settings.System.getUriFor(
+	        resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR),
                     false, this, UserHandle.USER_ALL);
-        resolver.registerContentObserver(Settings.Secure.getUriFor(
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.FLING_PULSE_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.NAVBAR_BUTTONS_ALPHA),
                     false, this, UserHandle.USER_ALL);
 		    update();
         }
@@ -1013,6 +1016,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		} else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVBAR_BUTTON_COLOR))) {
 		    mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
+        } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.NAVBAR_BUTTONS_ALPHA))) {
+		        mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
 		}  else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.FLING_PULSE_ENABLED))) {
 		    makepulsetoast();
