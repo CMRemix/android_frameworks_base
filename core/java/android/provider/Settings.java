@@ -5579,7 +5579,7 @@ public final class Settings {
          */
         public static final String NAVBAR_TINT_SWITCH = "navbar_tint_switch";
 
-         /**
+        /**
          * Navbar Button Color
          * @hide
          */
@@ -5609,6 +5609,18 @@ public final class Settings {
         * USB Data automatic unlock
         */
        public static final String USB_DATA_AUTO_UNLOCK = "usb_data_auto_unlock";
+
+        /**
+        * AE Navigation drawer opacity
+        * @hide
+        */
+       public static final String AE_NAV_DRAWER_OPACITY= "ae_drawer_opacity";
+
+       /**
+       * AE Navigation drawer bg color
+       * @hide
+       */
+       public static final String AE_NAV_DRAWER_BG_COLOR= "ae_drawer_bg_color";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
