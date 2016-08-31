@@ -129,6 +129,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private SettingsButton mSettingsButton;
     private View mSettingsContainer;
     private View mHaloButton;
+    private boolean mShowhaloButton;
     private View mQsDetailHeader;
     private TextView mQsDetailHeaderTitle;
     private Switch mQsDetailHeaderSwitch;
@@ -656,9 +657,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mAlarmStatus.setVisibility(mExpanded && mAlarmShowing ? View.VISIBLE : View.INVISIBLE);
             mSettingsContainer.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
             mWeatherContainer.setVisibility(mExpanded && mShowWeather ? View.VISIBLE : View.GONE);
+            mHaloButton.setVisibility(mExpanded && mShowhaloButton ? View.VISIBLE : mShowhaloButton ? View.INVISIBLE : View.GONE);
             mQsDetailHeader.setVisibility(mExpanded && mShowingDetail ? View.VISIBLE : View.INVISIBLE);
             mWeatherContainer.setVisibility(mExpanded && mShowWeather ? View.VISIBLE : View.GONE);
-            mHaloButton.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
             mTaskManagerButton.setVisibility(mExpanded && mShowTaskManager ? View.VISIBLE : View.GONE);
             mQsDetailHeader.setVisibility(mExpanded && mShowingDetail ? View.VISIBLE : View.GONE);
             if (mSignalCluster != null) {
@@ -1764,21 +1765,24 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 Settings.System.HEADER_DETAIL_FONT_STYLE, FONT_NORMAL,
                 UserHandle.USER_CURRENT);
 
-        headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
+        headerShadow = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 0,
                 UserHandle.USER_CURRENT);
 
-        textShadow = Settings.System.getFloatForUser(mContext.getContentResolver(),
+        textShadow = Settings.System.getFloatForUser(resolver,
                 Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW, 0,
                 UserHandle.USER_CURRENT);
 
-        tShadowColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+        tShadowColor = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW_COLOR, 0,
                 UserHandle.USER_CURRENT);
 
-        customHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
+        customHeader = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
                 UserHandle.USER_CURRENT);
+
+        mShowhaloButton = Settings.Secure.getInt(resolver,
+                Settings.Secure.HALO_ENABLE, 0) == 1 ;
 
 	    setStatusBarHeaderFontStyle	(mStatusBarHeaderFontStyle);
         setStatusBarWeatherFontStyle(mStatusBarHeaderWeatherFont);
