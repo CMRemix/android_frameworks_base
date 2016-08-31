@@ -1785,10 +1785,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
                 UserHandle.USER_CURRENT);
 
-        mShowhaloButton = Settings.Secure.getInt(resolver,
-                Settings.Secure.HALO_ENABLE, 0) == 1;
-
-            mHaloActive = Settings.Secure.getInt(resolver,
+        mHaloActive = Settings.Secure.getInt(resolver,
                 Settings.Secure.HALO_ACTIVE, 0) == 1;
 
 	    setStatusBarHeaderFontStyle	(mStatusBarHeaderFontStyle);
