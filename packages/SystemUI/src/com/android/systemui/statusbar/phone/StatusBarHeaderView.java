@@ -130,6 +130,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private View mSettingsContainer;
     private View mHaloButton;
     private boolean mShowhaloButton;
+    private boolean mHaloActive;
     private View mQsDetailHeader;
     private TextView mQsDetailHeaderTitle;
     private Switch mQsDetailHeaderSwitch;
@@ -1632,9 +1633,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
     };
 
-    private boolean toggleHalo() {
-        return Settings.Secure.putInt(mContext.getContentResolver(),
-                    Settings.Secure.HALO_ACTIVE, 1);
+    private void toggleHalo() {
+        Settings.Secure.putInt(mContext.getContentResolver(),
+                Settings.Secure.HALO_ACTIVE, !mHaloActive ? 1 : 0);
     }
 
     class SettingsObserver extends UserContentObserver {
@@ -1685,13 +1686,15 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     resolver.registerContentObserver(Settings.System.getUriFor(
             Settings.System.ENABLE_TASK_MANAGER), false, this);
     resolver.registerContentObserver(Settings.System.getUriFor(
-			Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW), false, this, UserHandle.USER_ALL);
+            Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW), false, this, UserHandle.USER_ALL);
     resolver.registerContentObserver(Settings.System.getUriFor(
 			Settings.System.STATUS_BAR_CUSTOM_HEADER), false, this, UserHandle.USER_ALL);
-	resolver.registerContentObserver(Settings.System.getUriFor(
-             Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW), false, this, UserHandle.USER_ALL);
     resolver.registerContentObserver(Settings.System.getUriFor(
-             Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW_COLOR), false, this, UserHandle.USER_ALL);
+            Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW), false, this, UserHandle.USER_ALL);
+    resolver.registerContentObserver(Settings.System.getUriFor(
+            Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW_COLOR), false, this, UserHandle.USER_ALL);
+    resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.HALO_ACTIVE), false, this, UserHandle.USER_ALL);
         update();
         }
 
@@ -1783,7 +1786,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 UserHandle.USER_CURRENT);
 
         mShowhaloButton = Settings.Secure.getInt(resolver,
-                Settings.Secure.HALO_ENABLE, 0) == 1 ;
+                Settings.Secure.HALO_ENABLE, 0) == 1;
+
+            mHaloActive = Settings.Secure.getInt(resolver,
+                Settings.Secure.HALO_ACTIVE, 0) == 1;
 
 	    setStatusBarHeaderFontStyle	(mStatusBarHeaderFontStyle);
         setStatusBarWeatherFontStyle(mStatusBarHeaderWeatherFont);
@@ -1802,6 +1808,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	    updateEverything();
 	    updateVisibilities();
 	    requestCaptureValues();
+	    mHaloButton.setActivated(mHaloActive);
         }
     }
 
