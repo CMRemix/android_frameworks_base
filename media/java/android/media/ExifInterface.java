@@ -1040,8 +1040,6 @@ public class ExifInterface {
     private int mThumbnailLength;
     private byte[] mThumbnailBytes;
 
-    // Pattern to check non zero timestamp
-    private static final Pattern sNonZeroTimePattern = Pattern.compile(".*[1-9].*");
     // Pattern to check gps timestamp
     private static final Pattern sGpsTimestampPattern =
             Pattern.compile("^([0-9][0-9]):([0-9][0-9]):([0-9][0-9])$");
