@@ -1258,13 +1258,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mBackdropFront = (ImageView) mBackdrop.findViewById(R.id.backdrop_front);
         mBackdropBack = (ImageView) mBackdrop.findViewById(R.id.backdrop_back);
 
-        if (ENABLE_LOCKSCREEN_WALLPAPER) {
-            mLockscreenWallpaper = new LockscreenWallpaper(mContext, this, mHandler);
-        }
-
         ScrimView scrimBehind = (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_behind);
         ScrimView scrimInFront = (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_in_front);
-
         View headsUpScrim = mStatusBarWindow.findViewById(R.id.heads_up_scrim);
         mScrimController = SystemUIFactory.getInstance().createScrimController(
                 scrimBehind, scrimInFront, headsUpScrim, mLockscreenWallpaper);
@@ -1311,6 +1306,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBatterySaverWarningColor = mContext.getResources()
                    .getColor(com.android.internal.R.color.battery_saver_mode_color);
          }
+
+        if (ENABLE_LOCKSCREEN_WALLPAPER) {
+            mLockscreenWallpaper = new LockscreenWallpaper(mContext, this, mHandler);
+        }
 
         // set the initial view visibility
         setAreThereNotifications();
@@ -4304,11 +4303,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     public void showCMRLogo(boolean show) {
         if (mStatusBarView == null) return;
-        ContentResolver resolver = mContext.getContentResolver();
-        cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
-        if (cmrLogo != null) {
-            cmrLogo.setVisibility(show ? (mCMRlogo ? View.VISIBLE : View.GONE) : View.GONE);
-        }
+ 	 	if (!show) {
+            cmrLogo.setVisibility(View.GONE);
+            return;
+		}
+		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
+		cmrLogo.setVisibility(View.VISIBLE);
     }
 
     public void resetUserExpandedStates() {

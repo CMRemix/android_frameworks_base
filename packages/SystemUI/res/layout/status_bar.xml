@@ -75,15 +75,15 @@
                 android:paddingEnd="4dp"
                 android:visibility="gone" />
 
-     	<ImageView
-              android:id="@+id/cmr_logo"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:paddingEnd="4dip"
-              android:src="@drawable/ic_status_bar_cmr_logo"
-              android:scaleType="center"
-              android:visibility="gone"
-                    />
+             <ImageView
+                    android:id="@+id/cmr_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="4dip"
+                    android:src="@drawable/ic_status_bar_cmr_logo"
+                    android:scaleType="center"
+                    android:visibility="gone"
+					/>
 
 
             <com.android.systemui.statusbar.policy.NetworkTraffic
