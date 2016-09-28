@@ -396,6 +396,9 @@ public class UsbDeviceManager {
                         CMSettings.Secure.getUriFor(CMSettings.Secure.ADB_NOTIFY),
                                 false, adbNotificationObserver);
                 mContentResolver.registerContentObserver(
+                        Settings.Global.getUriFor(Settings.Global.ADB_ALWAYS_NOTIFY),
+                        false, adbNotificationObserver);
+                mContentResolver.registerContentObserver(
                         CMSettings.Secure.getUriFor(CMSettings.Secure.ADB_PORT),
                                 false, adbNotificationObserver);
 
@@ -935,6 +938,8 @@ public class UsbDeviceManager {
             boolean hideNotification = "0".equals(SystemProperties.get("persist.adb.notify"))
                     || CMSettings.Secure.getInt(mContext.getContentResolver(),
                             CMSettings.Secure.ADB_NOTIFY, 1) == 0;
+            boolean alwaysNotify = Settings.Global.getInt(mContext.getContentResolver(),
+                    Settings.Global.ADB_ALWAYS_NOTIFY, 0) != 0;
 
             if (hideNotification) {
                 id = 0;
@@ -944,6 +949,8 @@ public class UsbDeviceManager {
                 id = com.android.internal.R.string.adb_active_notification_title;
             } else if (netAdbActive) {
                 id = com.android.internal.R.string.adb_net_active_notification_title;
+            } else if (mAdbEnabled && alwaysNotify) {
+                id = com.android.internal.R.string.adb_not_connected_notification_title;
             } else {
                 id = 0;
             }
