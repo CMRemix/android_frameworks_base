@@ -105,5 +105,7 @@
     <string name="lte_off">LTE OFF</string>
     <string name="quick_settings_kernel_title">Kernel Adiutor</string>
     <string name="quick_settings_kernel_adiutor">Kernel Adiutor</string>
+    <string name="quick_settings_screenrecord">Screenrecord</string>
+    <string name="quick_settings_screenrecord_on">Recording</string>
 
 </resources>
