@@ -103,5 +103,7 @@
     <string name="quick_settings_lte_label">LTE</string>
     <string name="lte_on">LTE ON </string>
     <string name="lte_off">LTE OFF</string>
+    <string name="quick_settings_kernel_title">Kernel Adiutor</string>
+    <string name="quick_settings_kernel_adiutor">Kernel Adiutor</string>
 
 </resources>
