@@ -436,7 +436,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     // settings
     private QSPanel mQSPanel;
-    private DevForceNavbarObserver mDevForceNavbarObserver;
 
     // top bar
     BaseStatusBarHeader mHeader;
@@ -548,8 +547,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CMR_LOGO),
                     false, this, UserHandle.USER_ALL);
@@ -705,12 +702,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mMaxKeyguardNotifConfig = Settings.System.getIntForUser(resolver,
                     Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG, 5, mCurrentUserId);
 
-            if (mNavigationBarView != null) {
-                boolean navLeftInLandscape = CMSettings.System.getIntForUser(resolver,
-                        CMSettings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0, UserHandle.USER_CURRENT) == 1;
-                mNavigationBarView.setLeftInLandscape(navLeftInLandscape);
-            }
-
             int sidebarPosition = Settings.System.getInt(
                     resolver, Settings.System.APP_SIDEBAR_POSITION, AppSidebar.SIDEBAR_POSITION_LEFT);
             if (sidebarPosition != mSidebarPosition) {
@@ -720,52 +711,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     }
-
-    class DevForceNavbarObserver extends UserContentObserver {
-        DevForceNavbarObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void observe() {
-            super.observe();
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(CMSettings.Global.getUriFor(
-                    CMSettings.Global.DEV_FORCE_SHOW_NAVBAR), false, this, UserHandle.USER_ALL);
-        }
-
-        @Override
-        public void update() {
-            boolean visible = CMSettings.Global.getIntForUser(mContext.getContentResolver(),
-                    CMSettings.Global.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
-
-            if (visible) {
-                forceAddNavigationBar();
-            } else {
-                removeNavigationBar();
-            }
-
-            // Send a broadcast to Settings to update Key disabling when user changes
-            Intent intent = new Intent("com.cyanogenmod.action.UserChanged");
-            intent.setPackage("com.android.settings");
-            mContext.sendBroadcastAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
-        }
-    }
-
-    private void forceAddNavigationBar() {
-        // If we have no Navbar view and we should have one, create it
-        if (mNavigationBarView != null) {
-            return;
-        }
-
-        mNavigationBarView =
-                (NavigationBarView) View.inflate(mContext, R.layout.navigation_bar, null);
-
-        mNavigationBarView.setDisabledFlags(mDisabled1);
-        addNavigationBar();
-    }
-
-
 
   private void updateWeatherTextState(String temp, int size, int font ,int color) {
         if (mWeatherTempState == 0 || TextUtils.isEmpty(temp)) {
@@ -1150,17 +1095,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // in session state
 
         addNavigationBar();
-
-        // Developer options - Force Navigation bar
-        try {
-            boolean needsNav = mWindowManagerService.needsNavigationBar();
-            if (!needsNav) {
-                mDevForceNavbarObserver = new DevForceNavbarObserver(mHandler);
-                mDevForceNavbarObserver.observe();
-            }
-        } catch (RemoteException ex) {
-            // no window manager? good luck with that
-        }
 
         SettingsObserver observer = new SettingsObserver(mHandler);
         observer.observe();
@@ -1989,14 +1923,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         prepareNavigationBarView();
 
         mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
-    }
-
-    private void removeNavigationBar() {
-        if (DEBUG) Log.d(TAG, "removeNavigationBar: about to remove " + mNavigationBarView);
-        if (mNavigationBarView == null) return;
-
-        mWindowManager.removeView(mNavigationBarView);
-        mNavigationBarView = null;
     }
 
     protected void repositionNavigationBar() {
