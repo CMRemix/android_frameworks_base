@@ -7596,6 +7596,13 @@ public final class Settings {
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
+         * Add or remove software navigation bar
+         *
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_VISIBLE = "navigation_bar_visible";
+
+	    /**
          * Whether to use one tap tile action to enable or disable data 
          * @hide
          */

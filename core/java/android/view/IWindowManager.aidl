@@ -331,6 +331,11 @@ interface IWindowManager
     oneway void statusBarVisibilityChanged(int visibility);
 
     /**
+     * Device requires a software navigation bar.
+     */
+    boolean needsNavigationBar();
+
+    /**
      * Called by System UI to notify of changes to the visibility of Recents.
      */
     oneway void setRecentsVisibility(boolean visible);
