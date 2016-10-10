@@ -4580,7 +4580,6 @@ public final class Settings {
          */
         public static final String LOCK_SCREEN_WEATHER_HIDE_PANEL = "lock_screen_weather_hide_panel";
 
-
 		/*
          * show clear all recents button
          *  @hide
@@ -4592,7 +4591,6 @@ public final class Settings {
          * @hide
          */
         public static final String  RECENTS_CLEAR_ALL_LOCATION = "recents_clear_all_location";
-
 
         /**
          * Recents Clear All Button Style
@@ -4653,7 +4651,7 @@ public final class Settings {
          * @hide
          */
         public static final String FAB_ANIMATION_STYLE= "fab_animation_style";
-               
+
         /**
          * TaskView Pin Color
          * @hide
@@ -4971,7 +4969,6 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_ALARM_COLOR = "lockscreen_alarm_color";
-
 
         /**
          * Number of columns used for the Quick Settings (landscape)
