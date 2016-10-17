@@ -51,7 +51,7 @@ import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
-//import com.android.systemui.qs.tiles.ExpandedDesktopTile;
+import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.LteTile;
@@ -471,7 +471,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 		else if (tileSpec.equals("lte")) return new LteTile(this);
 		else if (tileSpec.equals("ka_performance")) return new KernelAdiutorTile(this);
 		else if (tileSpec.equals("screenrecord")) return new ScreenrecordTile(this);
-        //else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
+        else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(this);
         else if (tileSpec.equals("music")) return new MusicTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
