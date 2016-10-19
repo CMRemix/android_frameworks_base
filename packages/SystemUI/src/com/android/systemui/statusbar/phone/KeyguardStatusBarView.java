@@ -153,6 +153,7 @@ public class KeyguardStatusBarView extends RelativeLayout
         mKeyguardClock = (TextView) findViewById(R.id.keyguard_clock);
         loadDimens();
         updateUserSwitcher();
+        updateVisibilities();
     }
 
     @Override
