@@ -353,7 +353,11 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 Settings.System.STATUS_BAR_CMR_LOGO, 0) == 1) {
             animateHide(mCMRLogoLeft, animate);
         }
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_SHOW_CARRIER,  0,
+                UserHandle.USER_CURRENT) == 2) {
         animateHide(mCarrierLabel,animate);
+        }
     }
 
     public void showSystemIconArea(boolean animate) {
@@ -363,7 +367,11 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 Settings.System.STATUS_BAR_CMR_LOGO, 0) == 1) {
             animateShow(mCMRLogoLeft, animate);
         }
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_SHOW_CARRIER,  0,
+                UserHandle.USER_CURRENT) == 2) {
         animateShow(mCarrierLabel,animate);
+        }
     }
 
     public void hideNotificationIconArea(boolean animate) {
