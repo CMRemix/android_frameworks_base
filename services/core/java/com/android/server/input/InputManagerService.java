@@ -1960,6 +1960,7 @@ public class InputManagerService extends IInputManager.Stub
                 inputApplicationHandle, inputWindowHandle, reason);
     }
 
+
     // Native callback.
     final boolean filterInputEvent(InputEvent event, int policyFlags) {
         ChainedInputFilterHost head = null;
@@ -1967,19 +1968,7 @@ public class InputManagerService extends IInputManager.Stub
             if (!mInputFilterChain.isEmpty()) {
                 head = mInputFilterChain.get(0);
             }
-            return false;
         }
-
-        // call filter input event outside of the lock.
-        // this is safe, because we know that mInputFilter never changes.
-        // we may loose a event, but this does not differ from the original implementation.
-        if (head != null) {
-            try {
-                head.mInputFilter.filterInputEvent(event, policyFlags);
-            } catch (RemoteException e) {
-                /* ignore */
-            }
-
         // call filter input event outside of the lock.
         // this is safe, because we know that mInputFilter never changes.
         // we may loose a event, but this does not differ from the original implementation.
@@ -1993,7 +1982,7 @@ public class InputManagerService extends IInputManager.Stub
         }
         event.recycle();
         return true;
-    }
+     }
 
     // Native callback.
     private int interceptKeyBeforeQueueing(KeyEvent event, int policyFlags) {
