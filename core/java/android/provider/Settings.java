@@ -4229,6 +4229,12 @@ public final class Settings {
         public static final String LOCK_DATE_FONTS = "lock_date_fonts";
 
         /**
+         * show lockscreen alarm
+         *  @hide
+         */
+        public static final String SHOW_LOCKSCREEN_ALARM = "show_lockscreen_alarm";
+
+        /**
          * Change font size for the system lockscreen clock widget
          *
          * @hide
