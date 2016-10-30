@@ -5462,6 +5462,12 @@ public final class Settings {
          */
         public static final String SCREEN_STATE_TWOG = "screen_state_twog";
 
+          /**
+          * Whether to show the negociated charger current in the lockscreen
+          * @hide
+          */
+         public static final String LOCKSCREEN_CHARGING_CURRENT = "lockscreen_charging_current";
+ 
         /**
          * @hide
          */
