@@ -675,7 +675,11 @@ public final class AssetManager implements AutoCloseable {
     public final int addCommonOverlayPath(String themeApkPath,
             String resApkPath, String prefixPath) {
         synchronized (this) {
-            return addCommonOverlayPathNative(themeApkPath, resApkPath, prefixPath);
+            if ((new File(themeApkPath).exists()) && (new File(resApkPath).exists())) {
+                return addCommonOverlayPathNative(themeApkPath, resApkPath, prefixPath);
+            }
+
+            return 0;
         }
     }
 
