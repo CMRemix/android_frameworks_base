@@ -3798,6 +3798,12 @@ public final class Settings {
 
 		public static final String CMREMIX_CONFIG_STYLE = "cmremix_config_style";
 
+        /**
+         * Whether to allow fullscreen screenshots or let the user select which area to screenshot
+         * @hide
+         */
+        public static final String SCREENSHOT_TYPE = "screenshot_type";
+
 		/**
          * Statusbar CMR logo color setting
          * @hide
