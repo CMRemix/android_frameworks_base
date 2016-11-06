@@ -189,6 +189,7 @@ public class RankingHelper implements RankingConfig {
                         }
                         if (soundTimeout != 0) {
                             r.notificationSoundTimeout = soundTimeout;
+                        }
                     }
                 }
             }
@@ -219,7 +220,7 @@ public class RankingHelper implements RankingConfig {
             if (r.priority == DEFAULT_PRIORITY && r.peekable == DEFAULT_PEEKABLE
                     && r.visibility == DEFAULT_VISIBILITY
                     && r.keyguard == Notification.SHOW_ALL_NOTI_ON_KEYGUARD
-                    && r.halo == DEFAULT_HALO)
+                    && r.halo == DEFAULT_HALO
                     && r.notificationSoundTimeout == 0) {
                 mRecords.removeAt(i);
             }
