@@ -816,7 +816,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     initTickerView();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.SHOW_SU_INDICATOR))) {
-                    onDensityOrFontScaleChanged();
+                    UpdateSomeViews();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_RECENTS))) {
                 updateRecents();
@@ -6092,6 +6092,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mVisualStabilityManager.setScreenOn(true);
         mNotificationPanel.setTouchDisabled(false);
         updateVisibleToUser();
+    }
+
+    public void UpdateSomeViews() {
+        onDensityOrFontScaleChanged();
+        updateNotifications();
+        updateRowStates();
+        updateSpeedbump();
     }
 
     public void onScreenTurningOn() {
