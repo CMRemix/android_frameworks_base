@@ -8884,6 +8884,13 @@ public final class Settings {
          */
         public static final String SLEEP_TIMEOUT = "sleep_timeout";
 
+        /**
+         * Whether to sync the battery tile stile with the statusbar battery icon style
+         * @hide
+         */
+        public static final String STATUS_BAR_BATTERY_STYLE_TILE = "status_bar_battery_style_tile";
+
+
          /** Protected Components
          * @hide
          */
@@ -9230,7 +9237,8 @@ public final class Settings {
             NFC_PAYMENT_DEFAULT_COMPONENT,
             ADVANCED_REBOOT,
             CAMERA_GESTURE_DISABLED,
-            STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD
+            STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD,
+            STATUS_BAR_BATTERY_STYLE_TILE
         };
 
         /**
