@@ -50,6 +50,9 @@
     <color name="battery_juice_critical">#ff4444</color>
     <color name="battery_background">#ffffff</color>
     <color name="status">#ffffff</color>
+     
+    <!-- Lockscreen bottom shorcut phone background color -->
+    <color name="lockscreen_bottom_shorcut_phone_background">@*android:color/accent_material_dark</color>
 
     <!-- Navigation button ripple color -->
     <color name="navbutton_ripple_color">#FFFFFFFF</color>
