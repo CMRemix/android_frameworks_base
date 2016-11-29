@@ -41,6 +41,8 @@ import android.widget.TextView;
 
 import com.android.systemui.DemoMode;
 
+import com.android.systemui.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -141,6 +143,9 @@ public class Clock extends TextView implements DemoMode {
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_POSITION), false,
                     this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CLOCK_SECONDS),
+                    false, this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -160,6 +165,15 @@ public class Clock extends TextView implements DemoMode {
 
     public Clock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.Clock,
+                0, 0);
+        try {
+            mAmPmStyle = a.getInt(R.styleable.Clock_amPmStyle, AM_PM_STYLE_GONE);
+        } finally {
+            a.recycle();
+        }
     }
 
     @Override
@@ -189,12 +203,12 @@ public class Clock extends TextView implements DemoMode {
         mCalendar = Calendar.getInstance(TimeZone.getDefault());
         // Make sure we update to the current time
         updateClock();
-        updateShowSeconds();
         if (mSettingsObserver == null) {
             mSettingsObserver = new SettingsObserver(new Handler());
         }
         mSettingsObserver.observe();
         updateSettings();
+        updateShowSeconds();
     }
 
     @Override
@@ -412,10 +426,14 @@ public class Clock extends TextView implements DemoMode {
         mClockFontSize = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUSBAR_CLOCK_FONT_SIZE, 14,
                 UserHandle.USER_CURRENT);
+        mShowSeconds = Settings.System.getIntForUser(resolver,
+                Settings.System.STATUS_BAR_CLOCK_SECONDS, 0,
+                UserHandle.USER_CURRENT) == 1;
 
         getFontStyle(mClockFontStyle);
         setTextSize(mClockFontSize);
         updateClock();
+        updateShowSeconds();
     }
 
    public void getFontStyle(int font) {
@@ -561,11 +579,6 @@ public class Clock extends TextView implements DemoMode {
         mAmPmStyle = style;
         mClockFormatString = "";
         updateClock();
-    }
-
-    public void setShowSeconds(boolean showSeconds) {
-        mShowSeconds = showSeconds;
-        updateShowSeconds();;
     }
 }
 
