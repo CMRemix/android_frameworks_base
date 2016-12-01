@@ -122,6 +122,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private boolean hasEdit;
     private boolean hasExpandIndicator;
     private boolean hasMultiUserSwitch;
+    private boolean mDateTimeGroupCenter;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -224,6 +225,17 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         } else {
             mDateTimeGroup.setPivotX(isRtl ? mDateTimeGroup.getWidth() : 0);
         }
+    }
+
+    private void updateDateTimeCenter() {
+        mDateTimeGroupCenter = isDateTimeGroupCenter();
+        LayoutParams lp = (LayoutParams) mDateTimeAlarmGroup.getLayoutParams();
+        if (mDateTimeGroupCenter && !(hasSettingsIcon && hasEdit && hasMultiUserSwitch && hasExpandIndicator)) {
+            lp.addRule(CENTER_HORIZONTAL);
+        } else {
+            lp.addRule(CENTER_HORIZONTAL,0);
+        }
+        mDateTimeAlarmGroup.setLayoutParams(lp);
     }
 
     @Override
@@ -342,6 +354,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private void updateDateTimePosition() {
         mDateTimeAlarmGroup.setTranslationY(mShowEmergencyCallsOnly || mIsRoaming
                 ? mExpansionAmount * mDateTimeTranslation : 0);
+        updateDateTimeCenter();
     }
 
     private void updateListeners() {
@@ -570,5 +583,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     public boolean isMultiUserSwitchDisabled() {
         return Settings.System.getInt(mContext.getContentResolver(),
             Settings.System.QS_MULTIUSER_SWITCH_TOGGLE, 0) == 1;
+    }
+
+    public boolean isDateTimeGroupCenter() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_DATE_TIME_CENTER, 1) == 1;
     }
 }
