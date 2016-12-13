@@ -763,6 +763,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.FP_SWIPE_CALL_ACTIONS),
                   false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.BATTERY_LARGE_TEXT),
+                  false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -813,7 +816,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     initTickerView();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.SHOW_SU_INDICATOR))) {
-                    onDensityOrFontScaleChanged();
+                    UpdateSomeViews();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_RECENTS))) {
                 updateRecents();
@@ -860,6 +863,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.OMNIJAWS_WEATHER_ICON_PACK))) {
                     mHeader.updateVisibilities();
                     mHeader.queryAndUpdateWeather();
+           } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.BATTERY_LARGE_TEXT))) {
+                    UpdateSomeViews();
            }
            update();
         }

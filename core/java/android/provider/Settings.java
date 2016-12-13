@@ -4281,6 +4281,12 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_ANYWHERE = "double_tap_sleep_anywhere";
 
         /**
+         * Whether tdisplay large text for statusbar battery percentage
+         * @hide
+         */
+        public static final String BATTERY_LARGE_TEXT = "battery_large_text";
+
+        /**
          * Whether to show the battery bar
          * @hide
          */
