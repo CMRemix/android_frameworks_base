@@ -81,4 +81,5 @@ interface IStatusBarService
     void screenPinningStateChanged(boolean enabled);
     // SystemUI Restart API for masquerade
     void restartUI();
+    void setAutoRotate(boolean enabled);
 }
