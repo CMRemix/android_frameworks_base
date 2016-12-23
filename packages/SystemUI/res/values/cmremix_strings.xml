@@ -237,4 +237,6 @@
     <string name="action_save_fault">Saving was unsuccessful</string>
     <string name="action_edit">Edit</string>
 
+    <string name="recents_free_ram">Free RAM: %1$d MB</string>
+
 </resources>
