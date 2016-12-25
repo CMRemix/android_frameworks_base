@@ -409,10 +409,10 @@ public class NotificationPanelView extends PanelView implements
             mBlurredView.addView(mInnerBlurredView, lp);
             mNotificationPanelView.addView(mBlurredView, 0, lp);
             mNotificationPanelView.requestLayout();
-            setQSStroke();
             mBlurredView.setTag("ready_to_blur");
 
             mBlurredView.setVisibility(View.INVISIBLE);
+            //setQSStroke();
 
             handleQuickSettingsBackround();
     }
@@ -2897,9 +2897,6 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SMART_PULLDOWN), false, this, UserHandle.USER_ALL);
- 			resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.QS_TRANSPARENT_SHADE),
-                    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_STROKE),
                     false, this, UserHandle.USER_ALL);
@@ -2989,8 +2986,6 @@ public class NotificationPanelView extends PanelView implements
                 onWeatherChanged(mWeatherController.getWeatherInfo());
             mQsSmartPullDown = Settings.System.getIntForUser(resolver,
                     Settings.System.QS_SMART_PULLDOWN, 0, UserHandle.USER_CURRENT);
-            mQSShadeAlpha = Settings.System.getInt(
-                    resolver, Settings.System.QS_TRANSPARENT_SHADE, 255);
             mQSStroke = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.QS_STROKE, 0);
             mCustomStrokeColor = Settings.System.getInt(mContext.getContentResolver(),
@@ -3031,9 +3026,8 @@ public class NotificationPanelView extends PanelView implements
             mBlurLightColorFilter = Settings.System.getInt(mContext.getContentResolver(), 
                     Settings.System.BLUR_LIGHT_COLOR_PREFERENCE_KEY, Color.DKGRAY);
             mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
-            handleQuickSettingsBackround();
             setQSStroke();
-            setQSBackgroundAlpha();
+            handleQuickSettingsBackround();
         }
     }
 
