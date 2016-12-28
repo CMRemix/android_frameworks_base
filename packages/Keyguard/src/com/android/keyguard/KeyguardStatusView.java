@@ -111,8 +111,6 @@ public class KeyguardStatusView extends GridLayout implements
         public void onTimeChanged() {
             if (enableRefresh) {
                 refresh();
-                updateClockColor();
-                updateClockDateColor();
             }
         }
 
@@ -124,6 +122,7 @@ public class KeyguardStatusView extends GridLayout implements
                 updateOwnerInfo();
                 updateClockColor();
                 updateClockDateColor();
+                refreshLockFont();
             }
         }
 
@@ -132,8 +131,6 @@ public class KeyguardStatusView extends GridLayout implements
             setEnableMarquee(true);
             enableRefresh = true;
             refresh();
-            updateClockColor();
-            updateClockDateColor();
         }
 
         @Override
@@ -148,6 +145,7 @@ public class KeyguardStatusView extends GridLayout implements
             updateOwnerInfo();
             updateClockColor();
             updateClockDateColor();
+            refreshLockFont();
         }
     };
 
@@ -196,6 +194,7 @@ public class KeyguardStatusView extends GridLayout implements
         updateOwnerInfo();
         updateClockColor();
         updateClockDateColor();
+        refreshLockFont();
 
         // Disable elegant text height because our fancy colon makes the ymin value huge for no
         // reason.
