@@ -4580,7 +4580,13 @@ public final class Settings {
          */
         public static final String LOCK_SCREEN_WEATHER_HIDE_PANEL = "lock_screen_weather_hide_panel";
 
-		/*
+        /**
+         * Whether to hide Settings drawer
+         * @hide
+         */
+        public static final String SHOW_SETTINGS_DRAWER = "show_settings_drawer";
+
+	    /*
          * show clear all recents button
          *  @hide
          */
