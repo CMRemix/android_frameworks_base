@@ -208,14 +208,14 @@ public class KeyguardStatusView extends GridLayout implements
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mClockView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        // Some layouts like burmese have a different margin for the clock
+        mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
         MarginLayoutParams layoutParams = (MarginLayoutParams) mClockView.getLayoutParams();
         layoutParams.bottomMargin = getResources().getDimensionPixelSize(
                 R.dimen.bottom_text_spacing_digital);
         mClockView.setLayoutParams(layoutParams);
         updateclocksize();
         refreshdatesize();
+        refreshLockFont();
         mOwnerInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimensionPixelSize(R.dimen.widget_label_font_size));
     }
@@ -408,7 +408,7 @@ public class KeyguardStatusView extends GridLayout implements
         int lockClockFont = isPrimary ? getLockClockFont() : 0;
 
         if (lockClockFont == 0) {
-            mClockView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+            mClockView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
         }
         if (lockClockFont == 1) {
             mClockView.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
