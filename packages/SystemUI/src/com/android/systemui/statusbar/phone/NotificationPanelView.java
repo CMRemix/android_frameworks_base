@@ -33,6 +33,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.AttributeSet;

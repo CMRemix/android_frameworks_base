@@ -419,6 +419,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mCMRlogo;
     private ImageView cmrLogo;
 
+	private boolean mShow4G;
+	private boolean mShow3G;
+
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
     private int mStatusBarHeaderHeight;
@@ -498,6 +501,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	    	resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHOW_FOURG),
                     false, this, UserHandle.USER_ALL);
+    		resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHOW_THREEG),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -516,9 +522,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             mContext.getContentResolver(),
                             Settings.System.SHOW_FOURG,
                             0, UserHandle.USER_CURRENT) == 1;
-		mNetworkController.onConfigurationChanged();
+							mNetworkController.onConfigurationChanged();
+			} else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.SHOW_THREEG))) {
+                    mShow3G = Settings.System.getIntForUser(
+                            mContext.getContentResolver(),
+                            Settings.System.SHOW_THREEG,
+                            0, UserHandle.USER_CURRENT) == 1;
+                            mNetworkController.onConfigurationChanged();
 			}
-}
+		update();
+		}
 
         @Override
         public void update() {
@@ -534,6 +548,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mCMRlogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
             showCMRLogo(mCMRlogo);
+
+            boolean mShow4G = Settings.System.getIntForUser(resolver,
+                    Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
+
+	    	boolean mShow3G = Settings.System.getIntForUser(resolver,
+					Settings.System.SHOW_THREEG, 0, UserHandle.USER_CURRENT) == 1;
+
             if (mNavigationBarView != null) {
                 boolean navLeftInLandscape = CMSettings.System.getIntForUser(resolver,
                         CMSettings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0, UserHandle.USER_CURRENT) == 1;

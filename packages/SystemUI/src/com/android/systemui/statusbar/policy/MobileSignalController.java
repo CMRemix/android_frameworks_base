@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.NetworkCapabilities;
 import android.os.Looper;
+import android.os.UserHandle;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
@@ -38,6 +39,8 @@ import com.android.systemui.statusbar.policy.NetworkController.IconState;
 import com.android.systemui.statusbar.policy.NetworkController.SignalCallback;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl.Config;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl.SubscriptionDefaults;
+
+import android.provider.Settings;
 
 import java.io.PrintWriter;
 import java.util.BitSet;
@@ -188,17 +191,21 @@ public class MobileSignalController extends SignalController<
             mDefaultIcons = TelephonyIcons.THREE_G;
         }
 
-        MobileIconGroup hGroup = TelephonyIcons.THREE_G;
-        if (mConfig.hspaDataDistinguishable) {
-            hGroup = TelephonyIcons.H;
-        }
-        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSDPA, hGroup);
-        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSUPA, hGroup);
-        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPA, hGroup);
-        if (mConfig.hspaDataDistinguishable) {
-            hGroup = TelephonyIcons.HP;
-        }
-        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPAP, hGroup);
+       boolean mShow3G = Settings.System.getIntForUser(
+            mContext.getContentResolver(), Settings.System.SHOW_THREEG,
+                0, UserHandle.USER_CURRENT) == 1;
+
+ 		if(mShow3G) {	
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyIcons.THREE_G);
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSUPA, TelephonyIcons.THREE_G);
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPA, TelephonyIcons.THREE_G);
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPAP, TelephonyIcons.THREE_G);
+        } else {
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyIcons.H);
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSUPA, TelephonyIcons.H);
+        mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPA, TelephonyIcons.H);
+		mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPAP, TelephonyIcons.H);
+		}
 
         if (Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.SHOW_FOURG, 0) == 1) {
