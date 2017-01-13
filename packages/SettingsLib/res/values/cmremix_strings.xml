@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
-**
-** Copyright (c) 2016 CMRemix
+** Copyright 2016 RR
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -18,16 +17,9 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
-    <!-- The min animation duration for animating the task bar in. -->
-    <integer name="recents_animate_task_bar_enter_duration">225</integer>
-    <!-- The animation delay for animating the first task in. This should roughly be the animation
-     duration of the transition in to recents. -->
-    <integer name="recents_animate_task_bar_enter_delay">275</integer>
-    <!-- The min animation duration for animating the task bar out. -->
-    <integer name="recents_animate_task_bar_exit_duration">125</integer>
-
-    <!-- configurable width dimension for the app sidebar trigger area -->
-    <dimen name="config_app_sidebar_trigger_width">8dip</dimen>
-
+    <string name="profile_applist_title">Apps</string>
+    <string name="picker_activities">Activities</string>
+    <string name="select_custom_app_title">Select custom app</string>
+    <string name="select_custom_activity_title">Select custom activity</string>
+    <string name="lockscreen_targets_message">Lock screen shortcuts</string>
 </resources>
