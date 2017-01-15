@@ -16,6 +16,7 @@
 
 package com.android.systemui.statusbar.phone;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ContentUris;
@@ -111,7 +112,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     // Task manager
     private boolean mShowTaskManager;
-    private View mTaskManagerButton;
+    protected TaskManagerButton mTaskManagerButton;
+    public boolean mEnabled;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -153,7 +155,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mAlarmStatusCollapsed.setOnClickListener(this);
         mAlarmStatus = (TextView) findViewById(R.id.alarm_status);
         mAlarmStatus.setOnClickListener(this);
-        mTaskManagerButton = findViewById(R.id.task_manager_button);
+        mTaskManagerButton = (TaskManagerButton) findViewById(R.id.task_manager_button);
+        mTaskManagerButton.setOnClickListener(this);
         mMultiUserSwitch = (MultiUserSwitch) findViewById(R.id.multi_user_switch);
         mMultiUserAvatar = (ImageView) mMultiUserSwitch.findViewById(R.id.multi_user_avatar);
 
@@ -161,6 +164,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         // settings), so disable it for this view
         ((RippleDrawable) mSettingsButton.getBackground()).setForceSoftware(true);
         ((RippleDrawable) mExpandIndicator.getBackground()).setForceSoftware(true);
+        ((RippleDrawable) mTaskManagerButton.getBackground()).setForceSoftware(true);
 
         updateResources();
     }
@@ -196,6 +200,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mSettingsAlpha = new TouchAnimator.Builder()
                 .addFloat(mEdit, "alpha", 0, 1)
                 .addFloat(mMultiUserSwitch, "alpha", 0, 1)
+                .addFloat(mTaskManagerButton, "alpha", 0, 1)
                 .build();
 
         final boolean isRtl = isLayoutRtl();
@@ -292,19 +297,31 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         });
     }
 
-    protected void updateVisibilities() {
+    @Override
+    public void updateVisibilities() {
         updateAlarmVisibilities();
         updateDateTimePosition();
         mEmergencyOnly.setVisibility(mExpanded && (mShowEmergencyCallsOnly || mIsRoaming)
                 ? View.VISIBLE : View.INVISIBLE);
         mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(View.INVISIBLE);
-        if (mTaskManagerButton != null) {
-            mTaskManagerButton.setVisibility(mExpanded && enabletaskmanager() ? View.VISIBLE : View.GONE);
-        }
+        mTaskManagerButton.setVisibility(mExpanded && enabletaskmanager() ? View.VISIBLE : View.GONE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
                 ? View.VISIBLE : View.INVISIBLE);
         mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
+    }
+
+   @Override
+   public void killvisibilities() {
+        if (mMultiUserSwitch != null) {
+        mMultiUserSwitch.setVisibility(View.GONE);
+        }
+        if (mEdit != null) {
+        mEdit.setVisibility(View.GONE);
+        }
+        if (mExpandIndicator != null) {
+        mExpandIndicator.setVisibility(View.GONE);
+        }
     }
 
     private void updateDateTimePosition() {
@@ -385,6 +402,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
             startClockActivity(null);
         } else if (v == mDate) {
             startDateActivity();
+        } else if (v == mTaskManagerButton) {
+           mQsPanel.setenabled();
         }
     }
 
@@ -421,11 +440,23 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 true /* dismissShade */);
     }
 
+    public void setTaskManagerEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
+
     private void startCMRActivity() {
         Intent duIntent = new Intent(Intent.ACTION_MAIN);
         duIntent.setClassName("com.android.settings",
             "com.android.settings.Settings$MainSettingsLayoutActivity");
         mActivityStarter.startActivity(duIntent, true /* dismissShade */);
+    }
+
+    @Override
+    public void starttmactivity() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setClassName("com.android.settings",
+            "com.android.settings.Settings$RunningServicesActivity");
+        mActivityStarter.startActivity(intent, true /* dismissShade */);
     }
 
     @Override
