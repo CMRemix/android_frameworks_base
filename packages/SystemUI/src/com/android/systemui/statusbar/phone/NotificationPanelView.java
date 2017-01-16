@@ -273,6 +273,8 @@ public class NotificationPanelView extends PanelView implements
     public ImageButton mServices;
     private ImageButton mClearall;
     private TaskManager mTaskManager;
+    private boolean isLeftButton;
+    private boolean isRightButton;
 
     public NotificationPanelView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -1588,10 +1590,24 @@ public class NotificationPanelView extends PanelView implements
         public void onAnimationEnd(Animator animation) {
             if (mTaskManagerShowing) {
                 mTaskManagerPanel.setVisibility(View.VISIBLE);
+                updatebuttons();
                 mQsContainer.getQsPanel().setVisibility(View.GONE);
             }
         };
     };
+
+    public void updatebuttons() {
+           if(isLeftButton && mClearall !=null) {
+                    mClearall.setVisibility(View.VISIBLE);
+            } else {
+                    mClearall.setVisibility(View.GONE);
+            }
+            if(isRightButton && mServices !=null) {
+                    mServices.setVisibility(View.VISIBLE);
+            } else {
+                    mServices.setVisibility(View.GONE);
+            }
+    }
 
     private void cancelAnimation() {
         if (mQsExpansionAnimator != null) {
@@ -2656,6 +2672,10 @@ public class NotificationPanelView extends PanelView implements
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TASK_MANAGER_LEFT_BUTTON), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TASK_MANAGER_RIGHT_BUTTON), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2671,6 +2691,13 @@ public class NotificationPanelView extends PanelView implements
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
+        if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.TASK_MANAGER_LEFT_BUTTON))
+                    || uri.equals(Settings.System.getUriFor(
+                    Settings.System.TASK_MANAGER_RIGHT_BUTTON))) {
+                    updatebuttons();
+
+        } 
             update();
         }
 
@@ -2711,6 +2738,11 @@ public class NotificationPanelView extends PanelView implements
 
 	        mShowTaskManager = Settings.System.getIntForUser(resolver,
                     Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
+	    isLeftButton = Settings.System.getIntForUser(resolver,
+                    Settings.System.TASK_MANAGER_LEFT_BUTTON, 1, UserHandle.USER_CURRENT) == 1;
+	    isRightButton = Settings.System.getIntForUser(resolver,
+                    Settings.System.TASK_MANAGER_RIGHT_BUTTON, 1, UserHandle.USER_CURRENT) == 1;
+            updatebuttons();
 
             setQSStroke();
             setQSBackgroundAlpha();
