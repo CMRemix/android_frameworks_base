@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.android.internal.util.rr;
+package com.android.internal.util.cmremix;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
