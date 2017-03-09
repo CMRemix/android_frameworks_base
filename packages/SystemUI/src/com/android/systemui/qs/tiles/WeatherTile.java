@@ -40,7 +40,7 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.MetricsProto.MetricsEvent;
-import com.android.internal.util.rr.PackageUtils;
+import com.android.internal.util.cmremix.PackageUtils;
 import com.android.systemui.R;
 import com.android.systemui.omni.DetailedWeatherView;
 import com.android.systemui.omni.OmniJawsClient;

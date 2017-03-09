@@ -32,7 +32,7 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
     private final PhoneStatusBarView mView;
     private final float mIconAlphaWhenOpaque;
 
-    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic, mCMRLogo, mCMRLogoRight;
+    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic, mCMRLogo, mCMRLogoRight,mWeatherLeft,mWeatherRight;
 
     private Animator mCurrentAnimation;
 
@@ -52,6 +52,10 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mNetworkTraffic = mView.findViewById(R.id.networkTraffic);
         mCMRLogo = mView.findViewById(R.id.cmr_logo);
         mCMRLogoRight = mView.findViewById(R.id.cmr_logo_right);
+        mWeatherLeft = mView.findViewById(R.id.left_weather_temp);
+        mWeatherRight = mView.findViewById(R.id.weather_temp);
+        //mWeatherTextView = mView.findViewById(R.id.weather_temp);
+        //mWeatherImageView = mView.findViewById(R.id.weather_image);
         applyModeBackground(-1, getMode(), false /*animate*/);
         applyMode(getMode(), false /*animate*/);
     }
@@ -99,7 +103,9 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
                     animateTransitionTo(mBattery, newAlphaBC),
                     animateTransitionTo(mClock, newAlphaBC),
                     animateTransitionTo(mCMRLogo, newAlphaBC),
-                    animateTransitionTo(mCMRLogoRight, newAlphaBC)
+                    animateTransitionTo(mCMRLogoRight, newAlphaBC),
+                    animateTransitionTo(mWeatherLeft, newAlphaBC),
+                    animateTransitionTo(mWeatherRight, newAlphaBC)
                     );
             if (isLightsOut(mode)) {
                 anims.setDuration(LIGHTS_OUT_DURATION);
@@ -115,6 +121,9 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
             mClock.setAlpha(newAlphaBC);
             mCMRLogo.setAlpha(newAlphaBC);
             mCMRLogoRight.setAlpha(newAlphaBC);
+            mWeatherLeft.setAlpha(newAlphaBC);
+            mWeatherRight.setAlpha(newAlphaBC);
+
         }
     }
 }

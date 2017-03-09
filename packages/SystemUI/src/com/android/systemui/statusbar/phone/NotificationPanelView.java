@@ -2994,7 +2994,6 @@ public class NotificationPanelView extends PanelView implements
             mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
             setQSStroke();
             handleQuickSettingsBackround();
-        }
     }
 
     private void setQSStroke() {
@@ -3020,6 +3019,6 @@ public class NotificationPanelView extends PanelView implements
                 mQsContainer.setBackground(qSGd);
                 }
             }
-	}
+	    }
     }
 }
