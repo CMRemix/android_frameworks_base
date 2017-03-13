@@ -4514,6 +4514,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_WEATHER_COLOR = "status_bar_weather_color";
 
+        /**
+         * Statusbar weather color setting
+         * @hide
+         */
+        public static final String STATUS_BAR_WEATHER_IMAGE_COLOR = "status_bar_weather_image_color";
+
 
         /*
          * Dyanamic Navbar Switch
