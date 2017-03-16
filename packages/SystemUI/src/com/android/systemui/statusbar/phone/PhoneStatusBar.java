@@ -240,11 +240,6 @@ import com.android.systemui.statusbar.stack.StackStateAnimator;
 import com.android.systemui.statusbar.NotificationBackgroundView;
 import com.android.systemui.volume.VolumeComponent;
 
-import com.android.systemui.cmremix.statusbarweather.StatusBarWeather;
-import com.android.systemui.cmremix.statusbarweather.StatusBarWeatherImage;
-import com.android.systemui.cmremix.statusbarweather.StatusBarWeatherLeft;
-import com.android.systemui.cmremix.statusbarweather.StatusBarWeatherImageLeft;
-
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -403,13 +398,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mWakeUpComingFromTouch;
     private PointF mWakeUpTouchLocation;
     private boolean mScreenTurningOn;
-
-    // Weather temperature
-    private StatusBarWeather mWeatherTempView;
-    private StatusBarWeatherImage mWeatherImageView;
-    private StatusBarWeatherLeft mWeatherTempViewLeft;
-    private StatusBarWeatherImageLeft mWeatherImageViewLeft;
-    private int mWeatherTempStyle;
 
     int mPixelFormat;
     Object mQueueLock = new Object();
@@ -737,9 +725,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                  Settings.System.BLUR_MIXED_COLOR_PREFERENCE_KEY), 
                  false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                    Settings.System.SHOW_CUSTOM_LOGO),
                    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -778,9 +763,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             Settings.System.SHOW_THREEG,
                             0, UserHandle.USER_CURRENT) == 1;
                         	mNetworkController.onConfigurationChanged();
-            } else if (uri.equals(Settings.System.getUriFor(
-            		Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE))){
-            		updateTempView();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR))) {
                     mBatterySaverWarningColor = Settings.System.getIntForUser(
@@ -870,11 +852,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resolver, Settings.System.STATUS_BAR_CMR_LOGO_STYLE, 0,
                     UserHandle.USER_CURRENT);
             showCMRLogo(mCMRlogo,mCMRLogoColor,mCMRlogoStyle);
-
-            mWeatherTempStyle = Settings.System.getIntForUser(mContext.getContentResolver(), 
-                    Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE, 0,
-                    UserHandle.USER_CURRENT);
-            updateTempView();
 
             // update recents
             updateRecents();
@@ -970,25 +947,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     }
-
-    private void updateTempView() {
-        if (mWeatherTempView != null) {
-            if (mWeatherTempStyle == 0) {
-            mWeatherTempView = (StatusBarWeather) mStatusBarView.findViewById(R.id.weather_temp);
-                if (mWeatherImageView != null) {
-                    mWeatherImageView = (StatusBarWeatherImage) mStatusBarView.findViewById(R.id.weather_image);
-                }
-            } else {
-            mWeatherTempViewLeft = (StatusBarWeatherLeft) mStatusBarView.findViewById(R.id.left_weather_temp);
-            if (mWeatherImageView != null) {
-                mWeatherImageViewLeft = (StatusBarWeatherImageLeft) mStatusBarView.findViewById(R.id.left_weather_image);
-            }
-         }
-      }
-    }
-
-
-
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
@@ -1531,8 +1489,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (UserManager.get(mContext).isUserSwitcherEnabled()) {
             createUserSwitcher();
         }
-        
-        updateTempView();
 
         // Set up the quick settings tile panel
         AutoReinflateContainer container = (AutoReinflateContainer) mStatusBarWindow.findViewById(
