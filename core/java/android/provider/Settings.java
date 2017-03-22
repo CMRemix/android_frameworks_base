@@ -8982,6 +8982,17 @@ public final class Settings {
         public static final String NIGHT_DISPLAY_CUSTOM_END_TIME = "night_display_custom_end_time";
 
         /**
+         * Display style of the battery tile
+         * 0: Display the battery an icon in portrait mode
+         * 2: Display the battery as a circle
+         * 5: Display the battery an icon in landscape mode
+         * 7: Display the battery as solid circle
+         * default: 0
+         * @hide
+         */
+        public static final String BATTERY_TILE_STYLE = "battery_tile_style";
+
+        /**
          * Names of the service components that the current user has explicitly allowed to
          * be a VR mode listener, separated by ':'.
          *
@@ -9242,7 +9253,8 @@ public final class Settings {
             ADVANCED_REBOOT,
             CAMERA_GESTURE_DISABLED,
             STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD,
-            STATUS_BAR_BATTERY_STYLE_TILE
+            STATUS_BAR_BATTERY_STYLE_TILE,
+            BATTERY_TILE_STYLE
         };
 
         /**
