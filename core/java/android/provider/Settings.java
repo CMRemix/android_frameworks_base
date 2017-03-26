@@ -3782,6 +3782,12 @@ public final class Settings {
         public static final String NAVBAR_TINT_SWITCH = "navbar_tint_switch";
 
         /**
+         * Navbar Button Custom icon Color Switch
+         * @hide
+         */
+        public static final String NAVBAR_BUTON_CUSTOM_ICON_SWITCH = "navbar_button_custom_icon_switch";
+
+        /**
          * Navbar Button Color
          * @hide
          */
