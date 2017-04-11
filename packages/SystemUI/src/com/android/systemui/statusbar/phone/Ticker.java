@@ -173,7 +173,7 @@ public abstract class Ticker {
 
         mTickerView = sb.findViewById(R.id.ticker);
 
-        mIconSwitcher = (ImageSwitcher)sb.findViewById(R.id.tickerIcon);
+        mIconSwitcher = (ImageSwitcher) sb.findViewById(R.id.tickerIcon);
         mIconSwitcher.setInAnimation(
                     AnimationUtils.loadAnimation(context, com.android.internal.R.anim.push_up_in));
         mIconSwitcher.setOutAnimation(
@@ -181,7 +181,7 @@ public abstract class Ticker {
         mIconSwitcher.setScaleX(mIconScale);
         mIconSwitcher.setScaleY(mIconScale);
 
-        mTextSwitcher = (TextSwitcher)sb.findViewById(R.id.tickerText);
+        mTextSwitcher = (TextSwitcher) sb.findViewById(R.id.tickerText);
         mTextSwitcher.setInAnimation(
                     AnimationUtils.loadAnimation(context, com.android.internal.R.anim.push_up_in));
         mTextSwitcher.setOutAnimation(
