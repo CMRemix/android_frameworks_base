@@ -3469,8 +3469,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         mExpandedVisible = true;
-        if (mNavigationController.getBar() != null)
-            mNavigationController.getBar().setSlippery(true);
+        if (mNavigationController.getBar() != null) {
+            try {
+                  mNavigationController.getBar().setSlippery(true);
+                } catch (Exception e) {
+            }
+        }
 
         // Expand the window to encompass the full screen in anticipation of the drag.
         // This is only possible to do atomically because the status bar is at the top of the screen!
@@ -3608,8 +3612,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNotificationPanel.closeQs();
 
         mExpandedVisible = false;
-        if (mNavigationController.getBar() != null)
-            mNavigationController.getBar().setSlippery(false);
+        if (mNavigationController.getBar() != null) {
+            try {
+                  mNavigationController.getBar().setSlippery(false);
+                } catch (Exception e) {
+            }
+        }
         visibilityChanged(false);
 
         // Shrink the window to the size of the status bar only
