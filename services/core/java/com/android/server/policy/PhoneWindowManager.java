@@ -302,7 +302,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
 
     //OmniSwitch
-    private boolean mOmniSwitchRecents;
+    private int mOmniSwitchRecents;
 
     /**
      * These are the system UI flags that, when changing, can cause the layout
@@ -2770,7 +2770,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             mOmniSwitchRecents = Settings.System.getIntForUser(resolver,
                     Settings.System.NAVIGATION_BAR_RECENTS, 0,
-                    UserHandle.USER_CURRENT) == 1;
+                    UserHandle.USER_CURRENT);
 
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
@@ -4740,7 +4740,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void showRecentApps(boolean triggeredFromAltTab, boolean fromHome) {
-        if (mOmniSwitchRecents) {
+        if (mOmniSwitchRecents == 1) {
             if (fromHome) {
                 CMRUtils.restoreHomeStack(mContext, UserHandle.CURRENT);
             } else {

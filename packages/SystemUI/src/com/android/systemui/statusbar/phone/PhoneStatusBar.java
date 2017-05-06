@@ -685,7 +685,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                   Settings.System.SHOW_SU_INDICATOR),
                   false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.USE_SLIM_RECENTS), false, this,
+                  Settings.System.NAVIGATION_BAR_RECENTS), false, this,
                   UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.RECENT_CARD_BG_COLOR), false, this,
@@ -837,7 +837,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.SHOW_SU_INDICATOR))) {
                     onDensityOrFontScaleChanged();
            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.USE_SLIM_RECENTS))) {
+                    Settings.System.NAVIGATION_BAR_RECENTS))) {
                 updateRecents();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_BG_COLOR))) {
@@ -6482,10 +6482,10 @@ mWeatherTempSize, mWeatherTempFontStyle, mWeatherTempColor);
     }
 
     protected void updateRecents() {
-        boolean slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.USE_SLIM_RECENTS, 0, UserHandle.USER_CURRENT) == 1;
+        int slimRecents = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_RECENTS, 0, UserHandle.USER_CURRENT);
 
-        if (slimRecents) {
+        if (slimRecents == 3) {
             mSlimRecents = new RecentController(mContext, mLayoutDirection);
             mRecents = null;
             //mSlimRecents.setCallback(this);
