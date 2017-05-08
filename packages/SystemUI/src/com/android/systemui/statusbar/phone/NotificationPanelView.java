@@ -2464,7 +2464,7 @@ public class NotificationPanelView extends PanelView implements
             resolver.registerContentObserver(CMSettings.Secure.getUriFor(
                     CMSettings.Secure.LOCK_SCREEN_WEATHER_ENABLED), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this, UserHandle.USER_ALL);2)
+                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this, UserHandle.USER_ALL);
             update();
         }
 
