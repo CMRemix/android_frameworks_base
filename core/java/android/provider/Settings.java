@@ -3722,6 +3722,12 @@ public final class Settings {
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
+         * Statusbar RR logo
+         * @hide
+         */
+        public static final String STATUS_BAR_CMR_LOGO = "status_bar_cmr_logo";
+
+        /**
          * AOKP Custom System Animations
          * @hide
          */

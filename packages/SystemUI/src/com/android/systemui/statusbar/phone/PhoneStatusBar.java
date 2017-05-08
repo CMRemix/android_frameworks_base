@@ -412,6 +412,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     boolean mExpandedVisible;
 
+    // CMRremix logo
+    private boolean mCMRlogo;
+    private ImageView cmrLogo;
+
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
     private int mStatusBarHeaderHeight;
@@ -485,6 +489,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(CMSettings.System.getUriFor(
                     CMSettings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CMR_LOGO),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -506,7 +513,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = CMSettings.System.getIntForUser(
                     resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
-
+            mCMRlogo = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
+            showCMRLogo(mCMRlogo);
             if (mNavigationBarView != null) {
                 boolean navLeftInLandscape = CMSettings.System.getIntForUser(resolver,
                         CMSettings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0, UserHandle.USER_CURRENT) == 1;
@@ -3968,6 +3977,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     };
+
+    public void showCMRLogo(boolean show) {
+        if (mStatusBarView == null) return;
+        ContentResolver resolver = mContext.getContentResolver();
+        cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
+        if (cmrLogo != null) {
+            cmrLogo.setVisibility(show ? (mCMRlogo ? View.VISIBLE : View.GONE) : View.GONE);
+        }
+    }
 
     public void resetUserExpandedStates() {
         ArrayList<Entry> activeNotifications = mNotificationData.getActiveNotifications();
