@@ -48,6 +48,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import com.android.systemui.R;
 import com.android.systemui.RecentsComponent;
+import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.stackdivider.Divider;
 import com.android.systemui.singlehandmode.SlideTouchEvent;
 import com.android.systemui.statusbar.policy.BackButtonDrawable;

@@ -22,7 +22,9 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.database.ContentObserver;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.Trace;
@@ -39,7 +41,6 @@ import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.RemoteInputController;
 import com.android.systemui.statusbar.StatusBarState;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
-import com.android.systemui.tuner.TunerService;
 
 import cyanogenmod.providers.CMSettings;
 
@@ -51,12 +52,8 @@ import java.lang.reflect.Field;
  * Encapsulates all logic for the status bar window state management.
  */
 public class StatusBarWindowManager implements RemoteInputController.Callback,
-        TunerService.Tunable, KeyguardMonitor.Callback {
+        KeyguardMonitor.Callback {
 
-    private static final String ACCELEROMETER_ROTATION =
-            "system:" + Settings.System.ACCELEROMETER_ROTATION;
-    private static final String LOCKSCREEN_ROTATION =
-            "cmsystem:" + CMSettings.System.LOCKSCREEN_ROTATION;
     private static final String LOCK_SCREEN_BLUR_ENABLED =
             "cmsecure:" + CMSettings.Secure.LOCK_SCREEN_BLUR_ENABLED;
 
@@ -135,6 +132,9 @@ public class StatusBarWindowManager implements RemoteInputController.Callback,
         mLpChanged = new WindowManager.LayoutParams();
         mLpChanged.copyFrom(mLp);
 
+        SettingsObserver observer = new SettingsObserver(new Handler());
+        observer.observe(mContext);
+
         final boolean isBlurSupported = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_uiBlurEnabled);
         if (isBlurSupported) {
@@ -143,9 +143,6 @@ public class StatusBarWindowManager implements RemoteInputController.Callback,
             TunerService.get(mContext).addTunable(this, LOCK_SCREEN_BLUR_ENABLED);
         }
 
-        TunerService.get(mContext).addTunable(this,
-                ACCELEROMETER_ROTATION,
-                LOCKSCREEN_ROTATION);
     }
 
     private void applyKeyguardFlags(State state) {
@@ -503,21 +500,31 @@ public class StatusBarWindowManager implements RemoteInputController.Callback,
         }
     }
 
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        switch (key) {
-            case ACCELEROMETER_ROTATION:
-            case LOCKSCREEN_ROTATION:
-                mKeyguardScreenRotation = shouldEnableKeyguardScreenRotation();
-                break;
-            case LOCK_SCREEN_BLUR_ENABLED:
-                mKeyguardBlurEnabled = newValue != null && Integer.parseInt(newValue) == 1;
-                break;
-            default:
-                return;
+    private class SettingsObserver extends ContentObserver {
+        public SettingsObserver(Handler handler) {
+            super(handler);
         }
-        // Update the state
-        apply(mCurrentState);
+
+        public void observe(Context context) {
+            context.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.ACCELEROMETER_ROTATION),
+                    false,
+                    this);
+            context.getContentResolver().registerContentObserver(
+                    CMSettings.System.getUriFor(CMSettings.System.LOCKSCREEN_ROTATION),
+                    false,
+                    this);
+        }
+
+        public void unobserve(Context context) {
+            context.getContentResolver().unregisterContentObserver(this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mKeyguardScreenRotation = shouldEnableKeyguardScreenRotation();
+            // update the state
+            apply(mCurrentState);
     }
 
     @Override

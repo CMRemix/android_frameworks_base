@@ -24,24 +24,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.audiofx.Visualizer;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.UserHandle;
 import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.android.systemui.tuner.TunerService;
-
+import com.android.systemui.cm.UserContentObserver;
 import cyanogenmod.providers.CMSettings;
 
-public class VisualizerView extends View
-        implements Palette.PaletteAsyncListener, TunerService.Tunable {
+public class VisualizerView extends View implements Palette.PaletteAsyncListener {
 
     private static final String TAG = VisualizerView.class.getSimpleName();
     private static final boolean DEBUG = false;
-
-    private static final String LOCKSCREEN_VISUALIZER_ENABLED =
-            "cmsecure:" + CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED;
 
     private Paint mPaint;
     private Visualizer mVisualizer;
@@ -61,6 +57,8 @@ public class VisualizerView extends View
 
     private int mColor;
     private Bitmap mCurrentBitmap;
+
+    private SettingsObserver mObserver;
 
     private Visualizer.OnDataCaptureListener mVisualizerListener =
             new Visualizer.OnDataCaptureListener() {
@@ -184,13 +182,16 @@ public class VisualizerView extends View
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        TunerService.get(mContext).addTunable(this, LOCKSCREEN_VISUALIZER_ENABLED);
+        mObserver = new SettingsObserver(new Handler());
+        mObserver.observe();
+        mObserver.update();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        TunerService.get(mContext).removeTunable(this);
+        mObserver.unobserve();
+        mObserver = null;
         mCurrentBitmap = null;
     }
 
@@ -363,13 +364,32 @@ public class VisualizerView extends View
         }
     }
 
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        if (!LOCKSCREEN_VISUALIZER_ENABLED.equals(key)) {
-            return;
+    private class SettingsObserver extends UserContentObserver {
+
+        public SettingsObserver(Handler handler) {
+            super(handler);
         }
-        mVisualizerEnabled = newValue == null || Integer.parseInt(newValue) != 0;
-        checkStateChanged();
-        updateViewVisibility();
+
+        @Override
+        protected void update() {
+            mVisualizerEnabled = CMSettings.Secure.getInt(getContext().getContentResolver(),
+                    CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1) != 0;
+            checkStateChanged();
+            updateViewVisibility();
+        }
+
+        @Override
+        protected void observe() {
+            super.observe();
+            getContext().getContentResolver().registerContentObserver(
+                    CMSettings.Secure.getUriFor(CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
+                    false, this, UserHandle.USER_CURRENT);
+        }
+
+        @Override
+        protected void unobserve() {
+            super.unobserve();
+            getContext().getContentResolver().unregisterContentObserver(this);
+        }
     }
 }

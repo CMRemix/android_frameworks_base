@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -41,7 +40,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.systemui.R;
-import com.android.systemui.settings.CurrentUserTracker;
+import com.android.systemui.cm.UserContentObserver;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -391,11 +390,10 @@ public class StatusBarIconView extends AnimatedImageView {
         return c.getString(R.string.accessibility_desc_notification_icon, appName, desc);
     }
 
-    static class GlobalSettingsObserver extends ContentObserver {
+    static class GlobalSettingsObserver extends UserContentObserver {
         private static GlobalSettingsObserver sInstance;
         private ArrayList<StatusBarIconView> mIconViews = new ArrayList<StatusBarIconView>();
         private Context mContext;
-        private CurrentUserTracker mUserTracker;
 
         GlobalSettingsObserver(Handler handler, Context context) {
             super(handler);
@@ -423,32 +421,24 @@ public class StatusBarIconView extends AnimatedImageView {
             }
         }
 
-        void observe() {
+        @Override
+        protected void observe() {
+            super.observe();
+
             mContext.getContentResolver().registerContentObserver(
                     CMSettings.System.getUriFor(CMSettings.System.STATUS_BAR_NOTIF_COUNT),
                     false, this);
-
-            mUserTracker = new CurrentUserTracker(mContext) {
-                @Override
-                public void onUserSwitched(int newUserId) {
-                    update();
-                }
-            };
-            mUserTracker.startTracking();
         }
 
-        void unobserve() {
-            mUserTracker.stopTracking();
+        @Override
+        protected void unobserve() {
+            super.unobserve();
+
             mContext.getContentResolver().unregisterContentObserver(this);
         }
 
         @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            update();
-        }
-
-        private void update() {
+        public void update() {
             boolean showIconCount = CMSettings.System.getIntForUser(mContext.getContentResolver(),
                     CMSettings.System.STATUS_BAR_NOTIF_COUNT, 1, UserHandle.USER_CURRENT) == 1;
             for (StatusBarIconView sbiv : mIconViews) {

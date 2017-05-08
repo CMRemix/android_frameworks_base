@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.systemui.statusbar.phone.StatusBarIconController;
+import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.tuner.TunerService;
 
