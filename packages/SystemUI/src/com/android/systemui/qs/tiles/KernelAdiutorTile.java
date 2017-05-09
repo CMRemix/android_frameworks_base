@@ -74,7 +74,6 @@ public class KernelAdiutorTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
         state.label = mContext.getString(R.string.quick_settings_kernel_adiutor);
         state.icon = ResourceIcon.get(R.drawable.ic_qs_kernel_adiutor);
     }

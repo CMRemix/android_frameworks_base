@@ -2259,9 +2259,9 @@ message MetricsEvent {
     QS_LOCATION_DETAIL = 504;
 
     // CMRemix
-    CMREMIX = 411;
+    CMREMIX = 900;
 
     // Quick setting tiles
-    QUICK_SETTINGS = 412;
+    QUICK_SETTINGS = 901;
   }
 }

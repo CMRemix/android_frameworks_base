@@ -21,17 +21,16 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.content.ComponentName;
+import com.android.internal.telephony.DcParamObject;
 import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.Phone;
+import android.telephony.SubscriptionManager;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.PhoneFactory;
-import com.android.internal.logging.MetricsLogger;
+import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.QSTileView;
 import com.android.systemui.statusbar.phone.QSTileHost;
 import com.android.systemui.R;
-
-import com.android.internal.logging.MetricsProto.MetricsEvent;
 
 /**
  * Lazy Lte Tile
@@ -42,6 +41,7 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
     private static final Intent MOBILE_NETWORK_SETTINGS = new Intent(Intent.ACTION_MAIN)
             .setComponent(new ComponentName("com.android.phone",
                     "com.android.phone.MobileNetworkSettings"));
+
     public LteTile(Host host) {
         super(host);
     }
@@ -53,8 +53,12 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public Intent getLongClickIntent() {
-           return new Intent().setComponent(new ComponentName(
-            "com.android.phone", "com.android.phone.MobileNetworkSettings"));
+        return MOBILE_NETWORK_SETTINGS;
+    }
+
+    @Override
+    public CharSequence getTileLabel() {
+        return mContext.getString(R.string.quick_settings_lte_label);
     }
 
     @Override
@@ -69,20 +73,7 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
     }
 
     @Override
-    public CharSequence getTileLabel() {
-        return mContext.getString(R.string.quick_settings_lte_label);
-    }
-
-    @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        // Hide the tile if device doesn't support LTE
-        // or it supports Dual Sim Dual Active.
-        // TODO: Should be spawning off a tile per sim
-	    if (!QSTileHost.deviceSupportsLte(mContext) || QSTileHost.deviceSupportsDdsSupported(mContext))
-              /*  || QSTileHost.deviceSupportsDdsSupported(mContext)) */{
-			state.visible=false;
-            return;
-        }
 
         switch (getCurrentPreferredNetworkMode()) {
             case Phone.NT_MODE_GLOBAL:
@@ -93,14 +84,12 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
             case Phone.NT_MODE_LTE_CDMA_EVDO_GSM_WCDMA:
             case Phone.NT_MODE_LTE_TDSCDMA_GSM_WCDMA:
             case Phone.NT_MODE_LTE_TDSCDMA_WCDMA:
-				state.visible=true;
                 state.icon= ResourceIcon.get(R.drawable.ic_qs_lte_on);
-				state.label = mContext.getString(R.string.lte_on);
+                state.label = mContext.getString(R.string.lte_on);
                 break;
             default:
-				state.visible=true;
                 state.icon = ResourceIcon.get(R.drawable.ic_qs_lte_off);
-				state.label = mContext.getString(R.string.lte_off);
+                state.label = mContext.getString(R.string.lte_off);
                 break;
         }
     }
@@ -112,8 +101,9 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
     }
 
     private int getCurrentPreferredNetworkMode() {
+        int subid = 1;
         return Settings.Global.getInt(mContext.getContentResolver(),
-                Settings.Global.PREFERRED_NETWORK_MODE, -1);
+                Settings.Global.PREFERRED_NETWORK_MODE + subid, -1);
     }
 
     @Override
@@ -121,5 +111,3 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
 
     }
 }
-
-

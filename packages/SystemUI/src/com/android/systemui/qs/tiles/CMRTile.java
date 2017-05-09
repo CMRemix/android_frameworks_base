@@ -43,17 +43,17 @@ import java.util.UUID;
 
 import com.android.internal.logging.MetricsProto.MetricsEvent;
 
-public class RRTile extends QSTile<QSTile.BooleanState> {
+public class CMRTile extends QSTile<QSTile.BooleanState> {
     private boolean mListening;
-    private RRObserver mObserver;
+    private CMRObserver mObserver;
     private static final Intent CMR_SETTINGS = new Intent().setComponent(new ComponentName(
             "com.android.settings", "com.android.settings.Settings$MainSettingsActivity"));
     private static final Intent CMR_OTA = new Intent().setComponent(new ComponentName(
-            "com.resurrection.ota", "com.resurrection.ota.MainActivity"));
+            "com.cmremix.updater", "com.cmremix.updater.UpdatesSettings"));
 
-    public RRTile(Host host) {
+    public CMRTile(Host host) {
         super(host);
-        mObserver = new RRObserver(mHandler);
+        mObserver = new CMRObserver(mHandler);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class RRTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.icon = ResourceIcon.get(R.drawable.ic_qs_rrtools);
+        state.icon = ResourceIcon.get(R.drawable.ic_qs_cmrtools);
         state.label = mContext.getString(R.string.cmr_qs_tile);
 
 	}
@@ -100,8 +100,8 @@ public class RRTile extends QSTile<QSTile.BooleanState> {
         mListening = listening;
     }
 
-    private class RRObserver extends ContentObserver {
-        public RRObserver(Handler handler) {
+    private class CMRObserver extends ContentObserver {
+        public CMRObserver(Handler handler) {
             super(handler);
         }
     }

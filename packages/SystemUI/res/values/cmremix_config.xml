@@ -34,4 +34,7 @@
     <integer name="quick_settings_onthego_dialog_short_timeout">3000</integer>
     <integer name="quick_settings_onthego_dialog_long_timeout">6000</integer>
 
+    <!-- Most Devices support LTE. Hence LTE tile is visibile. Devices like Galaxy s2, s3 require this to be false -->
+    <bool name="device_supports_lte">true</bool>
+
 </resources>

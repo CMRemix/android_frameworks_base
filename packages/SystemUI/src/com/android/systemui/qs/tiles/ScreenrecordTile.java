@@ -100,7 +100,6 @@ public class ScreenrecordTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
 	state.value = mRecording;
         if (mRecording) {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_screenrecord);
