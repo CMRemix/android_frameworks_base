@@ -5700,6 +5700,12 @@ public final class Settings {
         public static final String ALWAYS_HEADSUP_DIALER = "always_headsup_dialer";
 
         /**
+         * Whether to enable the no navigation method notification.
+         * @hide
+         */
+        public static final String NO_NAVIGATION_NOTIFICATION = "no_navigation_notification";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

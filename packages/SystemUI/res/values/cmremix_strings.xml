@@ -178,4 +178,8 @@
     <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Peeking notification are snoozing for 1 minute.</string>
     <string name="heads_up_snooze_message"><xliff:g id="string">%s</xliff:g> - Peeking notifications are snoozing for <xliff:g id="number">%d</xliff:g> minutes.</string>
 
+    <!-- No navigation warning notification -->
+    <string name="no_navigation_warning_title">All navigation methods disabled</string>
+    <string name="no_navigation_warning_text">Tap to enable</string>
+
 </resources>
