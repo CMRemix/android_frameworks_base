@@ -3730,6 +3730,13 @@ public final class Settings {
         public static final String STATUS_BAR_CMR_LOGO = "status_bar_cmr_logo";
 
         /**
+		 * CMRemix Config Setting
+		 * @hide
+		 */
+
+		public static final String CMREMIX_CONFIG_STYLE = "cmremix_config_style";
+
+        /**
          * AOKP Custom System Animations
          * @hide
          */
