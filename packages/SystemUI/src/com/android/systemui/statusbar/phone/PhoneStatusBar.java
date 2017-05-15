@@ -66,6 +66,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -465,7 +466,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // CMRremix logo
     private boolean mCMRlogo;
     private ImageView cmrLogo;
-
+	private int  mCMRLogoColor;
 	private boolean mShow4G;
 	private boolean mShow3G;
 
@@ -571,6 +572,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 			resolver.registerContentObserver(Settings.System.getUriFor(
 					Settings.System.STATUS_BAR_WEATHER_FONT_STYLE),
 					false, this, UserHandle.USER_ALL);
+			resolver.registerContentObserver(Settings.System.getUriFor(
+					Settings.System.STATUS_BAR_WEATHER_COLOR),
+					false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
                     false, this, UserHandle.USER_ALL);
@@ -586,6 +590,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_COLUMNS_LANDSCAPE),
                     false, this, UserHandle.USER_ALL);
+			resolver.registerContentObserver(Settings.System.getUriFor(
+					Settings.System.STATUS_BAR_RR_LOGO_COLOR),
+					false, this, UserHandle.USER_ALL);	
             update();
         }
 
@@ -615,7 +622,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 			} else if (uri.equals(Settings.System.getUriFor(
 					Settings.System.STATUS_BAR_WEATHER_SIZE))
 					|| uri.equals(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_FONT_STYLE))) {
+					Settings.System.STATUS_BAR_WEATHER_FONT_STYLE))
+					|| uri.equals(Settings.System.getUriFor(
+					Settings.System.STATUS_BAR_WEATHER_COLOR))) {
 					updateTempView();
 			} else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP))) {
@@ -659,7 +668,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 			cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
             mCMRlogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
-            showCMRLogo(mCMRlogo);
+       		mCMRLogoColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CMR_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
+            showCMRLogo(mCMRlogo,mCMRLogoColor);
 
             mWeatherTempState = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
@@ -670,6 +681,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             mWeatherTempFontStyle = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_WEATHER_FONT_STYLE, FONT_NORMAL, mCurrentUserId);
+
+        	mWeatherTempColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF, mCurrentUserId);
 
 			updateTempView();
 
@@ -745,7 +759,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
 
 
-  private void updateWeatherTextState(String temp, int size, int font) {
+  private void updateWeatherTextState(String temp, int size, int font ,int color) {
         if (mWeatherTempState == 0 || TextUtils.isEmpty(temp)) {
 			mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
             mWeatherTempView.setVisibility(View.GONE);
@@ -758,6 +772,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         } else if (mWeatherTempState == 2) {
             mWeatherTempView.setText(temp.substring(0, temp.length() - 1));
         }
+		mWeatherTempView.setTextColor(color);
         mWeatherTempView.setTextSize(size);
         switch (font) {
             case FONT_NORMAL:
@@ -845,7 +860,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mWeatherTempView.setVisibility(View.GONE);
                 mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
 	    		updateWeatherTextState(mWeatherController1.getWeatherInfo().temp,
-                    mWeatherTempSize, mWeatherTempFontStyle);
+                    mWeatherTempSize, mWeatherTempFontStyle,mWeatherTempColor);
         }
     }
 
@@ -1318,7 +1333,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
 		mCMRlogo = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
-        showCMRLogo(mCMRlogo);
+       	mCMRLogoColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CMR_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
+        showCMRLogo(mCMRlogo, mCMRLogoColor);
 
         mBatterySaverWarningColor = Settings.System.getIntForUser(
                 mContext.getContentResolver(),
@@ -1401,6 +1418,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWeatherTempState = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
                 UserHandle.USER_CURRENT);
+        mWeatherTempColor = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF, mCurrentUserId);
         mWeatherController = new WeatherControllerImpl(mContext);
 		mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
 
@@ -1411,11 +1430,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		mWeatherController1.addCallback(new WeatherControl.Callback() {
             @Override
             public void onWeatherChanged(WeatherInfo temp) {
-                updateWeatherTextState(temp.temp, mWeatherTempSize, mWeatherTempFontStyle);
+                updateWeatherTextState(temp.temp, mWeatherTempSize, mWeatherTempFontStyle, mWeatherTempColor);
             }
         });
         updateWeatherTextState(mWeatherController1.getWeatherInfo().temp,
-                mWeatherTempSize, mWeatherTempFontStyle);
+                mWeatherTempSize, mWeatherTempFontStyle, mWeatherTempColor);
 
         // Set up the quick settings tile panel
         AutoReinflateContainer container = (AutoReinflateContainer) mStatusBarWindow.findViewById(
@@ -4337,13 +4356,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
-    public void showCMRLogo(boolean show) {
+    public void showCMRLogo(boolean show ,int color) {
         if (mStatusBarView == null) return;
  	 	if (!show) {
             cmrLogo.setVisibility(View.GONE);
             return;
 		}
-		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
+		if (color != 0xFFFFFFFF) {
+       	    cmrLogo.setColorFilter(color, Mode.SRC_IN);
+		} else {
+             cmrLogo.clearColorFilter();
+        }
+		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.rr_logo);
 		cmrLogo.setVisibility(View.VISIBLE);
     }
 

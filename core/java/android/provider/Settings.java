@@ -3731,7 +3731,7 @@ public final class Settings {
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
-         * Statusbar RR logo
+         * Statusbar CMR logo
          * @hide
          */
         public static final String STATUS_BAR_CMR_LOGO = "status_bar_cmr_logo";
@@ -3742,6 +3742,14 @@ public final class Settings {
 		 */
 
 		public static final String CMREMIX_CONFIG_STYLE = "cmremix_config_style";
+
+		/**
+         * Statusbar CMR logo color setting
+         * @hide
+         */
+
+		public static final String STATUS_BAR_CMR_LOGO_COLOR = "status_bar_cmr_logo_color";
+
 
         /**
          * AOKP Custom System Animations
@@ -3879,9 +3887,16 @@ public final class Settings {
          */
         public static final String NETWORK_TRAFFIC_HIDEARROW = "network_traffic_hidearrow";
 
+	 	/**
+         * Network stats Color style
+         * @hide
+         */
+
+		public static final String NETWORK_TRAFFIC_COLOR = "network_traffic_color";
+
         /**
          * Colors used for the color picker panel puttons
-         * 0: RR colors
+         * 0: CMR colors
          * 1: Material colors
          * 2: RGB colors
          * default: 0
@@ -4095,7 +4110,7 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_DATE_POSITION = "statusbar_clock_date_position";
 
         /**
-         * RR OTA FAB SWITCH
+         * CMR OTA FAB SWITCH
          * @hide
          */
         public static final String CMREMIX_OTA_FAB = "cmremix_ota_fab";
@@ -4234,12 +4249,6 @@ public final class Settings {
         public static final String STATUS_BAR_WEATHER_TEMP_STYLE = "status_bar_weather_temp_style";
 
         /**
-         * Statusbar weather color setting
-         * @hide
-         */
-        public static final String STATUS_BAR_WEATHER_COLOR = "status_bar_weather_color";
-
-        /**
          * Statusbar weather font size setting
          * @hide
          */
@@ -4250,6 +4259,12 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_WEATHER_FONT_STYLE = "status_bar_weather_font_style";
+
+        /**
+         * Statusbar weather color setting
+         * @hide
+         */
+        public static final String STATUS_BAR_WEATHER_COLOR = "status_bar_weather_color";
 
         /*
          * Whether to show the weather info on the lock screen

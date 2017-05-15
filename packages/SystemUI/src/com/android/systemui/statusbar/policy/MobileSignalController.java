@@ -194,8 +194,12 @@ public class MobileSignalController extends SignalController<
        boolean mShow3G = Settings.System.getIntForUser(
             mContext.getContentResolver(), Settings.System.SHOW_THREEG,
                 0, UserHandle.USER_CURRENT) == 1;
-
+        MobileIconGroup hGroup;
  		if(mShow3G) {	
+		hGroup = TelephonyIcons.THREE_G;
+		} else {
+		hGroup = TelephonyIcons.H;
+		}
         mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyIcons.THREE_G);
         mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSUPA, TelephonyIcons.THREE_G);
         mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_HSPA, TelephonyIcons.THREE_G);
