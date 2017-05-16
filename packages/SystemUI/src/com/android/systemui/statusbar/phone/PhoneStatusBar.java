@@ -591,7 +591,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.QS_COLUMNS_LANDSCAPE),
                     false, this, UserHandle.USER_ALL);
 			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_RR_LOGO_COLOR),
+					Settings.System.STATUS_BAR_CMR_LOGO_COLOR),
 					false, this, UserHandle.USER_ALL);	
             update();
         }
@@ -4367,7 +4367,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 		} else {
              cmrLogo.clearColorFilter();
         }
-		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.rr_logo);
+		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
 		cmrLogo.setVisibility(View.VISIBLE);
     }
 
