@@ -3881,6 +3881,12 @@ public final class Settings {
         public static final String OPA_ANIM_DURATION_X = "opa_anim_duration_x";
 
         /**
+         * Headset Connect Player
+         * @hide
+         */
+        public static final String HEADSET_CONNECT_PLAYER = "headset_connect_player";
+
+        /**
          * Pixel Anim Duration
          * @hide
          */
