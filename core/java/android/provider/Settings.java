@@ -4586,6 +4586,12 @@ public final class Settings {
          */
         public static final String SHOW_SETTINGS_DRAWER = "show_settings_drawer";
 
+        /**
+         * Whether to hide Settings custom header
+         * @hide
+         */
+        public static final String SHOW_SETTINGS_HEADER = "show_settings_header";
+
 	    /*
          * show clear all recents button
          *  @hide
