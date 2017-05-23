@@ -515,6 +515,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mAutomaticBrightness;
     private boolean mBrightnessControl;
     private boolean mBrightnessChanged;
+    private boolean mFingerprintQuickPulldown;
     private float mScreenWidth;
     private int mMinBrightness;
     private boolean mJustPeeked;
@@ -689,6 +690,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                  Settings.System.TRANSLUCENT_QUICK_SETTINGS_PREFERENCE_KEY), 
                  false, this);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN_FP),
+                  false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                  Settings.System.STATUS_BAR_EXPANDED_ENABLED_PREFERENCE_KEY), 
                  false, this);
@@ -854,7 +858,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         @Override
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
+            int mode = Settings.System.getIntForUser(resolver,
                             Settings.System.SCREEN_BRIGHTNESS_MODE,
                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
                             UserHandle.USER_CURRENT);
@@ -917,6 +921,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mNotificationPanel.setTaskManagerEnabled(showTaskManager);
                 }
             }
+
+            mFingerprintQuickPulldown = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN_FP, 0, UserHandle.USER_CURRENT) == 1;
 
             mDt2lCameraVibrateConfig = Settings.System.getIntForUser(resolver,
                     Settings.System.DT2L_CAMERA_VIBRATE_CONFIG, 1, mCurrentUserId);
@@ -3501,14 +3508,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             MetricsLogger.action(mContext, !isRotated ? MetricsEvent.ACTION_SYSTEM_NAVIGATION_KEY_DOWN
                     : MetricsEvent.ACTION_SYSTEM_NAVIGATION_KEY_DOWN);
             if (mNotificationPanel.isFullyCollapsed()) {
-                mNotificationPanel.expand(true /* animate */);
-                MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN, 1);
+                if (mFingerprintQuickPulldown) {
+                    mNotificationPanel.expandWithQs();
+                    MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN_QS, 1);
+                } else {
+                    mNotificationPanel.expand(true /* animate */);
+                    MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN, 1);
+                }
             } else if (!mNotificationPanel.isInSettings() && !mNotificationPanel.isExpanding()){
                 mNotificationPanel.flingSettings(0 /* velocity */, true /* expand */);
                 MetricsLogger.count(mContext, NotificationPanelView.COUNTER_PANEL_OPEN_QS, 1);
             }
         }
-
     }
 
     boolean panelsEnabled() {
