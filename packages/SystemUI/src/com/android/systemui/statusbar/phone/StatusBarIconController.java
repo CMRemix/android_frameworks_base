@@ -85,6 +85,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     private View mCenterClockLayout;
 
 	private ImageView mCMRLogo;
+	private ImageView mCMRLogoRight;
 	private NetworkTraffic mNetworkTraffic;
 
 	private TextView mWeather;
@@ -150,6 +151,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mDarkModeIconColorSingleTone = context.getColor(R.color.dark_mode_icon_color_single_tone);
         mLightModeIconColorSingleTone = context.getColor(R.color.light_mode_icon_color_single_tone);
 		mCMRLogo = (ImageView) statusBar.findViewById(R.id.cmr_logo);
+        mCMRLogoRight = (ImageView) statusBar.findViewById(R.id.cmr_logo_right);
 		mNetworkTraffic = (NetworkTraffic) statusBar.findViewById(R.id.networkTraffic);
 		mWeather = (TextView) statusBar.findViewById(R.id.weather_temp);
         mHandler = new Handler();
@@ -564,6 +566,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 Settings.System.STATUS_BAR_CMR_LOGO_COLOR, 0xFFFFFFFF,
                 UserHandle.USER_CURRENT) == 0xFFFFFFFF) {
        	mCMRLogo.setImageTintList(ColorStateList.valueOf(mIconTint));
+		mCMRLogoRight.setImageTintList(ColorStateList.valueOf(mIconTint));
 		}
         if (Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF,

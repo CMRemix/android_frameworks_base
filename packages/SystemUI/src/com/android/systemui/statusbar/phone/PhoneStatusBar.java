@@ -466,7 +466,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // CMRremix logo
     private boolean mCMRlogo;
     private ImageView cmrLogo;
+    private ImageView cmrLogoright;
 	private int  mCMRLogoColor;
+	private int mCMRlogoStyle;
 	private boolean mShow4G;
 	private boolean mShow3G;
 
@@ -592,7 +594,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL);
 			resolver.registerContentObserver(Settings.System.getUriFor(
 					Settings.System.STATUS_BAR_CMR_LOGO_COLOR),
-					false, this, UserHandle.USER_ALL);	
+					false, this, UserHandle.USER_ALL);
+			resolver.registerContentObserver(Settings.System.getUriFor(
+					Settings.System.STATUS_BAR_CMR_LOGO_STYLE),
+					false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -649,7 +654,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_COLUMNS_LANDSCAPE))) {
                 	updateQSRowsColumnsLandscape();
-           } 
+           } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CMR_LOGO_STYLE))) {
+					if (mIconController != null) {
+                    	mIconController.onDensityOrFontScaleChanged();
+                	}
+		   }
 
 		update();
 		}
@@ -666,10 +676,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
 			cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
+			cmrLogoright = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo_right);
             mCMRlogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
        		mCMRLogoColor = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_CMR_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
+            mCMRlogoStyle = Settings.System.getIntForUser(
+                    resolver, Settings.System.STATUS_BAR_CMR_LOGO_STYLE, 0,
+                    UserHandle.USER_CURRENT);
             showCMRLogo(mCMRlogo,mCMRLogoColor);
 
             mWeatherTempState = Settings.System.getIntForUser(
@@ -1329,14 +1343,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         R.id.keyguard_indication_text),
                 mKeyguardBottomArea.getLockIcon());
         mKeyguardBottomArea.setKeyguardIndicationController(mKeyguardIndicationController);
-		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
-
-		mCMRlogo = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
-       	mCMRLogoColor = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_CMR_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
-        showCMRLogo(mCMRlogo, mCMRLogoColor);
-
         mBatterySaverWarningColor = Settings.System.getIntForUser(
                 mContext.getContentResolver(),
                 Settings.System.BATTERY_SAVER_MODE_COLOR, 1,
@@ -1421,7 +1427,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWeatherTempColor = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF, mCurrentUserId);
         mWeatherController = new WeatherControllerImpl(mContext);
-		mWeatherTempView = (TextView) mStatusBarView.findViewById(R.id.weather_temp);
 
 		if (mWeatherController1 == null) {
 		mWeatherController1 = new WeatherControllerImp(mContext);
@@ -4356,19 +4361,27 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
-    public void showCMRLogo(boolean show ,int color) {
+    public void showCMRLogo(boolean show ,int color,int style) {
         if (mStatusBarView == null) return;
  	 	if (!show) {
-            cmrLogo.setVisibility(View.GONE);
+            cmrLogo.setVisibility(View.GONE);;
+			cmrLogoright.setVisibility(View.GONE);
             return;
 		}
 		if (color != 0xFFFFFFFF) {
-       	    cmrLogo.setColorFilter(color, Mode.SRC_IN);
+            cmrLogo.setColorFilter(color, Mode.SRC_IN);
+            cmrLogoright.setColorFilter(color, Mode.SRC_IN);
 		} else {
              cmrLogo.clearColorFilter();
+             cmrLogoright.clearColorFilter();
         }
-		cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
-		cmrLogo.setVisibility(View.VISIBLE);
+ 		if (style == 0) {
+            cmrLogo.setVisibility(View.VISIBLE);
+			cmrLogoright.setVisibility(View.GONE);
+        } else if (style == 1) {
+            cmrLogo.setVisibility(View.GONE);
+			cmrLogoright.setVisibility(View.VISIBLE);
+        }
     }
 
     public void resetUserExpandedStates() {

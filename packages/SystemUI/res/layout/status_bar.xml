@@ -76,13 +76,13 @@
                 android:visibility="gone" />
 
              <ImageView
-                    android:id="@+id/cmr_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="4dip"
-                    android:src="@drawable/ic_status_bar_cmr_logo"
-                    android:scaleType="center"
-                    android:visibility="gone"
+                android:id="@+id/cmr_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dip"
+                android:src="@drawable/ic_status_bar_cmr_logo"
+                android:scaleType="center"
+                android:visibility="gone"
 					/>
 
 
@@ -114,6 +114,16 @@
                 android:paddingEnd="@dimen/status_bar_clock_end_padding"
                 android:gravity="center_vertical|start"
                 />
+
+             <ImageView
+                android:id="@+id/rr_logo_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="4dip"
+                android:src="@drawable/ic_status_bar_rr_logo"
+                android:scaleType="center"
+                android:visibility="gone"
+					/>
         </com.android.keyguard.AlphaOptimizedLinearLayout>
     </LinearLayout>
 

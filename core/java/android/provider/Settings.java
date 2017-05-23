@@ -3750,6 +3750,13 @@ public final class Settings {
 
 		public static final String STATUS_BAR_CMR_LOGO_COLOR = "status_bar_cmr_logo_color";
 
+        /**
+         * Statusbar CMR logo style
+         * @hide
+         */
+
+		public static final String STATUS_BAR_CMR_LOGO_STYLE = "status_bar_cmr_logo_style";
+
 
         /**
          * AOKP Custom System Animations
