@@ -8619,6 +8619,12 @@ public final class Settings {
         public static final String QS_BT_EASY_TOGGLE = "qs_bt_easy_toggle";
 
         /**
+         * Recents lock
+         * @hide
+         */
+        public static final String LOCKED_RECENT_TASK_LIST = "locked_recent_task_list";
+
+        /**
          * Whether the device should doze if configured.
          * @hide
          */
