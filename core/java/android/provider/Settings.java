@@ -4459,6 +4459,12 @@ public final class Settings {
         public static final String LOCKDATE_FONT_SIZE= "lockdate_font_size";
 
         /**
+         * Recents lock icon
+         * @hide
+         */
+        public static final String RECENTS_LOCK_ICON = "recents_lock_icon";
+
+        /**
          * Change fonts for the system lockscreen date
          *
          * @hide

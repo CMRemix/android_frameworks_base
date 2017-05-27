@@ -118,4 +118,7 @@
     <dimen name="crop_buttons">48dp</dimen>
     <dimen name="crop_buttons_inlet">32dp</dimen>
 
+    <!-- Recents lock icon margin -->
+    <dimen name="recents_lock_margin_end">35dp</dimen>
+
 </resources>

@@ -1389,6 +1389,8 @@ public class RecentsView extends FrameLayout {
                      Settings.System.SHOW_NATIVE_CLEAR_ALL), false, this, UserHandle.USER_ALL);
              resolver.registerContentObserver(Settings.System.getUriFor(
                      Settings.System.SHOW_CLEAR_ALL_RECENTS), false, this, UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                     Settings.System.RECENTS_LOCK_ICON), false, this, UserHandle.USER_ALL);
 
              update();
          }
