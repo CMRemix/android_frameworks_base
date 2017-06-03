@@ -4361,6 +4361,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             cmrLogoright.setVisibility(View.GONE);
             cmrLogo.setVisibility(View.GONE);
             cmrLogoleft.setVisibility(View.VISIBLE);
+		}
     }
 
     public void resetUserExpandedStates() {
