@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.internal.util.rr;
+package com.android.internal.util.cmremix;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,7 +22,7 @@ import android.net.ConnectivityManager;
 
 import java.util.Locale;
 
-public class RRUtils {
+public class CMRUtils {
 
     public static boolean isWifiOnly(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(

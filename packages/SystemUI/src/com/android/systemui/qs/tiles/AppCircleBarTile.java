@@ -99,7 +99,7 @@ public class AppCircleBarTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
+        //state.visible = true;
 	if (appcirclebarEnabled()) {
         state.icon = ResourceIcon.get(R.drawable.ic_qs_appcirclebar_on);
         state.label = mContext.getString(R.string.quick_settings_appcirclebar_on);

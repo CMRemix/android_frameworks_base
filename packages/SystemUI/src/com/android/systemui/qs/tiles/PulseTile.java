@@ -102,7 +102,7 @@ public class PulseTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
+        //state.visible = true;
 	if (isPulseEnabled()) {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_pulse);
             state.label = mContext.getString(R.string.quick_settings_pulse_enabled);

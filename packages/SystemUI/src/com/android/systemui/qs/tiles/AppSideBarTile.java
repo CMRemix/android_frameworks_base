@@ -99,7 +99,7 @@ public class AppSideBarTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
+        //state.visible = true;
 	if (appSidebarEnabled()) {
         state.icon = ResourceIcon.get(R.drawable.ic_qs_appsidebar_on);
         state.label = mContext.getString(R.string.quick_settings_appsidebar_on);
