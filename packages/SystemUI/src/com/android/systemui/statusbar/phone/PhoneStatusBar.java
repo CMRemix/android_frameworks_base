@@ -469,10 +469,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     boolean mExpandedVisible;
 
-    // CMRremix logo
+    // CMRemix logo
     private boolean mCMRlogo;
     private ImageView cmrLogo;
     private ImageView cmrLogoright;
+    private ImageView cmrLogoleft;
 	private int  mCMRLogoColor;
 	private int mCMRlogoStyle;
 	private boolean mShow4G;
@@ -710,6 +711,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     UserHandle.USER_CURRENT) == 1;
 			cmrLogo = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo);
 			cmrLogoright = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo_right);
+			cmrLogoleft = (ImageView) mStatusBarView.findViewById(R.id.cmr_logo_left);
             mCMRlogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_CMR_LOGO, 0, mCurrentUserId) == 1;
        		mCMRLogoColor = Settings.System.getIntForUser(mContext.getContentResolver(),
@@ -4350,10 +4352,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
  		if (style == 0) {
             cmrLogo.setVisibility(View.VISIBLE);
 			cmrLogoright.setVisibility(View.GONE);
+            cmrLogoleft.setVisibility(View.GONE);
         } else if (style == 1) {
             cmrLogo.setVisibility(View.GONE);
-			cmrLogoright.setVisibility(View.VISIBLE);
-        }
+            cmrLogoright.setVisibility(View.VISIBLE);
+            cmrLogoleft.setVisibility(View.GONE);
+        } else if (style == 2) {
+            cmrLogoright.setVisibility(View.GONE);
+            cmrLogo.setVisibility(View.GONE);
+            cmrLogoleft.setVisibility(View.VISIBLE);
     }
 
     public void resetUserExpandedStates() {
