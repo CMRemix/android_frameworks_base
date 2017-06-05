@@ -100,7 +100,7 @@ public class PieTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
-        state.visible = true;
+        //state.visible = true;
         if (isPieEnabled()) {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_pie_on);
             state.label = mContext.getString(R.string.quick_settings_pie);
