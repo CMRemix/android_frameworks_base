@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import com.android.internal.util.slim.ColorUtils;
+import com.android.internal.util.cmremix.ColorUtils;
 
 import com.android.systemui.R;
 
