@@ -31,10 +31,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.android.internal.util.slim.AppHelper;
-import com.android.internal.util.slim.ActionHelper;
-import com.android.internal.util.slim.ActionConfig;
-import com.android.internal.util.slim.Action;
+import com.android.internal.util.cmremix.AppHelper;
+import com.android.internal.util.cmremix.ActionHelper;
+import com.android.internal.util.cmremix.ActionConfig;
+import com.android.internal.util.cmremix.Action;
 import com.android.internal.widget.LockPatternUtils;
 
 import com.android.keyguard.R;
