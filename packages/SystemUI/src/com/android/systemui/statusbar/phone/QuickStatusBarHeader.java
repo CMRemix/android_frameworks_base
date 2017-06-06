@@ -527,4 +527,13 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
        return Settings.System.getInt(mContext.getContentResolver(),
             Settings.System.ENABLE_TASK_MANAGER, 0) == 1;
    }
+
+    public void updateSettings() {
+        if (mQsPanel != null) {
+            mQsPanel.updateSettings();
+        }
+        if (mHeaderQsPanel != null) {
+            mHeaderQsPanel.updateSettings();
+        }
+    }
 }
