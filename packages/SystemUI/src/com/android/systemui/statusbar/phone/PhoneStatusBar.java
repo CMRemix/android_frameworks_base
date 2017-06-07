@@ -629,43 +629,34 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL);
     		resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHOW_THREEG),
-					false, this, UserHandle.USER_ALL);
+            		false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.APP_SIDEBAR_POSITION),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG),
                     false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP),
-					false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_SIZE),
-					false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_FONT_STYLE),
-					false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_COLOR),
-					false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP),
+            		false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_WEATHER_SIZE),
+            		false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_WEATHER_FONT_STYLE),
+            		false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_WEATHER_COLOR),
+            		false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_ROWS_PORTRAIT),
-                   false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_ROWS_LANDSCAPE),
-                   false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_COLUMNS),
-                   false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_CMR_LOGO_COLOR),
-					false, this, UserHandle.USER_ALL);
-			resolver.registerContentObserver(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_CMR_LOGO_STYLE),
-					false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_CMR_LOGO_COLOR),
+            		false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_CMR_LOGO_STYLE),
+            		false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                    Settings.System.DT2L_CAMERA_VIBRATE_CONFIG),
                    false, this, UserHandle.USER_ALL);
@@ -695,12 +686,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                  Settings.System.ENABLE_TASK_MANAGER),
-                 false, this, UserHandle.USER_ALL);
-           resolver.registerContentObserver(Settings.Secure.getUriFor(
-                  Settings.Secure.LOCK_QS_DISABLED),
-                  false, this, UserHandle.USER_ALL);
-           resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.QS_LAYOUT_COLUMNS),
                   false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW),
@@ -712,6 +697,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                      Settings.System.CLEAR_RECENTS_STYLE), false, this, UserHandle.USER_ALL);
              resolver.registerContentObserver(Settings.System.getUriFor(
                      Settings.System.CLEAR_RECENTS_STYLE_ENABLE), false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.QS_LAYOUT_COLUMNS),
+                  false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.QS_ROWS_PORTRAIT),
+                  false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.QS_ROWS_LANDSCAPE),
+                  false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -731,19 +725,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             mContext.getContentResolver(),
                             Settings.System.SHOW_FOURG,
                             0, UserHandle.USER_CURRENT) == 1;
-							mNetworkController.onConfigurationChanged();
-			} else if (uri.equals(Settings.System.getUriFor(
+                    mNetworkController.onConfigurationChanged();
+            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.SHOW_THREEG))) {
                     mShow3G = Settings.System.getIntForUser(
                             mContext.getContentResolver(),
                             Settings.System.SHOW_THREEG,
                             0, UserHandle.USER_CURRENT) == 1;
-                            mNetworkController.onConfigurationChanged();
-			} else if (uri.equals(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_SIZE))
-					|| uri.equals(Settings.System.getUriFor(
-					Settings.System.STATUS_BAR_WEATHER_FONT_STYLE))
-					|| uri.equals(Settings.System.getUriFor(
+                        	mNetworkController.onConfigurationChanged();
+            } else if (uri.equals(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_WEATHER_SIZE))
+            		|| uri.equals(Settings.System.getUriFor(
+            		Settings.System.STATUS_BAR_WEATHER_FONT_STYLE))
+            		|| uri.equals(Settings.System.getUriFor(
 					Settings.System.STATUS_BAR_WEATHER_COLOR))) {
 					updateTempView();
 			} else if (uri.equals(Settings.System.getUriFor(
@@ -762,13 +756,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_ROWS_PORTRAIT))
                     || uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_COLUMNS_PORTRAIT))) {
-                	updateResources();
-           } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_ROWS_LANDSCAPE))
-                    || uri.equals(Settings.System.getUriFor(
-                    Settings.System.QS_COLUMNS_LANDSCAPE))) {
-                	updateResources();
+                    Settings.System.QS_ROWS_LANDSCAPE))) {
+                    updateResources();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                 mTickerEnabled = Settings.System.getIntForUser(
@@ -810,7 +799,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     updateClearAll();
                     updateEmptyShadeView();
            }
-            update();
+           update();
         }
 
         @Override
