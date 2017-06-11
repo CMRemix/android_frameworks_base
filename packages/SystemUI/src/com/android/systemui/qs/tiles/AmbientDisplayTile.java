@@ -76,7 +76,7 @@ public class AmbientDisplayTile extends QSTile<QSTile.BooleanState> {
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         state.value = isAmbientDisplayEnabled();
-        state.visible = true;
+        //state.visible = true;
         if (state.value) {
             state.icon = ResourceIcon.get(R.drawable.ic_qs_ambientdisplay_on);
             state.label =  mContext.getString(
