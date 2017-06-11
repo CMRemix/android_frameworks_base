@@ -50,7 +50,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.android.systemui.R;
-import com.android.internal.util.rr.PackageUtils;
+import com.android.internal.util.cmremix.PackageUtils;
 
 public class StaticHeaderProvider implements
         StatusBarHeaderMachine.IStatusBarHeaderProvider {
