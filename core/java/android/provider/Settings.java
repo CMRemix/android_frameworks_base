@@ -5638,6 +5638,12 @@ public final class Settings {
         public static final String SMARTBAR_DOUBLETAP_SLEEP = "smartbar_doubletap_sleep";
 
         /**
+         * Smartbar touch sounds
+         * @hide
+         */
+        public static final String NAV_BUTTON_SOUNDS = "nav_button_sounds";
+
+        /**
          * Whether to show or hide the Settings Shortcut
          * @hide
          */
