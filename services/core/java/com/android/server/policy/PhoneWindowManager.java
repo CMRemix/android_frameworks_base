@@ -167,7 +167,7 @@ import com.android.internal.util.cm.ActionUtils;
 import com.android.internal.utils.du.ActionHandler;
 import com.android.internal.utils.du.DUSystemReceiver;
 import com.android.internal.view.RotationPolicy;
-import com.android.internal.utils.cmremix.CMRUtils;
+import com.android.internal.util.cmremix.CMRUtils;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.GestureLauncherService;
 import com.android.server.LocalServices;
@@ -4687,7 +4687,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (keyguardOn()) {
             return;
         }
-        if (mOmniSwitchRecents) {
+        if (mOmniSwitchRecents == 1) {
             CMRUtils.preloadOmniSwitchRecents(mContext, UserHandle.CURRENT);
             return;
         }
@@ -4702,7 +4702,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (keyguardOn()) {
             return;
         }
-        if (mOmniSwitchRecents) {
+        if (mOmniSwitchRecents == 1) {
             return;
         }
         if (mPreloadedRecentApps) {
