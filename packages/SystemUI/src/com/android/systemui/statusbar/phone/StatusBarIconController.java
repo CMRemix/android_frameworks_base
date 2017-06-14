@@ -95,6 +95,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     private int mCarrierLabelMode;
 
 	private TextView mWeather;
+	private TextView mWeatherLeft;
 
     private int mIconSize;
     private int mIconHPadding;
@@ -161,6 +162,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
 		mCMRLogoLeft = (ImageView) statusBar.findViewById(R.id.cmr_logo_left);
 		mNetworkTraffic = (NetworkTraffic) statusBar.findViewById(R.id.networkTraffic);
 		mWeather = (TextView) statusBar.findViewById(R.id.weather_temp);
+		mWeatherLeft = (TextView) statusBar.findViewById(R.id.left_weather_temp);
         mCarrierLabel = (TextView) statusBar.findViewById(R.id.statusbar_carrier_text);
         mHandler = new Handler();
         mClockController = new ClockController(statusBar, mNotificationIconAreaController, mHandler);
@@ -369,6 +371,11 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 UserHandle.USER_CURRENT) == 3)) {
         animateHide(mCarrierLabel,animate);
         }
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE, 0,
+                UserHandle.USER_CURRENT) == 1) {
+        animateHide(mWeatherLeft,animate);
+        } 
     }
 
     public void showSystemIconArea(boolean animate) {
@@ -385,6 +392,11 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 Settings.System.STATUS_BAR_SHOW_CARRIER,  0,
                 UserHandle.USER_CURRENT) == 3)) {
         animateShow(mCarrierLabel,animate);
+        }
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_WEATHER_TEMP_STYLE, 0,
+                UserHandle.USER_CURRENT) == 1) {
+        animateShow(mWeatherLeft,animate);
         }
     }
 
@@ -609,6 +621,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF,
                 UserHandle.USER_CURRENT) == 0xFFFFFFFF) {
         mWeather.setTextColor(mIconTint);
+        mWeatherLeft.setTextColor(mIconTint);
 		}
 		if (Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.NETWORK_TRAFFIC_COLOR, 0xFFFFFFFF,
