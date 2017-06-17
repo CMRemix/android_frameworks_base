@@ -5610,6 +5610,13 @@ public final class Settings {
         public static final String LOCKSCREEN_CLOCK_DATE_COLOR = "lockscreen_clock_date_color";
 
         /**
+         * Transition effect in RR tabs
+         *
+         * @hide
+         */
+        public static final String CMR_SETTINGS_TABS_EFFECT = "cmremix_settings_tabs_effect";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
