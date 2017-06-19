@@ -181,4 +181,7 @@
  <!-- Hardware keys on/off option -->
   <java-symbol type="bool" name="config_hwKeysPref" />
 
+  <!-- Doze mode -->
+  <java-symbol type="bool" name="config_doze_enabled_by_default" />
+
 </resources>
