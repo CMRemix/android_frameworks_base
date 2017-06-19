@@ -161,6 +161,7 @@ import com.android.internal.util.cmremix.DevUtils;
 import com.android.internal.utils.du.DUActionUtils;
 import com.android.internal.util.gesture.EdgeGesturePosition;
 import com.android.internal.util.gesture.EdgeServiceConstants;
+import com.android.internal.util.omni.OmniSwitchConstants;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.util.cm.ActionUtils;
 import com.android.internal.utils.du.ActionHandler;
@@ -298,6 +299,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_MASK_CAMERA = 0x20;
     private static final int KEY_MASK_VOLUME = 0x40;
 
+
+    //OmniSwitch
+    private boolean mOmniSwitchRecents;
 
     /**
      * These are the system UI flags that, when changing, can cause the layout
@@ -2759,6 +2763,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (mImmersiveModeConfirmation != null) {
                 mImmersiveModeConfirmation.loadSetting(mCurrentUserId);
             }
+
+            mOmniSwitchRecents = (Settings.System.getIntForUser(resolver,
+                    Settings.System.RECENTS_USE_OMNISWITCH, 0, UserHandle.USER_CURRENT) == 1);
+
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             WindowManagerPolicyControl.reloadFromSetting(mContext);
@@ -2766,7 +2774,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (updateRotation) {
             updateRotation(true);
         }
-        
+
     }
 
     private void updateNavigationBarSize() {
@@ -4714,10 +4722,18 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void showRecentApps(boolean triggeredFromAltTab, boolean fromHome) {
-        mPreloadedRecentApps = false; // preloading no longer needs to be canceled
-        StatusBarManagerInternal statusbar = getStatusBarManagerInternal();
-        if (statusbar != null) {
-            statusbar.showRecentApps(triggeredFromAltTab, fromHome);
+        if (mOmniSwitchRecents) {
+            if (fromHome) {
+                OmniSwitchConstants.restoreHomeStack(mContext, UserHandle.CURRENT);
+            } else {
+                OmniSwitchConstants.toggleOmniSwitchRecents(mContext, UserHandle.CURRENT);
+            }
+        } else {
+            mPreloadedRecentApps = false; // preloading no longer needs to be canceled
+            StatusBarManagerInternal statusbar = getStatusBarManagerInternal();
+            if (statusbar != null) {
+                statusbar.showRecentApps(triggeredFromAltTab, fromHome);
+            }
         }
     }
 
