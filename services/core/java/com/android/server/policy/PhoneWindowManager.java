@@ -4691,7 +4691,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (keyguardOn()) {
             return;
         }
-        if (mOmniSwitchRecents) {
+        if (mOmniSwitchRecents == 1) {
             CMRUtils.preloadOmniSwitchRecents(mContext, UserHandle.CURRENT);
             return;
         }
@@ -4706,7 +4706,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (keyguardOn()) {
             return;
         }
-        if (mOmniSwitchRecents) {
+        if (mOmniSwitchRecents == 1) {
             return;
         }
         if (mPreloadedRecentApps) {
