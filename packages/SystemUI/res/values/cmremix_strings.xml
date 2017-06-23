@@ -186,4 +186,11 @@
     <string name="no_navigation_warning_title">All navigation methods disabled</string>
     <string name="no_navigation_warning_text">Tap to enable</string>
 
+    <!-- OmniJAWS -->
+    <string name="omnijaws_service_error">Error</string>
+    <string name="omnijaws_service_unkown">No weather data</string>
+    <string name="omnijaws_detail_header">Weather</string>
+    <string name="omnijaws_label_default">Weather</string>
+    <string name="omnijaws_current_text">Now</string>
+
 </resources>
