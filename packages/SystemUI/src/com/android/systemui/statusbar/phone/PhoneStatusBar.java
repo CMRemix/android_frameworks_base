@@ -1760,6 +1760,7 @@ mWeatherTempSize, mWeatherTempFontStyle, mWeatherTempColor);
             });
         }
 
+
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
                 new Intent(pm.isScreenOn() ? Intent.ACTION_SCREEN_ON : Intent.ACTION_SCREEN_OFF));
