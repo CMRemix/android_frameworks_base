@@ -3843,6 +3843,12 @@ public final class Settings {
          */
         public static final String CUSTOM_LOGO_STYLE = "custom_logo_style";
 
+ 	    /**
+         * Position of Custom logo
+         * @hide
+         */
+        public static final String CUSTOM_LOGO_POSITION = "custom_logo_position";
+
         /**
          * Pixel Anim Duration
          * @hide
