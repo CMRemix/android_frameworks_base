@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.android.keyguard;
+package com.android.internal.util.cmremix;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +50,8 @@ public class OmniJawsClient {
 
     private static final String ICON_PACKAGE_DEFAULT = "org.omnirom.omnijaws";
     private static final String ICON_PREFIX_DEFAULT = "weather";
+    private static final String EXTRA_ERROR = "error";
+    public static final int EXTRA_ERROR_DISABLED = 2;
 
     public static final String[] WEATHER_PROJECTION = new String[]{
             "city",
@@ -74,8 +76,6 @@ public class OmniJawsClient {
 
     private static final String WEATHER_UPDATE = "org.omnirom.omnijaws.WEATHER_UPDATE";
     private static final String WEATHER_ERROR = "org.omnirom.omnijaws.WEATHER_ERROR";
-    private static final String EXTRA_ERROR = "error";
-    public static final int EXTRA_ERROR_DISABLED = 2;
 
     private static final DecimalFormat sNoDigitsFormat = new DecimalFormat("0");
 
@@ -199,6 +199,15 @@ public class OmniJawsClient {
             updateIntent.putExtra("force", force);
             mContext.startService(updateIntent);
         }
+    }
+
+    public Intent getSettingsIntent() {
+        if (isOmniJawsServiceInstalled()) {
+            Intent settings = new Intent(Intent.ACTION_MAIN)
+                    .setClassName("org.omnirom.omnijaws", "org.omnirom.omnijaws.SettingsActivity");
+            return settings;
+        }
+        return null;
     }
 
     public WeatherInfo getWeatherInfo() {
@@ -402,7 +411,7 @@ public class OmniJawsClient {
     }
 
     public Drawable getDefaultWeatherConditionImage() {
-        return mContext.getResources().getDrawable(R.drawable.keyguard_weather_default_on);
+        return mContext.getResources().getDrawable(com.android.internal.R.drawable.ic_qs_weather_default_on);
     }
 
     public void addObserver(OmniJawsObserver observer) {
