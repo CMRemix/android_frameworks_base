@@ -32,7 +32,7 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
     private final PhoneStatusBarView mView;
     private final float mIconAlphaWhenOpaque;
 
-    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic, mCMRLogo, mCMRLogoRight,mWeatherLeft,mWeatherRight;
+    private View mLeftSide, mStatusIcons, mSignalCluster, mBattery, mClock, mNetworkTraffic, mCMRLogo, mCMRLogoRight, mCMRLogoLeft, mClogo, mClogoLeft, mClogoRight, mWeatherLeft, mWeatherRight;
 
     private Animator mCurrentAnimation;
 
@@ -52,6 +52,10 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mNetworkTraffic = mView.findViewById(R.id.networkTraffic);
         mCMRLogo = mView.findViewById(R.id.cmr_logo);
         mCMRLogoRight = mView.findViewById(R.id.cmr_logo_right);
+        mCMRLogoLeft = mView.findViewById(R.id.cmr_logo_left);
+        mCMRLogo = mView.findViewById(R.id.cmr_logo);
+        mCMRLogoRight = mView.findViewById(R.id.cmr_logo_right);
+        mClogoLeft = mView.findViewById(R.id.custom_left);
         mWeatherLeft = mView.findViewById(R.id.left_weather_temp);
         mWeatherRight = mView.findViewById(R.id.weather_temp);
         //mWeatherTextView = mView.findViewById(R.id.weather_temp);
@@ -104,6 +108,10 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
                     animateTransitionTo(mClock, newAlphaBC),
                     animateTransitionTo(mCMRLogo, newAlphaBC),
                     animateTransitionTo(mCMRLogoRight, newAlphaBC),
+                    animateTransitionTo(mCMRLogoLeft, newAlphaBC),
+                    animateTransitionTo(mClogoRight, newAlphaBC),
+                    animateTransitionTo(mClogo, newAlphaBC),
+                    animateTransitionTo(mClogoLeft, newAlphaBC),
                     animateTransitionTo(mWeatherLeft, newAlphaBC),
                     animateTransitionTo(mWeatherRight, newAlphaBC)
                     );
@@ -121,9 +129,12 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
             mClock.setAlpha(newAlphaBC);
             mCMRLogo.setAlpha(newAlphaBC);
             mCMRLogoRight.setAlpha(newAlphaBC);
+            mCMRLogoLeft.setAlpha(newAlphaBC);
             mWeatherLeft.setAlpha(newAlphaBC);
+            mClogo.setAlpha(newAlphaBC);
+            mClogoRight.setAlpha(newAlphaBC);
+            mClogoLeft.setAlpha(newAlphaBC);
             mWeatherRight.setAlpha(newAlphaBC);
-
         }
     }
 }
