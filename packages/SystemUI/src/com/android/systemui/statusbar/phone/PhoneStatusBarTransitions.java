@@ -54,8 +54,8 @@ public final class PhoneStatusBarTransitions extends BarTransitions {
         mCMRLogo = mView.findViewById(R.id.cmr_logo);
         mCMRLogoRight = mView.findViewById(R.id.cmr_logo_right);
         mCMRLogoLeft = mView.findViewById(R.id.cmr_logo_left);
-        mCMRLogo = mView.findViewById(R.id.cmr_logo);
-        mCMRLogoRight = mView.findViewById(R.id.cmr_logo_right);
+        mClogo = mView.findViewById(R.id.custom_center);
+        mClogoRight = mView.findViewById(R.id.custom_right);
         mClogoLeft = mView.findViewById(R.id.custom_left);
         mWeatherLeft = mView.findViewById(R.id.left_weather_temp);
         mWeatherRight = mView.findViewById(R.id.weather_temp);
