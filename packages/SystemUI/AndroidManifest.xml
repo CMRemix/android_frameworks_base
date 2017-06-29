@@ -249,7 +249,7 @@
 
         <!-- started from PhoneWindowManager
              TODO: Should have an android:permission attribute -->
-        <service android:name=".rr.onthego.OnTheGoService"
+        <service android:name=".cmremix.onthego.OnTheGoService"
             android:process=":onthego"
             android:exported="false" />
 
@@ -541,13 +541,13 @@
 
         <!-- App picker activity -->
         <activity
-            android:name=".rr.apppicker.AppPickerActivity"
+            android:name=".cmremix.apppicker.AppPickerActivity"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
             android:label="@string/qs_app_picker_title"
             android:enabled="true"
             android:excludeFromRecents="true" >
             <intent-filter>
-                <action android:name=".rr.apppicker.AppPickerActivity" />
+                <action android:name=".cmremix.apppicker.AppPickerActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
