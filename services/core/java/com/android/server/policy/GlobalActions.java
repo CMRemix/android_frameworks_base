@@ -473,17 +473,29 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
             if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
                 continue;
+            } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
+                mItems.add(new RestartAction());
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 mItems.add(getScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 mItems.add(getScreenrecordAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
+            } else if (GLOBAL_ACTION_KEY_TORCH.equals(actionKey)) {
+                mItems.add(getTorchToggleAction());
             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
                 if (Settings.Global.getInt(mContext.getContentResolver(),
                         Settings.Global.BUGREPORT_IN_POWER_MENU, 0) != 0 && isCurrentUserOwner()) {
                     mItems.add(new BugReportAction());
                 }
+            } else if (GLOBAL_ACTION_KEY_SETTINGS.equals(actionKey)) {
+                mItems.add(getSettingsAction());
+            } else if (GLOBAL_ACTION_KEY_LOCKDOWN.equals(actionKey)) {
+                mItems.add(getLockdownAction());
+            } else if (GLOBAL_ACTION_KEY_VOICEASSIST.equals(actionKey)) {
+                mItems.add(getVoiceAssistAction());
+            } else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
+                mItems.add(getAssistAction());
             } else if (GLOBAL_ACTION_KEY_SILENT.equals(actionKey)) {
                 if (mShowSilentToggle) {
                     mItems.add(mSilentModeAction);
@@ -494,18 +506,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 if (users.size() > 1) {
                     addUsersToMenu(mItems);
                 }
-            } else if (GLOBAL_ACTION_KEY_SETTINGS.equals(actionKey)) {
-                mItems.add(getSettingsAction());
-            } else if (GLOBAL_ACTION_KEY_LOCKDOWN.equals(actionKey)) {
-                mItems.add(getLockdownAction());
-            } else if (GLOBAL_ACTION_KEY_VOICEASSIST.equals(actionKey)) {
-                mItems.add(getVoiceAssistAction());
-            } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
-                mItems.add(new RestartAction());
-            } else if (GLOBAL_ACTION_KEY_TORCH.equals(actionKey)) {
-                mItems.add(getTorchToggleAction());
-            } else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
-                mItems.add(getAssistAction());
             } else {
                 Log.e(TAG, "Invalid global action key " + actionKey);
             }
