@@ -46,7 +46,6 @@ import com.android.internal.statusbar.StatusBarIcon;
 import com.android.systemui.statusbar.policy.NetworkTraffic;
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.cm.UserContentObserver;
-import com.android.systemui.FontSizeUtils;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
 import com.android.systemui.SystemUIFactory;
@@ -759,7 +758,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         loadDimens();
         mNotificationIconAreaController.onDensityOrFontScaleChanged(mContext);
         updateClock();
-        updateBatteryLevelText();
         for (int i = 0; i < mStatusIcons.getChildCount(); i++) {
             View child = mStatusIcons.getChildAt(i);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -885,8 +883,5 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
                 mContext.getContentResolver(), Settings.System.STATUS_BAR_SHOW_WEATHER_TEMP, 0,
                 UserHandle.USER_CURRENT);
         }
-    }
-    private void updateBatteryLevelText() {
-        FontSizeUtils.updateFontSize(mBatteryLevelView, R.dimen.battery_level_text_size);
     }
 }
