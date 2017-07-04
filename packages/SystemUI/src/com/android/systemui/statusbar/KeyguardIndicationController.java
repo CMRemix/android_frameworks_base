@@ -52,7 +52,7 @@ import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 public class KeyguardIndicationController {
 
     private static final String TAG = "KeyguardIndication";
-    private static final boolean DEBUG_CHARGING_SPEED = false;
+    private static final boolean DEBUG_CHARGING_SPEED = true;
 
     private static final int MSG_HIDE_TRANSIENT = 1;
     private static final int MSG_CLEAR_FP_MSG = 2;
@@ -272,7 +272,7 @@ public class KeyguardIndicationController {
             mChargingVoltage = status.maxChargingVoltage;
             mChargingWattage = status.maxChargingWattage;
             mTemperature = status.temperature;
-            mChargingSpeed = status.getChargingSpeed(mSlowThreshold, mFastThreshold);
+            mChargingSpeed = status.getChargingSpeed((mSlowThreshold / 1000), (mFastThreshold / 1000));
             updateIndication();
         }
 
