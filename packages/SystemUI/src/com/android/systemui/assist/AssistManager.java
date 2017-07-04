@@ -109,7 +109,15 @@ public class AssistManager {
             visible = mView.isShowing();
             mWindowManager.removeView(mView);
         }
-        createOrbView();
+
+        mView = (AssistOrbContainer) LayoutInflater.from(mContext).inflate(
+                R.layout.assist_orb, null);
+        mView.setVisibility(View.GONE);
+        mView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        WindowManager.LayoutParams lp = getLayoutParams();
+        mWindowManager.addView(mView, lp);
         if (visible) {
             mView.show(true /* show */, false /* animate */);
         }
@@ -159,22 +167,8 @@ public class AssistManager {
     }
 
     private void showOrb(@NonNull ComponentName assistComponent, boolean isService) {
-        if (mView == null) {
-            createOrbView();
-        }
         maybeSwapSearchIcon(assistComponent, isService);
         mView.show(true /* show */, true /* animate */);
-    }
-
-    private void createOrbView() {
-        mView = (AssistOrbContainer) LayoutInflater.from(mContext).inflate(
-                R.layout.assist_orb, null);
-        mView.setVisibility(View.GONE);
-        mView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        WindowManager.LayoutParams lp = getLayoutParams();
-        mWindowManager.addView(mView, lp);
     }
 
     private void startAssistInternal(Bundle args, @NonNull ComponentName assistComponent,
