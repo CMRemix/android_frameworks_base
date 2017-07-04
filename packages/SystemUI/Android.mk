@@ -34,7 +34,6 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     framework-protos \
     SystemUI-proto-tags \
     org.cyanogenmod.platform.internal \
-    uicommon\
     trail-drawing \
     rebound \
     android-support-v7-cardview
