@@ -47,9 +47,6 @@ import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.policy.KeyguardUserSwitcher;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
-import com.android.systemui.tuner.TunerService;
-
-import cyanogenmod.providers.CMSettings;
 
 import java.text.NumberFormat;
 
@@ -57,10 +54,7 @@ import java.text.NumberFormat;
  * The header group on Keyguard.
  */
 public class KeyguardStatusBarView extends RelativeLayout
-        implements BatteryController.BatteryStateChangeCallback, TunerService.Tunable {
-
-    private static final String STATUS_BAR_SHOW_BATTERY_PERCENT =
-            "cmsystem:" + CMSettings.System.STATUS_BAR_SHOW_BATTERY_PERCENT;
+        implements BatteryController.BatteryStateChangeCallback {
 
     private boolean mBatteryCharging;
     private boolean mKeyguardUserSwitcherShowing;
@@ -112,8 +106,6 @@ public class KeyguardStatusBarView extends RelativeLayout
     private int mSystemIconsSwitcherHiddenExpandedMargin;
     private int mSystemIconsBaseMargin;
     private View mSystemIconsContainer;
-
-    private boolean mShowBatteryText;
 
     private ContentObserver mObserver = new ContentObserver(new Handler()) {
         public void onChange(boolean selfChange, Uri uri) {
@@ -276,15 +268,11 @@ public class KeyguardStatusBarView extends RelativeLayout
             }
         }
 
-        mBatteryLevel.setVisibility(
-                mBatteryCharging || mShowBatteryText ? View.VISIBLE : View.GONE);
-        }
         if (Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.KEYGUARD_SHOW_CLOCK, 0) == 1) {
             mKeyguardClock.setVisibility(View.VISIBLE);
         } else {
             mKeyguardClock.setVisibility(View.GONE);
-           }
         }
         mBatteryLevel.setVisibility(mBatteryCharging ? View.VISIBLE : View.GONE);
         if (mCarrierLabel != null) {
@@ -321,11 +309,9 @@ public class KeyguardStatusBarView extends RelativeLayout
         }
         mBatteryListening = listening;
         if (mBatteryListening) {
-            TunerService.get(getContext()).addTunable(this, STATUS_BAR_SHOW_BATTERY_PERCENT);
             mBatteryController.addStateChangedCallback(this);
         } else {
             mBatteryController.removeStateChangedCallback(this);
-            TunerService.get(getContext()).removeTunable(this);
         }
     }
 
@@ -464,14 +450,6 @@ public class KeyguardStatusBarView extends RelativeLayout
                 "status_bar_show_carrier"), false, mObserver);
         getContext().getContentResolver().registerContentObserver(Settings.System.getUriFor(
                 "status_bar_carrier_font_style"), false, mObserver);
-    }
-
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        if (key.equals(STATUS_BAR_SHOW_BATTERY_PERCENT)) {
-            mShowBatteryText = newValue == null ? false : Integer.parseInt(newValue) == 2;
-            updateVisibilities();
-        }
     }
 
     public void getFontStyle(int font) {
