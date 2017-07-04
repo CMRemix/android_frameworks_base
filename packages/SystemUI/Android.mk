@@ -36,6 +36,7 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     org.cyanogenmod.platform.internal \
     trail-drawing \
     rebound \
+    uicommon \
     android-support-v7-cardview
 
 LOCAL_JAVA_LIBRARIES := telephony-common org.dirtyunicorns.utils
