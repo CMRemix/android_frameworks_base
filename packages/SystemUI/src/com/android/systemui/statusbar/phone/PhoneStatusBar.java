@@ -816,7 +816,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     initTickerView();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.SHOW_SU_INDICATOR))) {
-                    UpdateSomeViews();
+                    onDensityOrFontScaleChanged();
            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_RECENTS))) {
                 updateRecents();
