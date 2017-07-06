@@ -41,13 +41,17 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.android.internal.R;
-import com.android.internal.messages.SystemMessageProto.SystemMessage;
 import com.android.systemui.SystemUI;
 
 import java.util.List;
 
 public class StorageNotification extends SystemUI {
     private static final String TAG = "StorageNotification";
+
+    private static final int PUBLIC_ID = 0x53505542; // SPUB
+    private static final int PRIVATE_ID = 0x53505256; // SPRV
+    private static final int DISK_ID = 0x5344534b; // SDSK
+    private static final int MOVE_ID = 0x534d4f56; // SMOV
 
     private static final String ACTION_SNOOZE_VOLUME = "com.android.systemui.action.SNOOZE_VOLUME";
     private static final String ACTION_FINISH_WIZARD = "com.android.systemui.action.FINISH_WIZARD";
@@ -87,8 +91,7 @@ public class StorageNotification extends SystemUI {
         @Override
         public void onVolumeForgotten(String fsUuid) {
             // Stop annoying the user
-            mNotificationManager.cancelAsUser(fsUuid, SystemMessage.NOTE_STORAGE_PRIVATE,
-                    UserHandle.ALL);
+            mNotificationManager.cancelAsUser(fsUuid, PRIVATE_ID, UserHandle.ALL);
         }
 
         @Override
@@ -116,8 +119,7 @@ public class StorageNotification extends SystemUI {
         public void onReceive(Context context, Intent intent) {
             // When finishing the adoption wizard, clean up any notifications
             // for moving primary storage
-            mNotificationManager.cancelAsUser(null, SystemMessage.NOTE_STORAGE_MOVE,
-                    UserHandle.ALL);
+            mNotificationManager.cancelAsUser(null, MOVE_ID, UserHandle.ALL);
         }
     };
 
@@ -188,8 +190,7 @@ public class StorageNotification extends SystemUI {
             final VolumeInfo info = mStorageManager.findVolumeByUuid(fsUuid);
             if ((info != null && info.isMountedWritable()) || rec.isSnoozed()) {
                 // Yay, private volume is here, or user snoozed
-                mNotificationManager.cancelAsUser(fsUuid, SystemMessage.NOTE_STORAGE_PRIVATE,
-                        UserHandle.ALL);
+                mNotificationManager.cancelAsUser(fsUuid, PRIVATE_ID, UserHandle.ALL);
 
             } else {
                 // Boo, annoy the user to reinsert the private volume
@@ -210,8 +211,8 @@ public class StorageNotification extends SystemUI {
                         .setDeleteIntent(buildSnoozeIntent(fsUuid));
                 SystemUI.overrideNotificationAppName(mContext, builder);
 
-                mNotificationManager.notifyAsUser(fsUuid, SystemMessage.NOTE_STORAGE_PRIVATE,
-                        builder.build(), UserHandle.ALL);
+                mNotificationManager.notifyAsUser(fsUuid, PRIVATE_ID, builder
+                        .build(), UserHandle.ALL);
             }
         }
     }
@@ -236,13 +237,12 @@ public class StorageNotification extends SystemUI {
                     .setCategory(Notification.CATEGORY_ERROR);
             SystemUI.overrideNotificationAppName(mContext, builder);
 
-            mNotificationManager.notifyAsUser(disk.getId(), SystemMessage.NOTE_STORAGE_DISK,
-                    builder.build(), UserHandle.ALL);
+            mNotificationManager.notifyAsUser(disk.getId(), DISK_ID, builder.build(),
+                    UserHandle.ALL);
 
         } else {
             // Yay, we have volumes!
-            mNotificationManager.cancelAsUser(disk.getId(), SystemMessage.NOTE_STORAGE_DISK,
-                    UserHandle.ALL);
+            mNotificationManager.cancelAsUser(disk.getId(), DISK_ID, UserHandle.ALL);
         }
     }
 
@@ -252,8 +252,7 @@ public class StorageNotification extends SystemUI {
      * @param disk The disk that went away.
      */
     private void onDiskDestroyedInternal(@NonNull DiskInfo disk) {
-        mNotificationManager.cancelAsUser(disk.getId(), SystemMessage.NOTE_STORAGE_DISK,
-                UserHandle.ALL);
+        mNotificationManager.cancelAsUser(disk.getId(), DISK_ID, UserHandle.ALL);
     }
 
     private void onVolumeStateChangedInternal(VolumeInfo vol) {
@@ -314,11 +313,9 @@ public class StorageNotification extends SystemUI {
         }
 
         if (notif != null) {
-            mNotificationManager.notifyAsUser(vol.getId(), SystemMessage.NOTE_STORAGE_PUBLIC,
-                    notif, UserHandle.ALL);
+            mNotificationManager.notifyAsUser(vol.getId(), PUBLIC_ID, notif, UserHandle.ALL);
         } else {
-            mNotificationManager.cancelAsUser(vol.getId(), SystemMessage.NOTE_STORAGE_PUBLIC,
-                    UserHandle.ALL);
+            mNotificationManager.cancelAsUser(vol.getId(), PUBLIC_ID, UserHandle.ALL);
         }
     }
 
@@ -501,7 +498,7 @@ public class StorageNotification extends SystemUI {
                 .setOngoing(true);
         SystemUI.overrideNotificationAppName(mContext, builder);
 
-        mNotificationManager.notifyAsUser(move.packageName, SystemMessage.NOTE_STORAGE_MOVE,
+        mNotificationManager.notifyAsUser(move.packageName, MOVE_ID,
                 builder.build(), UserHandle.ALL);
     }
 
@@ -509,8 +506,7 @@ public class StorageNotification extends SystemUI {
         if (move.packageName != null) {
             // We currently ignore finished app moves; just clear the last
             // published progress
-            mNotificationManager.cancelAsUser(move.packageName, SystemMessage.NOTE_STORAGE_MOVE,
-                    UserHandle.ALL);
+            mNotificationManager.cancelAsUser(move.packageName, MOVE_ID, UserHandle.ALL);
             return;
         }
 
@@ -551,8 +547,8 @@ public class StorageNotification extends SystemUI {
                 .setAutoCancel(true);
         SystemUI.overrideNotificationAppName(mContext, builder);
 
-        mNotificationManager.notifyAsUser(move.packageName, SystemMessage.NOTE_STORAGE_MOVE,
-                builder.build(), UserHandle.ALL);
+        mNotificationManager.notifyAsUser(move.packageName, MOVE_ID, builder.build(),
+                UserHandle.ALL);
     }
 
     private int getSmallIcon(DiskInfo disk, int state) {

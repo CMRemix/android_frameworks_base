@@ -109,7 +109,6 @@ import android.widget.Toast;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.MetricsProto.MetricsEvent;
-import com.android.internal.messages.SystemMessageProto.SystemMessage;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.util.omni.OmniSwitchConstants;
@@ -683,7 +682,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             } else if (BANNER_ACTION_CANCEL.equals(action) || BANNER_ACTION_SETUP.equals(action)) {
                 NotificationManager noMan = (NotificationManager)
                         mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                noMan.cancel(SystemMessage.NOTE_HIDDEN_NOTIFICATIONS);
+                noMan.cancel(R.id.notification_hidden);
 
                 Settings.Secure.putInt(mContext.getContentResolver(),
                         Settings.Secure.SHOW_NOTE_ABOUT_NOTIFICATION_HIDING, 0);
@@ -1112,7 +1111,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
             NotificationManager noMan =
                     (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            noMan.notify(SystemMessage.NOTE_HIDDEN_NOTIFICATIONS, note.build());
+            noMan.notify(R.id.notification_hidden, note.build());
         }
     }
 
