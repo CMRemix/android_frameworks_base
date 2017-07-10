@@ -4566,6 +4566,12 @@ public final class Settings {
         public static final String NAV_BAR_DYNAMIC = "nav_bar_dynamic";
 
         /*
+         * Whether to light hw keys when screen pressed
+         * @hide
+         */
+        public static final String BUTTON_LIGHT_SCREEN = "button_light_screen";
+
+        /*
          * Whether to show the weather info on the lock screen
          * @hide
          */
