@@ -429,8 +429,8 @@ public abstract class BaseStatusBar extends SystemUI implements
             boolean navbarDisabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                     Settings.Secure.NAVIGATION_BAR_VISIBLE, (hasNavbar ? 1 : 0),
                     UserHandle.USER_CURRENT) == 0;
-            boolean hwKeysDisabled = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.ENABLE_HW_KEYS, (hasNavbar ? 1 : 0),
+            boolean hwKeysDisabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.HARDWARE_KEYS_DISABLE, (hasNavbar ? 1 : 0),
                     UserHandle.USER_CURRENT) != 0;
             showNavigationNotification((hasNavbar && navbarDisabled && navNotificationEnabled) ||
                     (!hasNavbar && hwKeysDisabled && navbarDisabled && navNotificationEnabled));
@@ -718,8 +718,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                             Settings.Secure.NAVIGATION_BAR_VISIBLE,
                             1);
                 } else {
-                    Settings.System.putInt(context.getContentResolver(),
-                            Settings.System.ENABLE_HW_KEYS,
+                    Settings.Secure.putInt(context.getContentResolver(),
+                            Settings.Secure.HARDWARE_KEYS_DISABLE,
                             0);
                 }
             }
@@ -883,7 +883,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 mSettingsObserver,
                 UserHandle.USER_ALL);
         mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.ENABLE_HW_KEYS), false,
+                Settings.Secure.getUriFor(Settings.Secure.HARDWARE_KEYS_DISABLE), false,
                 mSettingsObserver,
                 UserHandle.USER_ALL);
         mContext.getContentResolver().registerContentObserver(
