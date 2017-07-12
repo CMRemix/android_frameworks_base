@@ -443,7 +443,7 @@ public abstract class Ticker {
 
         mTickerTextColor = Settings.System.getInt(resolver,
                 Settings.System.STATUS_BAR_TICKER_TEXT_COLOR,
-                0xffffab00);
+                0xffb0b0b0);
     }
 
     public void setDefaultColor(int color) {
